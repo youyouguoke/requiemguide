@@ -1,0 +1,95 @@
+---
+export interface Props {
+  chapters: { slug: string; title: string; href: string }[];
+}
+
+const { chapters } = Astro.props;
+---
+
+<div class="rounded-2xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+  <div class="flex items-center gap-3 mb-4">
+    <span class="p-2 rounded-lg bg-horror-green/10 text-horror-green">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 11l3 3L22 4" />
+        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+      </svg>
+    </span>
+    <h3 class="text-lg font-bold text-horror-text">Walkthrough Progress</h3>
+  </div>
+  <p class="text-sm text-horror-text-secondary mb-4">
+    Track which chapters you have cleared. Progress is saved locally in your browser.
+  </p>
+
+  <div class="space-y-2">
+    {chapters.map((chapter) => (
+      <label class="flex items-center gap-3 p-2.5 rounded-lg bg-horror-bg border border-horror-border cursor-pointer hover:border-horror-green/50 transition-colors">
+        <input
+          type="checkbox"
+          data-progress={chapter.slug}
+          class="progress-checkbox w-5 h-5 rounded border-horror-border bg-horror-bg text-horror-green focus:ring-horror-green focus:ring-offset-horror-surface"
+        />
+        <span class="text-sm text-horror-text-secondary flex-grow">{chapter.title}</span>
+        <a href={chapter.href} class="text-xs font-medium text-horror-red hover:text-horror-red-light">Open</a>
+      </label>
+    ))}
+  </div>
+
+  <div class="mt-4 pt-4 border-t border-horror-border flex items-center justify-between text-sm">
+    <span class="text-horror-text-muted">
+      <span class="progress-count text-horror-text font-semibold">0</span> / {chapters.length} completed
+    </span>
+    <button type="button" class="progress-reset text-horror-text-secondary hover:text-horror-red transition-colors">
+      Reset
+    </button>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    var STORAGE_KEY = 'requiem-progress-v1';
+    var container = document.querySelector('.rounded-2xl');
+    if (!container) return;
+    var checkboxes = container.querySelectorAll('.progress-checkbox');
+    var countEl = container.querySelector('.progress-count');
+    var resetBtn = container.querySelector('.progress-reset');
+
+    function load() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+      } catch (e) {
+        return {};
+      }
+    }
+
+    function save(state) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function updateCount() {
+      var checked = Array.from(checkboxes).filter(function (cb) { return cb.checked; }).length;
+      if (countEl) countEl.textContent = String(checked);
+    }
+
+    var state = load();
+    checkboxes.forEach(function (cb) {
+      var key = cb.getAttribute('data-progress');
+      cb.checked = !!state[key];
+      cb.addEventListener('change', function () {
+        state[key] = cb.checked;
+        save(state);
+        updateCount();
+      });
+    });
+
+    if (resetBtn) {
+      resetBtn.addEventListener('click', function () {
+        state = {};
+        save(state);
+        checkboxes.forEach(function (cb) { cb.checked = false; });
+        updateCount();
+      });
+    }
+
+    updateCount();
+  })();
+</script>

@@ -13,9 +13,9 @@ export interface Props {
 const { href, title, description, icon, image } = Astro.props;
 ---
 
-<a href={href} class="group relative block overflow-hidden rounded-2xl border border-horror-border bg-horror-surface hover:border-horror-red/50 hover:bg-horror-surface-hover transition-all duration-200 min-h-[140px]">
+<a href={href} class="group relative block overflow-hidden rounded-2xl border border-horror-border bg-horror-surface hover:border-horror-red/50 hover:bg-horror-surface-hover hover:shadow-2xl hover:shadow-horror-red/10 transition-all duration-200 min-h-[140px]">
   {image && (
-    <div class="absolute inset-0 z-0 opacity-30 group-hover:opacity-40 transition-opacity">
+    <div class="absolute inset-0 z-0 opacity-30 group-hover:opacity-45 transition-opacity">
       <ResponsiveImage
         src={image}
         alt={title}

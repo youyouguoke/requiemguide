@@ -1,0 +1,42 @@
+---
+export interface Props {
+  faqs: { question: string; answer: string }[];
+}
+
+const { faqs } = Astro.props;
+---
+
+<div class="space-y-3">
+  {faqs.map((faq, index) => (
+    <details class="group rounded-xl border border-horror-border bg-horror-surface overflow-hidden open:border-horror-red/50 open:bg-horror-surface-hover transition-all">
+      <summary class="flex items-center justify-between gap-4 p-4 sm:p-5 cursor-pointer list-none select-none">
+        <span class="font-bold text-horror-text pr-4">{faq.question}</span>
+        <span class="flex-shrink-0 w-7 h-7 rounded-full bg-horror-red/10 text-horror-red flex items-center justify-center transition-transform group-open:rotate-45">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 5v14" />
+            <path d="M5 12h14" />
+          </svg>
+        </span>
+      </summary>
+      <div class="px-4 pb-4 sm:px-5 sm:pb-5">
+        <p class="text-horror-text-secondary leading-relaxed">{faq.answer}</p>
+      </div>
+    </details>
+  ))}
+</div>
+
+<script is:inline>
+  (function () {
+    var details = document.querySelectorAll('details');
+    details.forEach(function (el) {
+      el.addEventListener('toggle', function () {
+        if (!el.open) return;
+        details.forEach(function (other) {
+          if (other !== el && other.open) {
+            other.open = false;
+          }
+        });
+      });
+    });
+  })();
+</script>
