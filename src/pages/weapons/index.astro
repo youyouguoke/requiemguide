@@ -1,0 +1,258 @@
+---
+import { getCollection } from 'astro:content';
+import MainLayout from '../../layouts/MainLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import GuideCard from '../../components/GuideCard.astro';
+import FAQSection from '../../components/FAQSection.astro';
+
+const title = 'Resident Evil Requiem Weapons Database - Stats, Locations & Best Weapons';
+const description = 'Complete Resident Evil Requiem weapons database with all weapon stats, ammo types, locations, upgrades, unlock methods, and the best weapons for every situation.';
+
+const weapons = await getCollection('weapon');
+const totalWeapons = weapons.length;
+const weaponTypes = [...new Set(weapons.map((w) => w.data.type).filter(Boolean))];
+const totalAmmoTypes = [...new Set(weapons.map((w) => w.data.ammo).filter(Boolean))].length;
+const totalCharacters = [...new Set(weapons.map((w) => w.data.character).filter(Boolean))].length;
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://requiemguide.com' },
+    { '@type': 'ListItem', position: 2, name: 'Weapons', item: 'https://requiemguide.com/weapons' },
+  ],
+};
+
+const itemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Resident Evil Requiem Weapons',
+  numberOfItems: totalWeapons,
+  itemListElement: weapons.map((weapon, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: `${weapon.data.title} weapon guide`,
+    url: `https://requiemguide.com/weapons/${weapon.slug}`,
+  })),
+};
+
+const faqs = [
+  {
+    question: 'How many weapons are in Resident Evil Requiem?',
+    answer: `Resident Evil Requiem currently features ${totalWeapons} weapons: handguns, shotguns, rifles, and melee options. Each weapon has different stats, ammo types, and ideal use cases.`,
+  },
+  {
+    question: 'What is the best handgun in Resident Evil Requiem?',
+    answer: 'The S&S M232 is widely considered the best handgun for Grace. It has superior power, stability, and precision compared to the starting B934.',
+  },
+  {
+    question: 'Where can I find the shotgun in Resident Evil Requiem?',
+    answer: 'The MSBG 500 shotgun is found in the kitchen pantry in Chapter 2, shortly before Leon encounters Chunk.',
+  },
+  {
+    question: 'What is the best weapon in Resident Evil Requiem?',
+    answer: 'The Requiem rifle is Grace\'s best high-damage weapon for bosses and mini-bosses. For Leon, the MSBG 500 shotgun is excellent for close-range crowd control and boss stagger.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+  })),
+};
+
+const keywords = [
+  'resident evil requiem weapons database',
+  'resident evil requiem weapons guide',
+  'resident evil requiem weapon stats',
+  'resident evil requiem weapon locations',
+  'best weapons resident evil requiem',
+  'all weapons resident evil requiem',
+  'resident evil requiem weapon unlock',
+];
+---
+
+<MainLayout
+  title={title}
+  description={description}
+  keywords={keywords}
+  currentPath="/weapons"
+  extraSchema={[breadcrumbSchema, itemListSchema, faqSchema]}
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <Breadcrumb items={[{ label: 'Weapons', href: '/weapons' }]} />
+
+    <!-- Hero Header -->
+    <header class="relative mb-12 rounded-2xl overflow-hidden border border-horror-border">
+      <div class="relative h-48 sm:h-64">
+        <img
+          src="/images/requiem_survival_guide_weapons_database_058.jpg"
+          alt="Resident Evil Requiem weapons database: stats, locations, and best weapons"
+          width="512"
+          height="286"
+          loading="eager"
+          fetchpriority="high"
+          class="w-full h-full object-cover"
+        />
+        <div class="absolute inset-0 bg-gradient-to-r from-horror-bg via-horror-bg/80 to-transparent"></div>
+      </div>
+      <div class="p-6 sm:p-8">
+        <p class="text-horror-red font-semibold tracking-widest uppercase text-sm mb-4">Weapons Database</p>
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-horror-text mb-4">Resident Evil Requiem Weapons Database</h1>
+        <p class="text-xl text-horror-text-secondary max-w-2xl">Explore every weapon in Resident Evil Requiem. Find weapon stats, ammo type, locations, upgrades, characters, and the best weapons for each situation.</p>
+      </div>
+    </header>
+
+    <!-- Stats -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-12">
+      <div class="p-4 rounded-xl border border-horror-border bg-horror-surface/50">
+        <div class="text-xs text-horror-text-muted uppercase font-semibold mb-1">Total Weapons</div>
+        <div class="text-2xl font-bold text-horror-text">{totalWeapons}</div>
+      </div>
+      <div class="p-4 rounded-xl border border-horror-border bg-horror-surface/50">
+        <div class="text-xs text-horror-text-muted uppercase font-semibold mb-1">Weapon Types</div>
+        <div class="text-2xl font-bold text-horror-text">{weaponTypes.length}</div>
+      </div>
+      <div class="p-4 rounded-xl border border-horror-border bg-horror-surface/50">
+        <div class="text-xs text-horror-text-muted uppercase font-semibold mb-1">Ammo Types</div>
+        <div class="text-2xl font-bold text-horror-text">{totalAmmoTypes}</div>
+      </div>
+      <div class="p-4 rounded-xl border border-horror-border bg-horror-surface/50">
+        <div class="text-xs text-horror-text-muted uppercase font-semibold mb-1">Characters</div>
+        <div class="text-2xl font-bold text-horror-text">{totalCharacters}</div>
+      </div>
+    </div>
+
+    <!-- Intro -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-horror-text mb-4">All Resident Evil Requiem Weapons</h2>
+      
+      <p class="text-horror-text-secondary leading-relaxed mb-4">
+        Resident Evil Requiem features a compact but impactful arsenal split between Grace and Leon. Each weapon fills a different role, from the ammo-efficient B934 handgun to the devastating Requiem rifle. Understanding every weapon's stats, ammo type, and best use case is essential for surviving Hardcore mode and defeating every boss.
+      </p>
+      
+      <p class="text-horror-text-secondary leading-relaxed mb-4">
+        This database covers every weapon in Resident Evil Requiem, including handguns, shotguns, rifles, and melee tools. Each weapon page includes detailed stats, location, upgrade recommendations, and tips on how to use it effectively. Use the comparison table below to quickly find the best weapon for your current situation.
+      </p>
+      
+      <p class="text-horror-text-secondary leading-relaxed">
+        For boss-specific recommendations, visit our Boss Weakness Database and Best Weapons Against Bosses pages. For ammo locations and item guides, check the Items Database.
+      </p>
+    </section>
+
+    <!-- Weapon Categories -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-horror-text mb-4">Weapon Categories</h2>
+      
+      <div class="flex flex-wrap gap-3">
+        {weaponTypes.map((type) => {
+          const slug = type.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+          return (
+            <a
+              href={`/weapons/${slug}`}
+              class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-horror-border bg-horror-surface hover:bg-horror-red hover:text-white hover:border-horror-red transition-all text-horror-text font-semibold"
+            >
+              {type}
+            </a>
+          );
+        })}
+      </div>
+    </section>
+
+    <!-- Overview Table -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-horror-text mb-6">Weapon Overview Table</h2>
+
+      <div class="overflow-x-auto rounded-xl border border-horror-border">
+        <table class="w-full text-left text-sm">
+          <thead class="bg-horror-surface text-horror-text-muted uppercase text-xs font-semibold">
+            <tr>
+              <th class="px-4 py-3">Weapon</th>
+              <th class="px-4 py-3">Type</th>
+              <th class="px-4 py-3">Ammo</th>
+              <th class="px-4 py-3">Character</th>
+              <th class="px-4 py-3">Location</th>
+              <th class="px-4 py-3">Best For</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-horror-border">
+            {weapons.map((weapon) => (
+              <tr class="hover:bg-horror-surface/50 transition-colors">
+                <td class="px-4 py-3">
+                  <a href={`/weapons/${weapon.slug}`} class="font-semibold text-horror-text hover:text-horror-red transition-colors">
+                    {weapon.data.title}
+                  </a>
+                </td>
+                <td class="px-4 py-3 text-horror-text-secondary">{weapon.data.type}</td>
+                <td class="px-4 py-3 text-horror-text-secondary">{weapon.data.ammo}</td>
+                <td class="px-4 py-3 text-horror-text-secondary">{weapon.data.character}</td>
+                <td class="px-4 py-3 text-horror-text-secondary">{weapon.data.location}</td>
+                <td class="px-4 py-3 text-horror-text-secondary">{weapon.data.bestForLong || weapon.data.bestFor}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Weapon Cards -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-horror-text mb-6">Weapon Cards</h2>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {weapons.map((weapon) => (
+          <GuideCard
+            href={`/weapons/${weapon.slug}`}
+            title={`${weapon.data.title} - ${weapon.data.type}`}
+            category={weapon.data.type || 'Weapon'}
+            description={weapon.data.description || `${weapon.data.type} weapon stats and location in Resident Evil Requiem`}
+            image={weapon.data.image || `/images/requiem_survival_guide_weapons_database_058.jpg`}
+            variant="weapon"
+          >
+            <div slot="footer" class="mt-3 pt-3 border-t border-horror-border text-xs text-horror-text-muted truncate">
+              {weapon.data.character} · {weapon.data.ammo} · {weapon.data.damage}
+            </div>
+          </GuideCard>
+        ))}
+      </div>
+    </section>
+
+    <!-- Programmatic SEO links -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-horror-text mb-4">Weapon Resources</h2>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <a href="/weapons/best" class="group p-5 rounded-xl border border-horror-border bg-horror-surface/50 hover:bg-horror-surface hover:border-horror-red/50 transition-all">
+          <div class="font-bold text-horror-text group-hover:text-horror-red transition-colors mb-1">Best Weapons</div>
+          <p class="text-xs text-horror-text-secondary">Top weapons for every situation and character.</p>
+        </a>
+        <a href="/weapons/tier-list" class="group p-5 rounded-xl border border-horror-border bg-horror-surface/50 hover:bg-horror-surface hover:border-horror-red/50 transition-all">
+          <div class="font-bold text-horror-text group-hover:text-horror-red transition-colors mb-1">Weapon Tier List</div>
+          <p class="text-xs text-horror-text-secondary">All weapons ranked from best to worst.</p>
+        </a>
+        <a href="/bosses/best-weapons" class="group p-5 rounded-xl border border-horror-border bg-horror-surface/50 hover:bg-horror-surface hover:border-horror-red/50 transition-all">
+          <div class="font-bold text-horror-text group-hover:text-horror-red transition-colors mb-1">Best Weapons Against Bosses</div>
+          <p class="text-xs text-horror-text-secondary">Recommended loadouts for every boss fight.</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <FAQSection faqs={faqs} />
+
+    <!-- E-E-A-T -->
+    <section class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+      <h2 class="text-2xl font-bold text-horror-text mb-4">About This Weapons Database</h2>
+      <p class="text-horror-text-secondary leading-relaxed mb-4">
+        This weapons database is built by the Requiem Guide team from hands-on gameplay across multiple difficulty levels. We record each weapon's stats, location, upgrade effects, and ideal use cases so you can plan your loadout before every chapter and boss fight.
+      </p>
+      <p class="text-horror-text-secondary leading-relaxed">
+        Data is updated as new community discoveries emerge. For related strategies, check our Boss Guides and Enemy Database.
+      </p>
+    </section>
+  </div>
+</MainLayout>

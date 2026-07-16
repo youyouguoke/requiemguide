@@ -1,0 +1,340 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import MainLayout from '../../layouts/MainLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import GuideCard from '../../components/GuideCard.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import { Icon } from 'astro-icon/components';
+
+export async function getStaticPaths() {
+  const weapons = await getCollection('weapon');
+  return weapons.map((weapon) => ({
+    params: { slug: weapon.slug },
+    props: { weapon },
+  }));
+}
+
+interface Props {
+  weapon: CollectionEntry<'weapon'>;
+}
+
+const { weapon } = Astro.props;
+const { Content } = await weapon.render();
+
+const allWeapons = await getCollection('weapon');
+const allBosses = await getCollection('boss');
+const allEnemies = await getCollection('enemy');
+
+const relatedWeapons = allWeapons.filter((w) => w.slug !== weapon.slug);
+const bestAgainstBosses = allBosses.filter((b) =>
+  weapon.data.title && b.data.recommendedWeapon?.toLowerCase().includes(weapon.data.title.toLowerCase())
+);
+
+const pageTitle = `${weapon.data.title} ${weapon.data.type} Guide - Stats, Location & Best Use`;
+const pageDescription = weapon.data.description || `Complete ${weapon.data.title} weapon guide for Resident Evil Requiem: stats, location, upgrades, and best use cases.`;
+
+const breadcrumbItems = [
+  { label: 'Weapons', href: '/weapons' },
+  { label: weapon.data.title, href: `/weapons/${weapon.slug}` },
+];
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://requiemguide.com' },
+    { '@type': 'ListItem', position: 2, name: 'Weapons', item: 'https://requiemguide.com/weapons' },
+    { '@type': 'ListItem', position: 3, name: weapon.data.title, item: `https://requiemguide.com/weapons/${weapon.slug}` },
+  ],
+};
+
+const faqSchema = weapon.data.faq?.length ? {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: weapon.data.faq.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+  })),
+} : null;
+
+const keywords = [
+  ...new Set([
+    `${weapon.data.title} Resident Evil Requiem`,
+    `${weapon.data.title} stats`,
+    `${weapon.data.title} location`,
+    `best ${weapon.data.type?.toLowerCase() || 'weapon'} Resident Evil Requiem`,
+    `Resident Evil Requiem ${weapon.data.title}`,
+    ...(weapon.data.keywords || []),
+  ]),
+];
+---
+
+<MainLayout
+  title={pageTitle}
+  description={pageDescription}
+  keywords={keywords}
+  type="article"
+  modifiedTime={weapon.data.updated}
+  currentPath={`/weapons/${weapon.slug}`}
+  extraSchema={[breadcrumbSchema, faqSchema].filter(Boolean)}
+>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <Breadcrumb items={breadcrumbItems} />
+
+    <article class="max-w-none">
+      <!-- Hero Header -->
+      <header class="relative mb-8 rounded-2xl overflow-hidden border border-horror-border">
+        <div class="relative h-56 sm:h-72 flex items-center justify-center bg-horror-surface">
+          <img
+            src={weapon.data.image || '/images/requiem_survival_guide_weapons_database_058.jpg'}
+            alt={`Resident Evil Requiem ${weapon.data.title} ${weapon.data.type} weapon guide - ${weapon.data.location}`}
+            width="512"
+            height="286"
+            loading="eager"
+            fetchpriority="high"
+            class="w-full h-full object-contain p-4"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-horror-bg via-horror-bg/30 to-transparent pointer-events-none"></div>
+        </div>
+
+        <div class="p-6 sm:p-8">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-horror-green/10 text-horror-green">Weapon</span>
+            {weapon.data.type && (
+              <span class="text-sm text-horror-text-muted">{weapon.data.type}</span>
+            )}
+          </div>
+
+          <h1 class="text-4xl sm:text-5xl font-extrabold text-horror-text mb-4">
+            {weapon.data.title} {weapon.data.type} Guide
+          </h1>
+
+          {weapon.data.description && <p class="text-xl text-horror-text-secondary">{weapon.data.description}</p>}
+        </div>
+      </header>
+
+      <!-- Stats Grid -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
+        {weapon.data.damage && (
+          <div class="bg-horror-surface border border-horror-border rounded-xl p-4">
+            <div class="text-xs font-semibold text-horror-text-muted uppercase tracking-wider">Damage</div>
+            <p class="text-horror-red font-semibold mt-1">{weapon.data.damage}</p>
+          </div>
+        )}
+        {weapon.data.ammo && (
+          <div class="bg-horror-surface border border-horror-border rounded-xl p-4">
+            <div class="text-xs font-semibold text-horror-text-muted uppercase tracking-wider">Ammo</div>
+            <p class="text-horror-text font-semibold mt-1">{weapon.data.ammo}</p>
+          </div>
+        )}
+        {weapon.data.capacity && (
+          <div class="bg-horror-surface border border-horror-border rounded-xl p-4">
+            <div class="text-xs font-semibold text-horror-text-muted uppercase tracking-wider">Capacity</div>
+            <p class="text-horror-text font-semibold mt-1">{weapon.data.capacity}</p>
+          </div>
+        )}
+        {weapon.data.rateOfFire && (
+          <div class="bg-horror-surface border border-horror-border rounded-xl p-4">
+            <div class="text-xs font-semibold text-horror-text-muted uppercase tracking-wider">Rate of Fire</div>
+            <p class="text-horror-text font-semibold mt-1">{weapon.data.rateOfFire}</p>
+          </div>
+        )}
+        {weapon.data.reload && (
+          <div class="bg-horror-surface border border-horror-border rounded-xl p-4">
+            <div class="text-xs font-semibold text-horror-text-muted uppercase tracking-wider">Reload</div>
+            <p class="text-horror-text font-semibold mt-1">{weapon.data.reload}</p>
+          </div>
+        )}
+        {weapon.data.range && (
+          <div class="bg-horror-surface border border-horror-border rounded-xl p-4">
+            <div class="text-xs font-semibold text-horror-text-muted uppercase tracking-wider">Range</div>
+            <p class="text-horror-text font-semibold mt-1">{weapon.data.range}</p>
+          </div>
+        )}
+        {weapon.data.durability && (
+          <div class="bg-horror-surface border border-horror-border rounded-xl p-4">
+            <div class="text-xs font-semibold text-horror-text-muted uppercase tracking-wider">Durability</div>
+            <p class="text-horror-text font-semibold mt-1">{weapon.data.durability}</p>
+          </div>
+        )}
+        {weapon.data.character && (
+          <div class="bg-horror-surface border border-horror-border rounded-xl p-4">
+            <div class="text-xs font-semibold text-horror-text-muted uppercase tracking-wider">Character</div>
+            <p class="text-horror-green font-semibold mt-1">{weapon.data.character}</p>
+          </div>
+        )}
+      </div>
+
+      <!-- Stats Table -->
+      <div class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6 mb-8">
+        <div class="flex items-center gap-2 text-horror-text font-bold text-xl mb-4">
+          <Icon name="lucide:bar-chart-3" class="w-5 h-5 text-horror-red" />
+          Weapon Stats
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm">
+            <tbody class="divide-y divide-horror-border">
+              <tr>
+                <td class="px-4 py-3 text-horror-text-muted font-semibold">Type</td>
+                <td class="px-4 py-3 text-horror-text">{weapon.data.type}</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 text-horror-text-muted font-semibold">Damage</td>
+                <td class="px-4 py-3 text-horror-text">{weapon.data.damage}</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 text-horror-text-muted font-semibold">Ammo</td>
+                <td class="px-4 py-3 text-horror-text">{weapon.data.ammo}</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 text-horror-text-muted font-semibold">Capacity</td>
+                <td class="px-4 py-3 text-horror-text">{weapon.data.capacity}</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 text-horror-text-muted font-semibold">Rate of Fire</td>
+                <td class="px-4 py-3 text-horror-text">{weapon.data.rateOfFire}</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 text-horror-text-muted font-semibold">Reload Speed</td>
+                <td class="px-4 py-3 text-horror-text">{weapon.data.reload}</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 text-horror-text-muted font-semibold">Range</td>
+                <td class="px-4 py-3 text-horror-text">{weapon.data.range}</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 text-horror-text-muted font-semibold">Durability</td>
+                <td class="px-4 py-3 text-horror-text">{weapon.data.durability}</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 text-horror-text-muted font-semibold">Character</td>
+                <td class="px-4 py-3 text-horror-text">{weapon.data.character}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Location -->
+      <section class="mb-8">
+        <div class="flex items-center gap-2 text-horror-text font-bold text-xl mb-4">
+          <Icon name="lucide:map-pin" class="w-5 h-5 text-horror-red" />
+          Location
+        </div>
+
+        <div class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+          <p class="text-horror-text-secondary leading-relaxed">{weapon.data.locationDetail || weapon.data.location}</p>
+          <div class="mt-3 text-sm">
+            <span class="text-horror-text-muted">Found in: </span>
+            <span class="text-horror-text font-semibold">{weapon.data.location}</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Upgrade Path -->
+      <section class="mb-8">
+        <div class="flex items-center gap-2 text-horror-text font-bold text-xl mb-4">
+          <Icon name="lucide:wrench" class="w-5 h-5 text-horror-red" />
+          Upgrade Path
+        </div>
+
+        {weapon.data.upgrades && weapon.data.upgrades.length > 0 ? (
+          <div class="space-y-3">
+            {weapon.data.upgrades.map((upgrade) => (
+              <div class="rounded-xl border border-horror-border bg-horror-surface p-4">
+                <div class="font-bold text-horror-text">{upgrade.name}</div>
+                <p class="text-horror-text-secondary text-sm">{upgrade.effect}</p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+            <p class="text-horror-text-secondary">{weapon.data.upgrade || 'No upgrades available for this weapon.'}</p>
+          </div>
+        )}
+      </section>
+
+      <!-- Best Use Cases -->
+      <section class="mb-8">
+        <div class="flex items-center gap-2 text-horror-text font-bold text-xl mb-4">
+          <Icon name="lucide:target" class="w-5 h-5 text-horror-red" />
+          Best Use Cases
+        </div>
+
+        <div class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+          <p class="text-horror-text-secondary mb-4"><strong class="text-horror-text">{weapon.data.bestFor}</strong>: {weapon.data.bestForLong}</p>
+          
+          {weapon.data.bestUseCases && weapon.data.bestUseCases.length > 0 && (
+            <ul class="space-y-2 list-disc pl-5 text-horror-text-secondary">
+              {weapon.data.bestUseCases.map((use) => <li>{use}</li>)}
+            </ul>
+          )}
+        </div>
+      </section>
+
+      <!-- Main Content -->
+      <div class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6 mb-8">
+        <div class="prose-horror max-w-none text-horror-text-secondary">
+          <Content />
+        </div>
+      </div>
+
+      <!-- Best Against Bosses -->
+      {bestAgainstBosses.length > 0 && (
+        <section class="mb-8">
+          <div class="flex items-center gap-2 text-horror-text font-bold text-xl mb-4">
+            <Icon name="lucide:skull" class="w-5 h-5 text-horror-red" />
+            Best Against These Bosses
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {bestAgainstBosses.map((boss) => (
+              <a href={`/bosses/${boss.slug}`} class="group p-4 rounded-xl border border-horror-border bg-horror-surface hover:border-horror-red/50 transition-all">
+                <div class="font-bold text-horror-text group-hover:text-horror-red transition-colors">{boss.data.title} Boss Guide</div>
+                <div class="text-sm text-horror-text-secondary mt-1">{boss.data.weakness}</div>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <!-- FAQ -->
+      {weapon.data.faq?.length > 0 && (
+        <FAQSection faqs={weapon.data.faq} />
+      )}
+
+      <!-- E-E-A-T -->
+      <section class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6 mb-8">
+        <h2 class="text-2xl font-bold text-horror-text mb-4">About This Weapon Guide</h2>
+        <p class="text-horror-text-secondary leading-relaxed mb-4">
+          This {weapon.data.title} guide is part of the Requiem Guide weapons database. We record stats, locations, and upgrade effects from gameplay across multiple difficulties to help you choose the best loadout for every chapter and boss.
+        </p>
+        <p class="text-horror-text-secondary leading-relaxed">
+          For boss-specific strategies, visit the Boss Guide. For enemy tactics and item locations, see the Enemy Database and Items Database.
+        </p>
+      </section>
+
+      <!-- Related Weapons -->
+      {relatedWeapons.length > 0 && (
+        <div class="mt-12">
+          <h2 class="text-2xl font-bold text-horror-text mb-6">More Weapons</h2>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {relatedWeapons.map((relatedWeapon) => (
+              <GuideCard
+                href={`/weapons/${relatedWeapon.slug}`}
+                title={relatedWeapon.data.title}
+                category={relatedWeapon.data.type || 'Weapon'}
+                description={relatedWeapon.data.description || `${relatedWeapon.data.type} weapon stats and location`}
+                image={relatedWeapon.data.image}
+                variant="weapon"
+              />
+            ))}
+          </div>
+        </div>
+      )}
+    </article>
+  </div>
+</MainLayout>

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://requiemguide.com/sitemap-index.xml

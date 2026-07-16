@@ -1,0 +1,127 @@
+---
+import { getCollection } from 'astro:content';
+import MainLayout from '../../layouts/MainLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { Icon } from 'astro-icon/components';
+
+const bosses = await getCollection('boss');
+
+const difficultyOrder = { Easy: 1, Medium: 2, 'Medium-Hard': 3, Hard: 4, 'Very High': 5, Extreme: 6 };
+const ranked = bosses
+  .map((boss) => ({
+    ...boss,
+    rank: difficultyOrder[boss.data.difficulty || 'Medium'] || 2,
+  }))
+  .sort((a, b) => b.rank - a.rank);
+
+const title = 'Resident Evil Requiem Boss Difficulty Ranking - Hardest to Easiest';
+const description = 'Resident Evil Requiem boss difficulty ranking from hardest to easiest: HP, attack patterns, phase count, and why each boss is tough.';
+
+const keywords = [
+  'hardest resident evil requiem boss',
+  'resident evil requiem boss difficulty ranking',
+  'resident evil requiem boss tier list',
+  'resident evil requiem hardest bosses',
+];
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://requiemguide.com' },
+    { '@type': 'ListItem', position: 2, name: 'Bosses', item: 'https://requiemguide.com/bosses' },
+    { '@type': 'ListItem', position: 3, name: 'Boss Ranking', item: 'https://requiemguide.com/bosses/ranking' },
+  ],
+};
+
+const itemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Resident Evil Requiem Boss Difficulty Ranking',
+  itemListElement: ranked.map((boss, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: `${boss.data.title} - ${boss.data.difficulty}`,
+    url: `https://requiemguide.com/bosses/${boss.slug}`,
+  })),
+};
+---
+
+<MainLayout
+  title={title}
+  description={description}
+  keywords={keywords}
+  currentPath="/bosses/ranking"
+  extraSchema={[breadcrumbSchema, itemListSchema]}
+>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <Breadcrumb
+      items={[
+        { label: 'Bosses', href: '/bosses' },
+        { label: 'Boss Ranking', href: '/bosses/ranking' },
+      ]}
+    />
+
+    <header class="mb-12">
+      <span class="text-horror-red font-semibold tracking-widest uppercase text-sm mb-4">Ranking</span>
+      <h1 class="text-4xl sm:text-5xl font-extrabold text-horror-text mb-4">Resident Evil Requiem Boss Difficulty Ranking</h1>
+      <p class="text-xl text-horror-text-secondary max-w-3xl">{description}</p>
+    </header>
+
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-horror-text mb-4">How We Rank the Bosses</h2>
+      <p class="text-horror-text-secondary leading-relaxed mb-4">
+        This ranking is based on HP pool, number of attack patterns, phase count, movement speed, and resource demand on a standard difficulty playthrough. Hardcore mode increases every boss's difficulty, but the relative order stays mostly the same.
+      </p>
+      <p class="text-horror-text-secondary leading-relaxed">
+        Click any boss to see the full guide with weaknesses, recommended weapons, and step-by-step strategy.
+      </p>
+    </section>
+
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-horror-text mb-6">Hardest to Easiest Bosses</h2>
+
+      <div class="space-y-6">
+        {ranked.map((boss, index) => (
+          <div class="flex items-start gap-4 rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+            <div class="flex-shrink-0 w-12 h-12 rounded-full bg-horror-red/10 text-horror-red flex items-center justify-center font-black text-xl">
+              #{index + 1}
+            </div>
+            
+            <div class="flex-1">
+              <div class="flex items-center justify-between mb-2">
+                <a href={`/bosses/${boss.slug}`} class="text-xl font-bold text-horror-text hover:text-horror-red transition-colors">
+                  {boss.data.title}
+                </a>
+                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-horror-red/10 text-horror-red">
+                  {boss.data.difficulty}
+                </span>
+              </div>
+              
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm mb-3">
+                <div>
+                  <span class="text-horror-text-muted">Weakness: </span>
+                  <span class="text-horror-red font-semibold">{boss.data.weakness}</span>
+                </div>
+                <div>
+                  <span class="text-horror-text-muted">Best Weapon: </span>
+                  <span class="text-horror-green font-semibold">{boss.data.recommendedWeapon}</span>
+                </div>
+                <div>
+                  <span class="text-horror-text-muted">Location: </span>
+                  <span class="text-horror-text-secondary">{boss.data.location}</span>
+                </div>
+              </div>
+
+              <p class="text-horror-text-secondary text-sm">{boss.data.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <div class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+      <a href="/bosses" class="text-horror-red font-semibold hover:underline">← All Boss Guides</a>
+    </div>
+  </div>
+</MainLayout>

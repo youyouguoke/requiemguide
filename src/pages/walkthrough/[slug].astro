@@ -1,0 +1,257 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import MainLayout from '../../layouts/MainLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import ChapterStats from '../../components/ChapterStats.astro';
+import TableOfContents from '../../components/TableOfContents.astro';
+import StepCard from '../../components/StepCard.astro';
+import PuzzleBox from '../../components/PuzzleBox.astro';
+import ItemList from '../../components/ItemList.astro';
+import BossCard from '../../components/BossCard.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import RelatedGuides from '../../components/RelatedGuides.astro';
+
+export async function getStaticPaths() {
+  const guides = await getCollection('guide', (entry) => entry.data.category === 'walkthrough');
+  return guides.map((guide) => ({
+    params: { slug: guide.slug },
+    props: { guide },
+  }));
+}
+
+interface Props {
+  guide: CollectionEntry<'guide'>;
+}
+
+const { guide } = Astro.props;
+const { Content } = await guide.render();
+
+const allGuides = await getCollection('guide', (entry) => entry.data.category === 'walkthrough');
+const sortedGuides = allGuides.sort((a, b) => (a.data.chapter ?? 0) - (b.data.chapter ?? 0));
+
+const currentIndex = sortedGuides.findIndex((g) => g.slug === guide.slug);
+const prevGuide = currentIndex > 0 ? sortedGuides[currentIndex - 1] : null;
+const nextGuide = currentIndex < sortedGuides.length - 1 ? sortedGuides[currentIndex + 1] : null;
+
+const relatedGuides = allGuides
+  .filter((g) => guide.data.related?.includes(g.slug) || g.data.related?.includes(guide.slug))
+  .filter((g) => g.slug !== guide.slug);
+
+const allItems = await getCollection('item');
+const allPuzzles = await getCollection('puzzle');
+const allBosses = await getCollection('boss');
+
+const chapterItems = (guide.data.items || [])
+  .map((slug) => allItems.find((i) => i.slug === slug))
+  .filter(Boolean)
+  .map((i) => ({
+    slug: i.slug,
+    title: i.data.title,
+    type: i.data.type || 'Item',
+  }));
+
+const chapterPuzzles = (guide.data.puzzles || [])
+  .map((slug) => allPuzzles.find((p) => p.slug === slug))
+  .filter(Boolean);
+
+const chapterBoss = guide.data.boss ? allBosses.find((b) => b.slug === guide.data.boss) : null;
+
+const pageTitle = `Resident Evil Requiem Chapter ${guide.data.chapter} Walkthrough - ${guide.data.location || guide.data.title}`;
+const pageDescription = `Complete Resident Evil Requiem Chapter ${guide.data.chapter} walkthrough covering objectives, puzzle solutions, item locations, enemies, collectibles and survival tips.`;
+
+const breadcrumbItems = [
+  { label: 'Walkthrough', href: '/walkthrough' },
+  { label: `Chapter ${guide.data.chapter}`, href: `/walkthrough/${guide.slug}` },
+];
+
+const tocItems = [
+  { id: 'overview', label: 'Chapter Overview' },
+  { id: 'stats', label: 'Chapter Stats' },
+  { id: 'walkthrough', label: 'Walkthrough Steps' },
+  ...(chapterPuzzles.length > 0 ? [{ id: 'puzzles', label: 'Puzzle Solutions' }] : []),
+  ...(chapterItems.length > 0 ? [{ id: 'items', label: 'Item Locations' }] : []),
+  ...(chapterBoss ? [{ id: 'boss', label: 'Boss Fight' }] : []),
+  ...(guide.data.faq?.length ? [{ id: 'faq', label: 'FAQ' }] : []),
+  { id: 'related', label: 'Related Guides' },
+];
+
+const faqSchema = guide.data.faq?.length ? {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: guide.data.faq.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer,
+    },
+  })),
+} : null;
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://requiemguide.com' },
+    { '@type': 'ListItem', position: 2, name: 'Walkthrough', item: 'https://requiemguide.com/walkthrough' },
+    { '@type': 'ListItem', position: 3, name: `Chapter ${guide.data.chapter}`, item: `https://requiemguide.com/walkthrough/${guide.slug}` },
+  ],
+};
+---
+
+<MainLayout
+  title={pageTitle}
+  description={pageDescription}
+  keywords={guide.data.keywords}
+  type="article"
+  modifiedTime={guide.data.updated}
+  currentPath={`/walkthrough/${guide.slug}`}
+  extraSchema={[breadcrumbSchema, faqSchema].filter(Boolean)}
+>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+    <Breadcrumb items={breadcrumbItems} />
+
+    <article class="max-w-none">
+      <!-- Hero Header -->
+      <header class="relative mb-6 sm:mb-8 rounded-2xl overflow-hidden border border-horror-border">
+        <div class="relative h-48 sm:h-64 md:h-80">
+          <img
+            src={guide.data.image || '/images/requiem_survival_guide_walkthrough_hub_053.jpg'}
+            alt={`Resident Evil Requiem Chapter ${guide.data.chapter} walkthrough - ${guide.data.location || guide.data.title}`}
+            width="800"
+            height="450"
+            loading="eager"
+            fetchpriority="high"
+            class="w-full h-full object-cover"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-horror-bg via-horror-bg/60 to-transparent"></div>
+        </div>
+
+        <div class="p-5 sm:p-6 md:p-8">
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-horror-red/10 text-horror-red mb-3">
+            Chapter {guide.data.chapter} Walkthrough
+          </span>
+
+          <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-horror-text mb-3">
+            Resident Evil Requiem Chapter {guide.data.chapter} Walkthrough
+          </h1>
+
+          {guide.data.description && (
+            <p class="text-lg sm:text-xl text-horror-text-secondary">
+              {guide.data.description}
+            </p>
+          )}
+        </div>
+      </header>
+
+      <!-- Overview -->
+      <section id="overview" class="scroll-mt-28">
+        <h2 class="text-2xl font-bold text-horror-text mb-4">Chapter Overview</h2>
+        <p class="text-horror-text-secondary leading-relaxed mb-6">
+          This Resident Evil Requiem Chapter {guide.data.chapter} walkthrough covers the complete story route, important items, puzzle solutions, enemy encounters and hidden secrets. Use the stats and table of contents below to navigate quickly.
+        </p>
+      </section>
+
+      <!-- Stats + TOC -->
+      <section id="stats" class="scroll-mt-28">
+        <ChapterStats
+          chapter={guide.data.chapter}
+          location={guide.data.location}
+          difficulty={guide.data.difficulty}
+          length={guide.data.length}
+          importantItems={guide.data.importantItems}
+          boss={chapterBoss?.data.title}
+        />
+      </section>
+
+      <TableOfContents items={tocItems} />
+
+      <!-- Walkthrough Content -->
+      <section id="walkthrough" class="scroll-mt-28">
+        <div class="prose-horror max-w-none bg-horror-surface border border-horror-border rounded-xl p-5 sm:p-6 mb-8">
+          <Content />
+        </div>
+      </section>
+
+      <!-- Puzzle Solutions -->
+      {chapterPuzzles.length > 0 && (
+        <section id="puzzles" class="scroll-mt-28">
+          <h2 class="text-2xl font-bold text-horror-text mb-4">Puzzle Solutions</h2>
+          <div class="space-y-6">
+            {chapterPuzzles.map((puzzle) => (
+              <PuzzleBox
+                title={puzzle.data.title}
+                href={`/puzzles/${puzzle.slug}`}
+                solution={[
+                  `Found in ${puzzle.data.location || 'the chapter area'}`,
+                  puzzle.data.reward ? `Reward: ${puzzle.data.reward}` : 'Complete the puzzle to progress',
+                  'Check the detailed solution for step-by-step input.',
+                ]}
+              />
+            ))}
+          </div>
+        </section>
+      )}
+
+      <!-- Item Locations -->
+      {chapterItems.length > 0 && (
+        <section id="items" class="scroll-mt-28">
+          <ItemList items={chapterItems} />
+        </section>
+      )}
+
+      <!-- Boss Fight -->
+      {chapterBoss && (
+        <section id="boss" class="scroll-mt-28">
+          <BossCard
+            name={chapterBoss.data.title}
+            href={`/bosses/${chapterBoss.slug}`}
+            weakness={chapterBoss.data.weakness}
+            recommendedWeapon={chapterBoss.data.recommendedWeapon}
+            strategy={[
+              'Study the boss attack patterns before committing ammo.',
+              'Use the recommended weapon to exploit its weakness.',
+              'Keep distance and manage healing items carefully.',
+            ]}
+          />
+        </section>
+      )}
+
+      <!-- FAQ -->
+      {guide.data.faq?.length > 0 && (
+        <FAQSection faqs={guide.data.faq} />
+      )}
+
+      <!-- Prev / Next Navigation -->
+      <div class="grid grid-cols-2 gap-4 mb-12">
+        {prevGuide ? (
+          <a
+            href={`/walkthrough/${prevGuide.slug}`}
+            class="p-4 rounded-xl border border-horror-border bg-horror-surface hover:border-horror-red/50 transition-colors"
+          >
+            <div class="text-xs text-horror-text-muted mb-1">← Previous Chapter</div>
+            <div class="text-horror-text font-semibold">{prevGuide.data.title}</div>
+          </a>
+        ) : (
+          <div />
+        )}
+        {nextGuide ? (
+          <a
+            href={`/walkthrough/${nextGuide.slug}`}
+            class="p-4 rounded-xl border border-horror-border bg-horror-surface hover:border-horror-red/50 transition-colors text-right"
+          >
+            <div class="text-xs text-horror-text-muted mb-1">Next Chapter →</div>
+            <div class="text-horror-text font-semibold">{nextGuide.data.title}</div>
+          </a>
+        ) : (
+          <div />
+        )}
+      </div>
+
+      <!-- Related Guides -->
+      <section id="related" class="scroll-mt-28">
+        <RelatedGuides title="Related Guides" guides={relatedGuides} currentSlug={guide.slug} />
+      </section>
+    </article>
+  </div>
+</MainLayout>

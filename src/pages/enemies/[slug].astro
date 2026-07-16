@@ -1,0 +1,396 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import MainLayout from '../../layouts/MainLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import GuideCard from '../../components/GuideCard.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import { Icon } from 'astro-icon/components';
+
+const categoryLabels: Record<string, string> = {
+  common: 'Common Enemies',
+  mutated: 'Mutated Enemies',
+  special: 'Special Enemies',
+  'mini-boss': 'Mini-Bosses',
+  hazard: 'Hazards',
+};
+
+export async function getStaticPaths() {
+  const enemies = await getCollection('enemy');
+  const categories = ['common', 'mutated', 'special', 'mini-boss', 'hazard'];
+  const paths: Array<{ params: { slug: string }; props: { enemy?: CollectionEntry<'enemy'>; category?: string } }> = [];
+
+  enemies.forEach((enemy) => {
+    paths.push({ params: { slug: enemy.slug }, props: { enemy } });
+  });
+
+  categories.forEach((category) => {
+    paths.push({ params: { slug: category }, props: { category } });
+  });
+
+  return paths;
+}
+
+interface Props {
+  enemy?: CollectionEntry<'enemy'>;
+  category?: string;
+}
+
+const { enemy, category } = Astro.props;
+
+if (!enemy && !category) {
+  throw new Error('Invalid enemy or category slug');
+}
+
+const allEnemies = await getCollection('enemy');
+
+let isCategory = false;
+let categorySlug = '';
+let categoryLabel = '';
+let filteredEnemies: CollectionEntry<'enemy'>[] = [];
+let categoryTitle = '';
+let categoryDescription = '';
+let categoryKeywords: string[] = [];
+let categoryBreadcrumbSchema: any;
+let categoryItemListSchema: any;
+
+let entry: CollectionEntry<'enemy'> | undefined;
+let Content: any;
+let data: any;
+let relatedEnemies: CollectionEntry<'enemy'>[] = [];
+let pageTitle = '';
+let pageDescription = '';
+let keywords: string[] = [];
+let breadcrumbSchema: any;
+let faqSchema: any;
+
+if (category) {
+  isCategory = true;
+  categorySlug = category;
+  categoryLabel = categoryLabels[category];
+  filteredEnemies = allEnemies.filter((e) => e.data.category === category);
+
+  categoryTitle = `Resident Evil Requiem ${categoryLabel} - Weaknesses & Strategies`;
+  categoryDescription = `Complete Resident Evil Requiem ${categoryLabel.toLowerCase()} guide: every ${category} enemy, weaknesses, locations, and strategies.`;
+  categoryKeywords = [
+    `resident evil requiem ${categoryLabel.toLowerCase()}`,
+    `resident evil requiem ${category} enemies`,
+    `resident evil requiem ${category} enemy guide`,
+  ];
+
+  categoryBreadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://requiemguide.com' },
+      { '@type': 'ListItem', position: 2, name: 'Enemies', item: 'https://requiemguide.com/enemies' },
+      { '@type': 'ListItem', position: 3, name: categoryLabel, item: `https://requiemguide.com/enemies/${category}` },
+    ],
+  };
+
+  categoryItemListSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: `Resident Evil Requiem ${categoryLabel}`,
+    numberOfItems: filteredEnemies.length,
+    itemListElement: filteredEnemies.map((enemy, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: `${enemy.data.title} enemy guide`,
+      url: `https://requiemguide.com/enemies/${enemy.slug}`,
+    })),
+  };
+} else {
+  entry = enemy!;
+  const rendered = await entry.render();
+  Content = rendered.Content;
+  data = entry.data;
+
+  relatedEnemies = allEnemies.filter((e) => e.slug !== entry.slug && (data.related?.includes(e.slug)));
+
+  pageTitle = `${data.title} Enemy Guide - Weakness, Location & How to Defeat`;
+  pageDescription = data.description || `Complete ${data.title} enemy guide for Resident Evil Requiem: weakness, location, attack patterns, and strategy.`;
+  keywords = [
+    ...new Set([
+      `${data.title} Resident Evil Requiem`,
+      `${data.title} weakness`,
+      `${data.title} guide`,
+      `${data.title} location`,
+      `how to defeat ${data.title}`,
+      ...(data.keywords || []),
+    ]),
+  ];
+
+  breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://requiemguide.com' },
+      { '@type': 'ListItem', position: 2, name: 'Enemies', item: 'https://requiemguide.com/enemies' },
+      { '@type': 'ListItem', position: 3, name: data.title, item: `https://requiemguide.com/enemies/${entry.slug}` },
+    ],
+  };
+
+  faqSchema = data.faq?.length
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: data.faq.map((faq: any) => ({
+          '@type': 'Question',
+          name: faq.question,
+          acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+        })),
+      }
+    : null;
+}
+---
+
+{
+  isCategory ? (
+    <MainLayout
+      title={categoryTitle}
+      description={categoryDescription}
+      keywords={categoryKeywords}
+      currentPath={`/enemies/${categorySlug}`}
+      extraSchema={[categoryBreadcrumbSchema, categoryItemListSchema]}
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <Breadcrumb
+          items={[
+            { label: 'Enemies', href: '/enemies' },
+            { label: categoryLabel, href: `/enemies/${categorySlug}` },
+          ]}
+        />
+
+        <header class="mb-12">
+          <span class="text-horror-red font-semibold tracking-widest uppercase text-sm mb-4">Enemy Category</span>
+          <h1 class="text-4xl sm:text-5xl font-extrabold text-horror-text mb-4">Resident Evil Requiem {categoryLabel}</h1>
+          <p class="text-xl text-horror-text-secondary max-w-3xl">{categoryDescription}</p>
+        </header>
+
+        <section class="mb-12">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredEnemies.map((enemy) => (
+              <GuideCard
+                href={`/enemies/${enemy.slug}`}
+                title={enemy.data.title}
+                category={categoryLabel}
+                description={enemy.data.tactics || enemy.data.description || 'Enemy profile'}
+                image={enemy.data.image || '/images/requiem_survival_guide_homepage_023.jpg'}
+              >
+                <div slot="footer" class="mt-3 pt-3 border-t border-horror-border text-xs text-horror-text-muted truncate">
+                  {enemy.data.weakness} · {enemy.data.location}
+                </div>
+              </GuideCard>
+            ))}
+          </div>
+        </section>
+
+        <div class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+          <a href="/enemies" class="text-horror-red font-semibold hover:underline">← All Enemies Database</a>
+        </div>
+      </div>
+    </MainLayout>
+  ) : (
+    <MainLayout
+      title={pageTitle}
+      description={pageDescription}
+      keywords={keywords}
+      type="article"
+      modifiedTime={data.updated}
+      currentPath="/enemies"
+      extraSchema={[breadcrumbSchema, faqSchema].filter(Boolean)}
+    >
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <Breadcrumb
+          items={[
+            { label: 'Enemies', href: '/enemies' },
+            { label: data.title, href: `/enemies/${entry!.slug}` },
+          ]}
+        />
+
+        <article class="max-w-none">
+          <header class="relative mb-8 rounded-2xl overflow-hidden border border-horror-border">
+            <div class="relative h-56 sm:h-72">
+              <img
+                src={data.image}
+                alt={`Resident Evil Requiem ${data.title} enemy guide - ${data.location}`}
+                width="512"
+                height="286"
+                loading="eager"
+                fetchpriority="high"
+                class="w-full h-full object-cover"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-horror-bg via-horror-bg/60 to-transparent"></div>
+            </div>
+
+            <div class="p-6 sm:p-8">
+              <div class="flex items-center gap-3 mb-4">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-horror-red/10 text-horror-red">
+                  <Icon name="lucide:skull" class="w-3.5 h-3.5" />
+                  {categoryLabels[data.category || ''] || 'Enemy'}
+                </span>
+                <span class="text-xs font-bold uppercase tracking-wider text-horror-text-muted">
+                  Threat: {data.threat}
+                </span>
+              </div>
+
+              <h1 class="text-4xl sm:text-5xl font-extrabold text-horror-text mb-4">
+                {data.title} Enemy Guide
+              </h1>
+
+              {data.description && <p class="text-xl text-horror-text-secondary">{data.description}</p>}
+            </div>
+          </header>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <div class="p-5 rounded-xl border border-horror-border bg-horror-surface">
+              <div class="text-xs font-semibold text-horror-text-muted uppercase tracking-wider mb-1">Threat Level</div>
+              <p class="text-horror-red font-semibold capitalize">{data.threat}</p>
+            </div>
+            <div class="p-5 rounded-xl border border-horror-border bg-horror-surface">
+              <div class="text-xs font-semibold text-horror-text-muted uppercase tracking-wider mb-1">Weakness</div>
+              <p class="text-horror-text font-semibold">{data.weakness}</p>
+            </div>
+            <div class="p-5 rounded-xl border border-horror-border bg-horror-surface">
+              <div class="text-xs font-semibold text-horror-text-muted uppercase tracking-wider mb-1">Location</div>
+              <p class="text-horror-text font-semibold">{data.location}</p>
+            </div>
+            <div class="p-5 rounded-xl border border-horror-border bg-horror-surface">
+              <div class="text-xs font-semibold text-horror-text-muted uppercase tracking-wider mb-1">Category</div>
+              <p class="text-horror-text font-semibold">{categoryLabels[data.category || '']}</p>
+            </div>
+          </div>
+
+          <section class="mb-8">
+            <div class="flex items-center gap-2 text-horror-text font-bold text-xl mb-4">
+              <Icon name="lucide:shield-alert" class="w-5 h-5 text-horror-red" />
+              Weakness
+            </div>
+
+            <div class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+              <p class="text-horror-text-secondary leading-relaxed">
+                <strong class="text-horror-text">{data.weakness}</strong>: {data.weaknessEffect}
+              </p>
+            </div>
+          </section>
+
+          <section class="mb-8">
+            <div class="flex items-center gap-2 text-horror-text font-bold text-xl mb-4">
+              <Icon name="lucide:eye" class="w-5 h-5 text-horror-red" />
+              Behavior
+            </div>
+
+            <div class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+              <p class="text-horror-text-secondary leading-relaxed">{data.behavior}</p>
+            </div>
+          </section>
+
+          {data.attackPatterns && data.attackPatterns.length > 0 && (
+            <section class="mb-8">
+              <div class="flex items-center gap-2 text-horror-text font-bold text-xl mb-4">
+                <Icon name="lucide:swords" class="w-5 h-5 text-horror-red" />
+                Attack Patterns
+              </div>
+
+              <div class="space-y-3">
+                {data.attackPatterns.map((pattern: any) => (
+                  <div class="rounded-xl border border-horror-border bg-horror-surface p-4">
+                    <div class="font-bold text-horror-text">{pattern.name}</div>
+                    <p class="text-horror-text-secondary text-sm">{pattern.description}</p>
+                    {pattern.counter && <p class="text-sm text-horror-green mt-1">Counter: {pattern.counter}</p>}
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {data.strategySteps && data.strategySteps.length > 0 && (
+            <section class="mb-8">
+              <div class="flex items-center gap-2 text-horror-text font-bold text-xl mb-4">
+                <Icon name="lucide:target" class="w-5 h-5 text-horror-red" />
+                How to Defeat {data.title}
+              </div>
+
+              <div class="space-y-3">
+                {data.strategySteps.map((step: any, index: number) => (
+                  <div class="flex gap-4 rounded-xl border border-horror-border bg-horror-surface p-4">
+                    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-horror-red/10 text-horror-red font-bold flex items-center justify-center">
+                      {index + 1}
+                    </div>
+                    <div>
+                      <div class="font-bold text-horror-text">{step.title}</div>
+                      <p class="text-horror-text-secondary text-sm">{step.detail}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {data.recommendedWeapons && data.recommendedWeapons.length > 0 && (
+            <section class="mb-8">
+              <div class="flex items-center gap-2 text-horror-text font-bold text-xl mb-4">
+                <Icon name="lucide:crosshair" class="w-5 h-5 text-horror-red" />
+                Recommended Weapons
+              </div>
+
+              <div class="flex flex-wrap gap-3">
+                {data.recommendedWeapons.map((weaponSlug: string) => (
+                  <a href={`/weapons/${weaponSlug}`} class="px-4 py-2 rounded-full border border-horror-border bg-horror-surface hover:border-horror-red/50 text-horror-text font-semibold transition-all">
+                    {weaponSlug}
+                  </a>
+                ))}
+              </div>
+            </section>
+          )}
+
+          <section class="mb-8">
+            <div class="flex items-center gap-2 text-horror-text font-bold text-xl mb-4">
+              <Icon name="lucide:map-pin" class="w-5 h-5 text-horror-red" />
+              Location
+            </div>
+
+            <div class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+              <p class="text-horror-text-secondary leading-relaxed">{data.locationDetail || data.location}</p>
+            </div>
+          </section>
+
+          <div class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6 mb-8">
+            <div class="prose-horror max-w-none text-horror-text-secondary">
+              <Content />
+            </div>
+          </div>
+
+          {data.faq?.length > 0 && <FAQSection faqs={data.faq} />}
+
+          <section class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6 mb-8">
+            <h2 class="text-2xl font-bold text-horror-text mb-4">About This Enemy Guide</h2>
+            <p class="text-horror-text-secondary leading-relaxed mb-4">
+              This {data.title} enemy guide is part of the Requiem Guide enemies database. We document enemy behavior, weaknesses, and counters from gameplay across multiple difficulties to help you survive every encounter.
+            </p>
+            <p class="text-horror-text-secondary leading-relaxed">
+              For boss strategies and weapon recommendations, visit the Boss Guides and Weapons Database.
+            </p>
+          </section>
+
+          {relatedEnemies.length > 0 && (
+            <div class="mt-12">
+              <h2 class="text-2xl font-bold text-horror-text mb-6">Related Enemies</h2>
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {relatedEnemies.map((relatedEnemy) => (
+                  <GuideCard
+                    href={`/enemies/${relatedEnemy.slug}`}
+                    title={relatedEnemy.data.title}
+                    category={categoryLabels[relatedEnemy.data.category || ''] || 'Enemy'}
+                    description={relatedEnemy.data.tactics || relatedEnemy.data.description || 'Enemy profile'}
+                    image={relatedEnemy.data.image || '/images/requiem_survival_guide_homepage_023.jpg'}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+        </article>
+      </div>
+    </MainLayout>
+  )
+}

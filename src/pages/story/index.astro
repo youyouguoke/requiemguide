@@ -1,0 +1,258 @@
+---
+import { getCollection } from 'astro:content';
+import MainLayout from '../../layouts/MainLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import GuideCard from '../../components/GuideCard.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import { Icon } from 'astro-icon/components';
+
+const title = 'Resident Evil Requiem Story Explained | Full Lore Guide';
+const description = 'Read the complete Resident Evil Requiem story explained. Discover the lore, timeline, characters, major events, and how every ending connects to the Rhodes Hill Care Center outbreak.';
+
+const keywords = [
+  'resident evil requiem story explained',
+  'resident evil requiem lore',
+  'resident evil requiem plot',
+  'resident evil requiem story wiki',
+  'resident evil requiem rhodes hill',
+  'resident evil requiem elpis',
+  'resident evil requiem emily',
+  'resident evil requiem grace',
+  'resident evil requiem leon',
+];
+
+const characters = await getCollection('character');
+const mainCharacters = characters.filter((c) => c.data.roleType === 'main');
+
+const timeline = [
+  { title: 'Before the Incident', detail: 'Rhodes Hill Care Center operates as a medical facility, but secret experiments begin on patients, creating the conditions for the outbreak.' },
+  { title: 'Grace Awakens', detail: 'Grace Ashcroft wakes up in the facility with no memory. She begins exploring the overrun building and uncovering its secrets.' },
+  { title: 'Meeting Emily', detail: 'Grace finds Emily, a young survivor hiding in the church. Emily can read Braille and provides vital clues to the facility history.' },
+  { title: 'Leon\'s Arrival', detail: 'Leon S. Kennedy, a veteran DSO agent, arrives at Rhodes Hill to investigate the outbreak and joins forces with Grace.' },
+  { title: 'The Research Wing', detail: 'Grace and Leon push through the research wing, where Emily is injured. Her survival depends on player choices.' },
+  { title: 'The Elpis Revelation', detail: 'Elena reveals herself as Elpis, the true source of the outbreak and the mastermind behind the experiments.' },
+  { title: 'Final Decision', detail: 'Grace and Leon must choose whether to release or destroy Elpis. Emily\'s fate also affects the outcome.' },
+  { title: 'Aftermath', detail: 'The ending reflects all major choices, with post-credits scenes hinting at future bioterror threats.' },
+];
+
+const majorEvents = [
+  {
+    title: 'Rhodes Hill Outbreak',
+    description: 'A bioweapon experiment at the Rhodes Hill Care Center goes wrong, turning patients and staff into hostile creatures. The outbreak traps Grace and the others inside.',
+  },
+  {
+    title: 'Grace Meets Emily',
+    description: 'Grace discovers Emily in the church. Their relationship becomes the emotional core of the story and a key factor in the endings.',
+  },
+  {
+    title: 'Leon Joins the Investigation',
+    description: 'Leon S. Kennedy arrives to contain the situation. His combat experience complements Grace\'s investigation and puzzle-solving skills.',
+  },
+  {
+    title: 'Elpis Is Revealed',
+    description: 'Elena reveals her identity as Elpis, the entity behind the outbreak. Her connection to Grace and the experiments becomes the central mystery.',
+  },
+  {
+    title: 'The Final Choice',
+    description: 'The player decides whether to release or destroy Elpis and whether Emily survives. These choices determine the final ending and post-credits scene.',
+  },
+];
+
+const faqs = [
+  {
+    question: 'What is the story of Resident Evil Requiem?',
+    answer: 'Resident Evil Requiem follows Grace Ashcroft, who wakes up in the Rhodes Hill Care Center during a bioweapon outbreak. She teams up with Emily, a young survivor, and Leon S. Kennedy to uncover the truth behind Elpis and the experiments that caused the incident.',
+  },
+  {
+    question: 'Who is Elpis in Resident Evil Requiem?',
+    answer: 'Elpis is a mysterious entity connected to Elena. It is the true source of the Rhodes Hill outbreak and serves as the main antagonist of the story.',
+  },
+  {
+    question: 'What happened at Rhodes Hill Care Center?',
+    answer: 'Rhodes Hill Care Center was the site of secret experiments that led to a bioweapon outbreak. The facility becomes overrun, and the survivors must navigate the facility while uncovering the conspiracy behind the incident.',
+  },
+  {
+    question: 'How many endings does Resident Evil Requiem have?',
+    answer: 'Resident Evil Requiem has four main endings based on Emily\'s survival and the final decision to release or destroy Elpis.',
+  },
+  {
+    question: 'Is Resident Evil Requiem connected to the main Resident Evil series?',
+    answer: 'Resident Evil Requiem features Leon S. Kennedy, a recurring character from the main series. The story is a self-contained adventure that expands on the Resident Evil lore through new characters and a new outbreak location.',
+  },
+];
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://requiemguide.com' },
+    { '@type': 'ListItem', position: 2, name: 'Story', item: 'https://requiemguide.com/story' },
+  ],
+};
+
+const itemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Resident Evil Requiem Story Chapters',
+  numberOfItems: 3,
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Story Explained', url: 'https://requiemguide.com/story' },
+    { '@type': 'ListItem', position: 2, name: 'Endings Explained', url: 'https://requiemguide.com/story/endings' },
+    { '@type': 'ListItem', position: 3, name: 'Character Relationships', url: 'https://requiemguide.com/characters/relationships' },
+  ],
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+  })),
+};
+---
+
+<MainLayout
+  title={title}
+  description={description}
+  keywords={keywords}
+  currentPath="/story"
+  extraSchema={[breadcrumbSchema, itemListSchema, faqSchema]}
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <Breadcrumb items={[{ label: 'Story', href: '/story' }]} />
+
+    <header class="relative mb-12 rounded-2xl overflow-hidden border border-horror-border">
+      <div class="relative h-48 sm:h-64">
+        <img
+          loading="eager"
+          width="512"
+          height="286"
+          src="/images/requiem_survival_guide_ending_explained_010.jpg"
+          alt="Resident Evil Requiem story and lore explained guide"
+          fetchpriority="high"
+          class="w-full h-full object-cover"
+        />
+        <div class="absolute inset-0 bg-gradient-to-r from-horror-bg via-horror-bg/80 to-transparent"></div>
+      </div>
+      <div class="p-6 sm:p-8">
+        <p class="text-horror-red font-semibold tracking-widest uppercase text-sm mb-4">Story & Lore Database</p>
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-horror-text mb-4">Resident Evil Requiem Story & Lore Guide</h1>
+        <p class="text-xl text-horror-text-secondary max-w-2xl">{description}</p>
+      </div>
+    </header>
+
+    <!-- Story Overview -->
+    <section class="mb-12 rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+      <div class="flex items-center gap-2 text-horror-text font-bold text-xl mb-4">
+        <Icon name="lucide:book-open" class="w-5 h-5 text-horror-red" />
+        Resident Evil Requiem Story Overview
+      </div>
+      
+      <p class="text-horror-text-secondary leading-relaxed mb-4">
+        Resident Evil Requiem is set at the Rhodes Hill Care Center, a remote medical facility that becomes the epicenter of a deadly bioweapon outbreak. The story follows Grace Ashcroft, who wakes up inside the facility with no memory of her arrival. As she explores the overrun building, she meets Emily, a young survivor with the ability to read Braille, and Leon S. Kennedy, a veteran DSO agent investigating the incident.
+      </p>
+      
+      <p class="text-horror-text-secondary leading-relaxed mb-4">
+        Together, the survivors uncover a conspiracy involving secret experiments, a mysterious entity known as Elpis, and Elena, the woman behind the outbreak. The narrative combines survival horror gameplay with a character-driven mystery that asks how far the protagonists will go to stop the threat and protect each other.
+      </p>
+      
+      <p class="text-horror-text-secondary leading-relaxed">
+        This Resident Evil Requiem story wiki explains the plot, timeline, major events, characters, and all endings in one place.
+      </p>
+    </section>
+
+    <!-- Timeline -->
+    <section class="mb-12">
+      <div class="flex items-center gap-2 text-horror-text font-bold text-2xl mb-6">
+        <Icon name="lucide:clock" class="w-6 h-6 text-horror-red" />
+        Story Timeline
+      </div>
+
+      <div class="space-y-3 relative pl-4">
+        <div class="absolute left-0 top-0 bottom-0 w-0.5 bg-horror-border"></div>
+        {timeline.map((event, index) => (
+          <div class="relative pl-6 rounded-xl border border-horror-border bg-horror-surface p-4">
+            <div class="absolute left-[-5px] top-6 w-3 h-3 rounded-full bg-horror-red" style="margin-left: -0.3rem;"></div>
+            <div class="font-bold text-horror-text">{event.title}</div>
+            <p class="text-horror-text-secondary text-sm">{event.detail}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Major Events -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-horror-text mb-6">Major Events</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {majorEvents.map((event) => (
+          <div class="rounded-xl border border-horror-border bg-horror-surface p-5">
+            <div class="font-bold text-horror-text mb-2">{event.title}</div>
+            <p class="text-horror-text-secondary text-sm">{event.description}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Main Characters -->
+    <section class="mb-12">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold text-horror-text">Main Characters</h2>
+        <a href="/characters" class="text-horror-red font-semibold hover:underline text-sm">View all characters →</a>
+      </div>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {mainCharacters.map((character) => (
+          <GuideCard
+            href={`/characters/${character.slug}`}
+            title={character.data.title}
+            category={character.data.role || 'Character'}
+            description={character.data.description || `${character.data.role} in Resident Evil Requiem`}
+            image={character.data.image || '/images/requiem_survival_guide_grace_ashcroft_profile_017.jpg'}
+            variant="character"
+          />
+        ))}
+      </div>
+    </section>
+
+    <!-- Story Resources -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-horror-text mb-4">Explore the Story</h2>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <a href="/story/endings" class="group p-5 rounded-xl border border-horror-border bg-horror-surface/50 hover:bg-horror-surface hover:border-horror-red/50 transition-all">
+          <div class="font-bold text-horror-text group-hover:text-horror-red transition-colors mb-1">Endings Explained</div>
+          <p class="text-xs text-horror-text-secondary">All choices, true ending, and consequences.</p>
+        </a>
+        <a href="/characters/relationships" class="group p-5 rounded-xl border border-horror-border bg-horror-surface/50 hover:bg-horror-surface hover:border-horror-red/50 transition-all">
+          <div class="font-bold text-horror-text group-hover:text-horror-red transition-colors mb-1">Character Relationships</div>
+          <p class="text-xs text-horror-text-secondary">How Grace, Leon, Emily, and Elena connect.</p>
+        </a>
+        <a href="/characters/timeline" class="group p-5 rounded-xl border border-horror-border bg-horror-surface/50 hover:bg-horror-surface hover:border-horror-red/50 transition-all">
+          <div class="font-bold text-horror-text group-hover:text-horror-red transition-colors mb-1">Character Timeline</div>
+          <p class="text-xs text-horror-text-secondary">Story order for each character.</p>
+        </a>
+        <a href="/walkthrough" class="group p-5 rounded-xl border border-horror-border bg-horror-surface/50 hover:bg-horror-surface hover:border-horror-red/50 transition-all">
+          <div class="font-bold text-horror-text group-hover:text-horror-red transition-colors mb-1">Walkthrough</div>
+          <p class="text-xs text-horror-text-secondary">Chapter-by-chapter story guide.</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <FAQSection faqs={faqs} />
+
+    <!-- E-E-A-T -->
+    <section class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+      <h2 class="text-2xl font-bold text-horror-text mb-4">About This Story Guide</h2>
+      <p class="text-horror-text-secondary leading-relaxed mb-4">
+        This Resident Evil Requiem story and lore guide is part of the Requiem Guide knowledge graph. We cover the plot, characters, timeline, and endings to help players understand the narrative and answer common AI search questions.
+      </p>
+      <p class="text-horror-text-secondary leading-relaxed">
+        For gameplay help, visit the Boss Guides, Weapons Database, and Walkthrough. For character details, see the Characters Database.
+      </p>
+    </section>
+  </div>
+</MainLayout>

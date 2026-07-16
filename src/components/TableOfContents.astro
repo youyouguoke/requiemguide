@@ -1,0 +1,31 @@
+---
+import { Icon } from 'astro-icon/components';
+
+export interface Props {
+  items: { id: string; label: string }[];
+}
+
+const { items } = Astro.props;
+---
+
+<nav aria-label="Table of contents" class="rounded-xl border border-horror-border bg-horror-surface p-5 mb-8">
+  <div class="flex items-center gap-2 mb-4 text-horror-text font-bold">
+    <Icon name="lucide:list" class="w-5 h-5 text-horror-red" />
+    Table of Contents
+  </div>
+  <ol class="space-y-2">
+    {items.map((item, index) => (
+      <li>
+        <a
+          href={`#${item.id}`}
+          class="group flex items-start gap-3 text-sm text-horror-text-secondary hover:text-horror-text transition-colors"
+        >
+          <span class="flex-shrink-0 w-5 h-5 rounded-full bg-horror-red/10 text-horror-red text-xs font-bold flex items-center justify-center mt-0.5">
+            {index + 1}
+          </span>
+          <span class="group-hover:underline">{item.label}</span>
+        </a>
+      </li>
+    ))}
+  </ol>
+</nav>

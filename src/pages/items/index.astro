@@ -1,0 +1,273 @@
+---
+import { getCollection } from 'astro:content';
+import MainLayout from '../../layouts/MainLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import GuideCard from '../../components/GuideCard.astro';
+import FAQSection from '../../components/FAQSection.astro';
+
+const title = 'Resident Evil Requiem Items Database - Locations, Effects & Uses';
+const description = 'Complete Resident Evil Requiem items database covering key items, healing items, resources, locations, effects, and how to use every item efficiently.';
+
+const items = await getCollection('item');
+const typeOrder = { key: 1, consumable: 2, resource: 3, upgrade: 4, valuable: 5 };
+items.sort((a, b) => (typeOrder[a.data.type || 'valuable'] || 9) - (typeOrder[b.data.type || 'valuable'] || 9));
+
+const typeLabels: Record<string, string> = {
+  key: 'Key Items',
+  consumable: 'Healing Items',
+  resource: 'Resources',
+  valuable: 'Collectibles',
+  upgrade: 'Upgrade Items',
+};
+
+const typeSlugs: Record<string, string> = {
+  key: 'key-items',
+  consumable: 'healing',
+  resource: 'resources',
+  valuable: 'collectibles',
+  upgrade: 'upgrade-items',
+};
+
+const totalItems = items.length;
+const keyItemsCount = items.filter((i) => i.data.type === 'key').length;
+const consumablesCount = items.filter((i) => i.data.type === 'consumable').length;
+const resourcesCount = items.filter((i) => i.data.type === 'resource').length;
+
+const categories = [...new Map(items.map((item) => [item.data.type, item.data.type])).entries()].filter(Boolean) as string[];
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://requiemguide.com' },
+    { '@type': 'ListItem', position: 2, name: 'Items', item: 'https://requiemguide.com/items' },
+  ],
+};
+
+const itemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Resident Evil Requiem Items Database',
+  numberOfItems: totalItems,
+  itemListElement: items.map((item, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: `${item.data.title} item guide`,
+    url: `https://requiemguide.com/items/${item.slug}`,
+  })),
+};
+
+const faqs = [
+  {
+    question: 'How many items are in Resident Evil Requiem?',
+    answer: `Resident Evil Requiem currently features ${totalItems} items across key items, healing items, resources, and more. This database covers every item with locations, effects, and usage tips.`,
+  },
+  {
+    question: 'What are the key items in Resident Evil Requiem?',
+    answer: 'Key items such as the East Wing Key and Moon Quartz are required to progress through the story. They unlock doors, solve puzzles, and open new areas.',
+  },
+  {
+    question: 'Where can I find healing items in Resident Evil Requiem?',
+    answer: 'Healing items like Green Herbs and Red Herbs are found throughout the facility, especially in planters, lockers, and safe rooms.',
+  },
+  {
+    question: 'Where is the Moon Quartz in Resident Evil Requiem?',
+    answer: 'Moon Quartz is found in Chapter 3 on the Quartz Path. It is one of the quartz keys needed for the Moon Quartz Box puzzle.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+  })),
+};
+
+const keywords = [
+  'resident evil requiem items database',
+  'resident evil requiem items locations',
+  'resident evil requiem key items',
+  'resident evil requiem healing items',
+  'resident evil requiem resources',
+  'where to find moon quartz',
+  'resident evil requiem all items',
+];
+---
+
+<MainLayout
+  title={title}
+  description={description}
+  keywords={keywords}
+  currentPath="/items"
+  extraSchema={[breadcrumbSchema, itemListSchema, faqSchema]}
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <Breadcrumb items={[{ label: 'Items', href: '/items' }]} />
+
+    <!-- Hero -->
+    <header class="relative mb-12 rounded-2xl overflow-hidden border border-horror-border">
+      <div class="relative h-48 sm:h-64">
+        <img
+          src="/images/item_moon-quartz.jpg"
+          alt="Resident Evil Requiem items database: locations, effects, and uses"
+          width="512"
+          height="286"
+          loading="eager"
+          fetchpriority="high"
+          class="w-full h-full object-cover"
+        />
+        <div class="absolute inset-0 bg-gradient-to-r from-horror-bg via-horror-bg/80 to-transparent"></div>
+      </div>
+      <div class="p-6 sm:p-8">
+        <p class="text-horror-red font-semibold tracking-widest uppercase text-sm mb-4">Items Database</p>
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-horror-text mb-4">Resident Evil Requiem Items Database</h1>
+        <p class="text-xl text-horror-text-secondary max-w-2xl">Complete Resident Evil Requiem items database covering key items, healing items, resources, locations, effects, and how to use every item efficiently.</p>
+      </div>
+    </header>
+
+    <!-- Stats -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-12">
+      <div class="p-4 rounded-xl border border-horror-border bg-horror-surface/50">
+        <div class="text-xs text-horror-text-muted uppercase font-semibold mb-1">Total Items</div>
+        <div class="text-2xl font-bold text-horror-text">{totalItems}</div>
+      </div>
+      <div class="p-4 rounded-xl border border-horror-border bg-horror-surface/50">
+        <div class="text-xs text-horror-text-muted uppercase font-semibold mb-1">Key Items</div>
+        <div class="text-2xl font-bold text-horror-text">{keyItemsCount}</div>
+      </div>
+      <div class="p-4 rounded-xl border border-horror-border bg-horror-surface/50">
+        <div class="text-xs text-horror-text-muted uppercase font-semibold mb-1">Healing Items</div>
+        <div class="text-2xl font-bold text-horror-text">{consumablesCount}</div>
+      </div>
+      <div class="p-4 rounded-xl border border-horror-border bg-horror-surface/50">
+        <div class="text-xs text-horror-text-muted uppercase font-semibold mb-1">Resources</div>
+        <div class="text-2xl font-bold text-horror-text">{resourcesCount}</div>
+      </div>
+    </div>
+
+    <!-- Intro -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-horror-text mb-4">All Resident Evil Requiem Items</h2>
+      
+      <p class="text-horror-text-secondary leading-relaxed mb-4">
+        Resident Evil Requiem is filled with items that are essential for survival. Key items unlock doors and solve puzzles, healing items keep you alive, and resources like ammunition determine whether you can survive the next encounter. Knowing where every item is and how to use it efficiently is the difference between life and death on Hardcore difficulty.
+      </p>
+      
+      <p class="text-horror-text-secondary leading-relaxed mb-4">
+        This items database lists every item in Resident Evil Requiem, including their type, location, effect, and usage. Use the overview table to quickly find the item you need, or browse by category to focus on key items, healing items, or resources.
+      </p>
+      
+      <p class="text-horror-text-secondary leading-relaxed">
+        For weapon loadouts and boss strategies, check the Weapons Database and Boss Guides. For enemy tactics, visit the Enemies Database.
+      </p>
+    </section>
+
+    <!-- Categories -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-horror-text mb-4">Item Categories</h2>
+      
+      <div class="flex flex-wrap gap-3">
+        {categories.map((type) => (
+          <a
+            href={`/items/${typeSlugs[type]}`}
+            class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-horror-border bg-horror-surface hover:bg-horror-red hover:text-white hover:border-horror-red transition-all text-horror-text font-semibold"
+          >
+            {typeLabels[type]}
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- Overview Table -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-horror-text mb-6">Item Overview Table</h2>
+
+      <div class="overflow-x-auto rounded-xl border border-horror-border">
+        <table class="w-full text-left text-sm">
+          <thead class="bg-horror-surface text-horror-text-muted uppercase text-xs font-semibold">
+            <tr>
+              <th class="px-4 py-3">Item</th>
+              <th class="px-4 py-3">Type</th>
+              <th class="px-4 py-3">Effect</th>
+              <th class="px-4 py-3">Location</th>
+              <th class="px-4 py-3">Used For</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-horror-border">
+            {items.map((item) => (
+              <tr class="hover:bg-horror-surface/50 transition-colors">
+                <td class="px-4 py-3">
+                  <a href={`/items/${item.slug}`} class="font-semibold text-horror-text hover:text-horror-red transition-colors">
+                    {item.data.title}
+                  </a>
+                </td>
+                <td class="px-4 py-3 text-horror-text-secondary">{typeLabels[item.data.type || ''] || item.data.type}</td>
+                <td class="px-4 py-3 text-horror-text-secondary">{item.data.effect}</td>
+                <td class="px-4 py-3 text-horror-text-secondary">{item.data.location}</td>
+                <td class="px-4 py-3 text-horror-text-secondary">{item.data.usedFor}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Item Cards -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-horror-text mb-6">Item Cards</h2>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {items.map((item) => (
+          <GuideCard
+            href={`/items/${item.slug}`}
+            title={item.data.title}
+            category={typeLabels[item.data.type || ''] || 'Item'}
+            description={item.data.usedFor || item.data.description || 'Item profile'}
+            image={item.data.image || '/images/requiem_survival_guide_homepage_023.jpg'}
+          >
+            <div slot="footer" class="mt-3 pt-3 border-t border-horror-border text-xs text-horror-text-muted truncate">
+              {item.data.effect} · {item.data.location}
+            </div>
+          </GuideCard>
+        ))}
+      </div>
+    </section>
+
+    <!-- Special Pages -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-horror-text mb-4">Item Resources</h2>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <a href="/items/key-items" class="group p-5 rounded-xl border border-horror-border bg-horror-surface/50 hover:bg-horror-surface hover:border-horror-red/50 transition-all">
+          <div class="font-bold text-horror-text group-hover:text-horror-red transition-colors mb-1">All Key Items</div>
+          <p class="text-xs text-horror-text-secondary">Every story-critical key item and where to find it.</p>
+        </a>
+        <a href="/items/healing" class="group p-5 rounded-xl border border-horror-border bg-horror-surface/50 hover:bg-horror-surface hover:border-horror-red/50 transition-all">
+          <div class="font-bold text-horror-text group-hover:text-horror-red transition-colors mb-1">Healing Items</div>
+          <p class="text-xs text-horror-text-secondary">Green Herbs, Red Herbs, and healing combinations.</p>
+        </a>
+        <a href="/items/locations" class="group p-5 rounded-xl border border-horror-border bg-horror-surface/50 hover:bg-horror-surface hover:border-horror-red/50 transition-all">
+          <div class="font-bold text-horror-text group-hover:text-horror-red transition-colors mb-1">Item Locations</div>
+          <p class="text-xs text-horror-text-secondary">Browse items by location across every chapter.</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <FAQSection faqs={faqs} />
+
+    <!-- E-E-A-T -->
+    <section class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+      <h2 class="text-2xl font-bold text-horror-text mb-4">About This Items Database</h2>
+      <p class="text-horror-text-secondary leading-relaxed mb-4">
+        This items database is maintained by the Requiem Guide team from hands-on gameplay across multiple playthroughs. We record item locations, effects, and usage so you never miss a key item or run out of healing at the wrong moment.
+      </p>
+      <p class="text-horror-text-secondary leading-relaxed">
+        For related progression help, visit the Walkthrough Guides and Puzzle Solutions. For combat preparation, see the Weapons Database and Boss Guides.
+      </p>
+    </section>
+  </div>
+</MainLayout>

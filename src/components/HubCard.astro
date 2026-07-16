@@ -1,0 +1,42 @@
+---
+import { Icon } from 'astro-icon/components';
+import ResponsiveImage from './ResponsiveImage.astro';
+
+export interface Props {
+  href: string;
+  title: string;
+  description: string;
+  icon: string;
+  image?: string;
+}
+
+const { href, title, description, icon, image } = Astro.props;
+---
+
+<a href={href} class="group relative block overflow-hidden rounded-2xl border border-horror-border bg-horror-surface hover:border-horror-red/50 hover:bg-horror-surface-hover transition-all duration-200 min-h-[140px]">
+  {image && (
+    <div class="absolute inset-0 z-0 opacity-30 group-hover:opacity-40 transition-opacity">
+      <ResponsiveImage
+        src={image}
+        alt={title}
+        width={512}
+        height={286}
+        loading="lazy"
+        class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+      />
+      <div class="absolute inset-0 bg-gradient-to-t from-horror-surface via-horror-surface/80 to-transparent"></div>
+    </div>
+  )}
+  <div class="relative z-10 p-5 sm:p-6">
+    <div class="flex items-start sm:items-center gap-4 mb-2">
+      <div class="p-2.5 sm:p-3 rounded-xl bg-horror-red/10 text-horror-red flex-shrink-0">
+        <Icon name={icon} class="w-5 h-5 sm:w-6 sm:h-6" />
+      </div>
+      <div class="flex items-center gap-2 text-horror-text font-bold text-base sm:text-lg">
+        {title}
+        <Icon name="lucide:arrow-right" class="w-4 h-4 opacity-0 -translate-x-2 transition-all group-hover:opacity-100 group-hover:translate-x-0" />
+      </div>
+    </div>
+    <p class="text-horror-text-secondary text-sm pl-[3.25rem] sm:pl-[3.75rem]">{description}</p>
+  </div>
+</a>

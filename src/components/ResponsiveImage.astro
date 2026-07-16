@@ -1,0 +1,72 @@
+---
+export interface Props {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  loading?: 'eager' | 'lazy';
+  fetchpriority?: 'high' | 'low' | 'auto';
+  class?: string;
+}
+
+const { src, alt, width = 512, height = 286, loading = 'lazy', fetchpriority = 'auto', class: className = '' } = Astro.props;
+
+// Map desktop image to a mobile variant if one exists (same prefix, _mobile_XXX)
+const deriveMobileSrc = (src: string) => {
+  if (!src || !src.includes('/images/')) return null;
+  const filename = src.split('/').pop();
+  if (!filename || filename.includes('_mobile_')) return null;
+  // Guess mobile file pattern: requiem_survival_guide_XXX_YYY.jpg -> requiem_survival_guide_XXX_mobile_ZZZ.jpg
+  // We cannot know the exact index, so we return the first matching _mobile_ file by glob conceptually.
+  // For this project we maintain a small mapping below for known pairs.
+  return null;
+};
+
+const mobilePairs: Record<string, string> = {
+  '/images/requiem_survival_guide_homepage_024.jpg': '/images/requiem_survival_guide_mobile_home_042.jpg',
+  '/images/requiem_survival_guide_homepage_025.jpg': '/images/requiem_survival_guide_mobile_home_043.jpg',
+  '/images/requiem_survival_guide_homepage_026.jpg': '/images/requiem_survival_guide_mobile_home_044.jpg',
+  '/images/requiem_survival_guide_homepage_027.jpg': '/images/requiem_survival_guide_mobile_home_045.jpg',
+  '/images/requiem_survival_guide_walkthrough_hub_053.jpg': '/images/requiem_survival_guide_chapter_3_mobile_001.jpg',
+  '/images/requiem_survival_guide_walkthrough_hub_054.jpg': '/images/requiem_survival_guide_chapter_3_mobile_002.jpg',
+  '/images/requiem_survival_guide_walkthrough_hub_055.jpg': '/images/requiem_survival_guide_chapter_3_mobile_003.jpg',
+  '/images/requiem_survival_guide_walkthrough_hub_056.jpg': '/images/requiem_survival_guide_chapter_3_mobile_004.jpg',
+  '/images/requiem_survival_guide_walkthrough_hub_057.jpg': '/images/requiem_survival_guide_chapter_3_mobile_005.jpg',
+  '/images/requiem_survival_guide_weapons_database_058.jpg': '/images/requiem_survival_guide_weapons_mobile_062.jpg',
+  '/images/requiem_survival_guide_weapons_database_059.jpg': '/images/requiem_survival_guide_weapons_mobile_063.jpg',
+  '/images/requiem_survival_guide_weapons_database_060.jpg': '/images/requiem_survival_guide_weapons_mobile_064.jpg',
+  '/images/requiem_survival_guide_weapons_database_061.jpg': '/images/requiem_survival_guide_weapons_mobile_065.png',
+  '/images/requiem_survival_guide_homepage_028.jpg': '/images/requiem_survival_guide_guides_hub_mobile_020.jpg',
+  '/images/requiem_survival_guide_homepage_029.jpg': '/images/requiem_survival_guide_guides_hub_mobile_021.jpg',
+  '/images/requiem_survival_guide_homepage_030.jpg': '/images/requiem_survival_guide_guides_hub_mobile_022.jpg',
+  '/images/requiem_survival_guide_homepage_031.jpg': '/images/requiem_survival_guide_ending_explained_015.jpg',
+  '/images/requiem_survival_guide_grace_ashcroft_profile_017.jpg': '/images/requiem_survival_guide_grace_ashcroft_profile_016.jpg',
+};
+
+const mobileSrc = mobilePairs[src] || deriveMobileSrc(src);
+---
+
+{mobileSrc ? (
+  <picture>
+    <source media="(max-width: 640px)" srcset={mobileSrc} />
+    <img
+      src={src}
+      alt={alt}
+      width={width}
+      height={height}
+      loading={loading}
+      fetchpriority={fetchpriority}
+      class={className}
+    />
+  </picture>
+) : (
+  <img
+    src={src}
+    alt={alt}
+    width={width}
+    height={height}
+    loading={loading}
+    fetchpriority={fetchpriority}
+    class={className}
+  />
+)}

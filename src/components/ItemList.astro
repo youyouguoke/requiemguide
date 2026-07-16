@@ -1,0 +1,34 @@
+---
+import { Icon } from 'astro-icon/components';
+
+export interface Props {
+  items: { slug: string; title: string; type: string }[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6 mb-8">
+  <div class="flex items-center gap-2 text-horror-green font-bold text-lg mb-4">
+    <Icon name="lucide:package" class="w-5 h-5" />
+    Important Items
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+    {items.map((item) => (
+      <a
+        href={`/items/${item.slug}`}
+        class="flex items-center gap-3 p-3 rounded-lg border border-horror-border bg-horror-bg hover:border-horror-green/50 hover:bg-horror-surface-hover transition-colors group"
+      >
+        <div class="p-2 rounded-lg bg-horror-green/10 text-horror-green">
+          <Icon name="lucide:box" class="w-4 h-4" />
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="text-horror-text font-semibold text-sm truncate group-hover:text-horror-green transition-colors">{item.title}</div>
+          <div class="text-horror-text-muted text-xs">{item.type}</div>
+        </div>
+        <Icon name="lucide:arrow-right" class="w-4 h-4 text-horror-text-muted group-hover:text-horror-green transition-colors" />
+      </a>
+    ))}
+  </div>
+</div>

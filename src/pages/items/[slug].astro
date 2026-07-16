@@ -1,0 +1,378 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import MainLayout from '../../layouts/MainLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import GuideCard from '../../components/GuideCard.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import { Icon } from 'astro-icon/components';
+
+const typeLabels: Record<string, string> = {
+  key: 'Key Items',
+  consumable: 'Healing Items',
+  resource: 'Resources',
+  valuable: 'Collectibles',
+  upgrade: 'Upgrade Items',
+};
+
+const typeSlugs: Record<string, string> = {
+  key: 'key-items',
+  consumable: 'healing',
+  resource: 'resources',
+  valuable: 'collectibles',
+  upgrade: 'upgrade-items',
+};
+
+export async function getStaticPaths() {
+  const items = await getCollection('item');
+  const typeSlugs: Record<string, string> = {
+    key: 'key-items',
+    consumable: 'healing',
+    resource: 'resources',
+    valuable: 'collectibles',
+    upgrade: 'upgrade-items',
+  };
+  const paths: Array<{ params: { slug: string }; props: { item?: CollectionEntry<'item'>; type?: string } }> = [];
+
+  items.forEach((item) => {
+    paths.push({ params: { slug: item.slug }, props: { item } });
+  });
+
+  Object.entries(typeSlugs).forEach(([type, slug]) => {
+    paths.push({ params: { slug }, props: { type } });
+  });
+
+  return paths;
+}
+
+interface Props {
+  item?: CollectionEntry<'item'>;
+  type?: string;
+}
+
+const { item, type } = Astro.props;
+
+if (!item && !type) {
+  throw new Error('Invalid item or category slug');
+}
+
+const allItems = await getCollection('item');
+
+let isCategory = false;
+let categoryType = '';
+let categoryLabel = '';
+let filteredItems: CollectionEntry<'item'>[] = [];
+let categoryTitle = '';
+let categoryDescription = '';
+let categoryKeywords: string[] = [];
+let categoryBreadcrumbSchema: any;
+let categoryItemListSchema: any;
+
+let entry: CollectionEntry<'item'> | undefined;
+let Content: any;
+let data: any;
+let relatedItems: CollectionEntry<'item'>[] = [];
+let relatedWeapons: string[] = [];
+let relatedPuzzles: string[] = [];
+let relatedGuides: string[] = [];
+let pageTitle = '';
+let pageDescription = '';
+let keywords: string[] = [];
+let breadcrumbSchema: any;
+let faqSchema: any;
+
+if (type) {
+  isCategory = true;
+  categoryType = type;
+  categoryLabel = typeLabels[type];
+  filteredItems = allItems.filter((i) => i.data.type === type);
+
+  categoryTitle = `Resident Evil Requiem ${categoryLabel} - Locations, Effects & Uses`;
+  categoryDescription = `Complete Resident Evil Requiem ${categoryLabel.toLowerCase()} guide: every ${type} item, locations, effects, and usage tips.`;
+  categoryKeywords = [
+    `resident evil requiem ${categoryLabel.toLowerCase()}`,
+    `resident evil requiem ${type} items`,
+    `resident evil requiem ${type} locations`,
+  ];
+
+  categoryBreadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://requiemguide.com' },
+      { '@type': 'ListItem', position: 2, name: 'Items', item: 'https://requiemguide.com/items' },
+      { '@type': 'ListItem', position: 3, name: categoryLabel, item: `https://requiemguide.com/items/${typeSlugs[type]}` },
+    ],
+  };
+
+  categoryItemListSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: `Resident Evil Requiem ${categoryLabel}`,
+    numberOfItems: filteredItems.length,
+    itemListElement: filteredItems.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: `${item.data.title} item guide`,
+      url: `https://requiemguide.com/items/${item.slug}`,
+    })),
+  };
+} else {
+  entry = item!;
+  const rendered = await entry.render();
+  Content = rendered.Content;
+  data = entry.data;
+
+  relatedItems = allItems.filter(
+    (i) => i.slug !== entry.slug && (data.relatedItems?.includes(i.slug) || data.related?.includes(i.slug))
+  );
+  relatedWeapons = data.relatedWeapons || [];
+  relatedPuzzles = data.relatedPuzzles || [];
+  relatedGuides = data.relatedGuides || [];
+
+  pageTitle = `${data.title} Item Guide - Location, Effect & Use`;
+  pageDescription = data.description || `Complete ${data.title} item guide for Resident Evil Requiem: location, effect, and usage.`;
+  keywords = [
+    ...new Set([
+      `${data.title} Resident Evil Requiem`,
+      `${data.title} location`,
+      `${data.title} effect`,
+      `${data.title} use`,
+      ...(data.keywords || []),
+    ]),
+  ];
+
+  breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://requiemguide.com' },
+      { '@type': 'ListItem', position: 2, name: 'Items', item: 'https://requiemguide.com/items' },
+      { '@type': 'ListItem', position: 3, name: data.title, item: `https://requiemguide.com/items/${entry.slug}` },
+    ],
+  };
+
+  faqSchema = data.faq?.length
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: data.faq.map((faq: any) => ({
+          '@type': 'Question',
+          name: faq.question,
+          acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+        })),
+      }
+    : null;
+}
+---
+
+{
+  isCategory ? (
+    <MainLayout
+      title={categoryTitle}
+      description={categoryDescription}
+      keywords={categoryKeywords}
+      currentPath={`/items/${typeSlugs[categoryType]}`}
+      extraSchema={[categoryBreadcrumbSchema, categoryItemListSchema]}
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <Breadcrumb
+          items={[
+            { label: 'Items', href: '/items' },
+            { label: categoryLabel, href: `/items/${typeSlugs[categoryType]}` },
+          ]}
+        />
+
+        <header class="mb-12">
+          <span class="text-horror-red font-semibold tracking-widest uppercase text-sm mb-4">Item Category</span>
+          <h1 class="text-4xl sm:text-5xl font-extrabold text-horror-text mb-4">Resident Evil Requiem {categoryLabel}</h1>
+          <p class="text-xl text-horror-text-secondary max-w-3xl">{categoryDescription}</p>
+        </header>
+
+        <section class="mb-12">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredItems.map((item) => (
+              <GuideCard
+                href={`/items/${item.slug}`}
+                title={item.data.title}
+                category={categoryLabel}
+                description={item.data.usedFor || item.data.description || 'Item profile'}
+                image={item.data.image || '/images/requiem_survival_guide_homepage_023.jpg'}
+              >
+                <div slot="footer" class="mt-3 pt-3 border-t border-horror-border text-xs text-horror-text-muted truncate">
+                  {item.data.effect} · {item.data.location}
+                </div>
+              </GuideCard>
+            ))}
+          </div>
+        </section>
+
+        <div class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+          <a href="/items" class="text-horror-red font-semibold hover:underline">← All Items Database</a>
+        </div>
+      </div>
+    </MainLayout>
+  ) : (
+    <MainLayout
+      title={pageTitle}
+      description={pageDescription}
+      keywords={keywords}
+      type="article"
+      modifiedTime={data.updated}
+      currentPath="/items"
+      extraSchema={[breadcrumbSchema, faqSchema].filter(Boolean)}
+    >
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <Breadcrumb
+          items={[
+            { label: 'Items', href: '/items' },
+            { label: data.title, href: `/items/${entry!.slug}` },
+          ]}
+        />
+
+        <article class="max-w-none">
+          <header class="relative mb-8 rounded-2xl overflow-hidden border border-horror-border">
+            <div class="relative h-56 sm:h-72">
+              <img
+                src={data.image}
+                alt={`Resident Evil Requiem ${data.title} item guide - ${data.location}`}
+                width="512"
+                height="286"
+                loading="eager"
+                fetchpriority="high"
+                class="w-full h-full object-cover"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-horror-bg via-horror-bg/60 to-transparent"></div>
+            </div>
+
+            <div class="p-6 sm:p-8">
+              <div class="flex items-center gap-3 mb-4">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-horror-green/10 text-horror-green">
+                  <Icon name="lucide:box" class="w-3.5 h-3.5" />
+                  {typeLabels[data.type || ''] || 'Item'}
+                </span>
+              </div>
+
+              <h1 class="text-4xl sm:text-5xl font-extrabold text-horror-text mb-4">
+                {data.title} Item Guide
+              </h1>
+
+              {data.description && <p class="text-xl text-horror-text-secondary">{data.description}</p>}
+            </div>
+          </header>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+            <div class="p-5 rounded-xl border border-horror-border bg-horror-surface">
+              <div class="flex items-center gap-2 text-horror-text-muted font-semibold text-sm mb-1">
+                <Icon name="lucide:map-pin" class="w-4 h-4 text-horror-red" /> Location
+              </div>
+              <p class="text-horror-text font-semibold">{data.location}</p>
+            </div>
+            <div class="p-5 rounded-xl border border-horror-border bg-horror-surface">
+              <div class="flex items-center gap-2 text-horror-text-muted font-semibold text-sm mb-1">
+                <Icon name="lucide:zap" class="w-4 h-4 text-horror-red" /> Effect
+              </div>
+              <p class="text-horror-text font-semibold">{data.effect}</p>
+            </div>
+          </div>
+
+          <section class="mb-8">
+            <div class="flex items-center gap-2 text-horror-text font-bold text-xl mb-4">
+              <Icon name="lucide:map-pin" class="w-5 h-5 text-horror-red" />
+              Where to Find {data.title}
+            </div>
+
+            <div class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+              <p class="text-horror-text-secondary leading-relaxed">{data.locationDetail || data.location}</p>
+              {data.pickupConditions && (
+                <p class="mt-3 text-sm text-horror-text-secondary">
+                  <span class="font-semibold text-horror-text">Pickup conditions:</span> {data.pickupConditions}
+                </p>
+              )}
+            </div>
+          </section>
+
+          <section class="mb-8">
+            <div class="flex items-center gap-2 text-horror-text font-bold text-xl mb-4">
+              <Icon name="lucide:settings-2" class="w-5 h-5 text-horror-red" />
+              Usage
+            </div>
+
+            <div class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+              <p class="text-horror-text-secondary leading-relaxed mb-4">{data.usage || data.usedFor}</p>
+              {data.usageDetail && <p class="text-horror-text-secondary leading-relaxed">{data.usageDetail}</p>}
+            </div>
+          </section>
+
+          <div class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6 mb-8">
+            <div class="prose-horror max-w-none text-horror-text-secondary">
+              <Content />
+            </div>
+          </div>
+
+          {relatedItems.length > 0 && (
+            <section class="mb-8">
+              <div class="flex items-center gap-2 text-horror-text font-bold text-xl mb-4">
+                <Icon name="lucide:boxes" class="w-5 h-5 text-horror-red" />
+                Related Items
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {relatedItems.map((relatedItem) => (
+                  <a href={`/items/${relatedItem.slug}`} class="group p-4 rounded-xl border border-horror-border bg-horror-surface hover:border-horror-red/50 transition-all">
+                    <div class="font-bold text-horror-text group-hover:text-horror-red transition-colors">{relatedItem.data.title}</div>
+                    <div class="text-sm text-horror-text-secondary">{relatedItem.data.effect}</div>
+                  </a>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {relatedWeapons.length > 0 && (
+            <section class="mb-8">
+              <div class="flex items-center gap-2 text-horror-text font-bold text-xl mb-4">
+                <Icon name="lucide:crosshair" class="w-5 h-5 text-horror-red" />
+                Related Weapons
+              </div>
+              <div class="flex flex-wrap gap-3">
+                {relatedWeapons.map((slug) => (
+                  <a href={`/weapons/${slug}`} class="px-4 py-2 rounded-full border border-horror-border bg-horror-surface hover:border-horror-red/50 text-horror-text font-semibold transition-all">
+                    {slug}
+                  </a>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {data.faq?.length > 0 && <FAQSection faqs={data.faq} />}
+
+          <section class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6 mb-8">
+            <h2 class="text-2xl font-bold text-horror-text mb-4">About This Item Guide</h2>
+            <p class="text-horror-text-secondary leading-relaxed mb-4">
+              This {data.title} guide is part of the Requiem Guide items database. We verify item locations, effects, and usage through multiple playthroughs so you can find every key item and never waste a healing resource.
+            </p>
+            <p class="text-horror-text-secondary leading-relaxed">
+              For related progression help, visit the Walkthrough Guides and Puzzle Solutions. For combat loadouts, check the Weapons Database.
+            </p>
+          </section>
+
+          <div class="mt-12">
+            <h2 class="text-2xl font-bold text-horror-text mb-6">More Items</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {allItems
+                .filter((i) => i.slug !== entry!.slug)
+                .slice(0, 3)
+                .map((otherItem) => (
+                  <GuideCard
+                    href={`/items/${otherItem.slug}`}
+                    title={otherItem.data.title}
+                    category={typeLabels[otherItem.data.type || ''] || 'Item'}
+                    description={otherItem.data.usedFor || otherItem.data.description || 'Item profile'}
+                    image={otherItem.data.image || '/images/requiem_survival_guide_homepage_023.jpg'}
+                  />
+                ))}
+            </div>
+          </div>
+        </article>
+      </div>
+    </MainLayout>
+  )
+}

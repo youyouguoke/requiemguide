@@ -1,0 +1,35 @@
+---
+import { Icon } from 'astro-icon/components';
+
+export interface Props {
+  chapter?: number;
+  location?: string;
+  difficulty?: string;
+  length?: string;
+  importantItems?: number;
+  boss?: string;
+}
+
+const { chapter, location, difficulty, length, importantItems, boss } = Astro.props;
+
+const stats = [
+  { label: 'Chapter', value: chapter ? `Chapter ${chapter}` : undefined, icon: 'lucide:hash' },
+  { label: 'Location', value: location, icon: 'lucide:map-pin' },
+  { label: 'Difficulty', value: difficulty, icon: 'lucide:bar-chart' },
+  { label: 'Length', value: length, icon: 'lucide:clock' },
+  { label: 'Important Items', value: importantItems !== undefined ? `${importantItems}` : undefined, icon: 'lucide:package' },
+  { label: 'Boss', value: boss, icon: 'lucide:skull' },
+].filter((s) => s.value);
+---
+
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 mb-8">
+  {stats.map((stat) => (
+    <div class="p-4 rounded-xl border border-horror-border bg-horror-surface/50 flex flex-col gap-1">
+      <div class="flex items-center gap-1.5 text-xs font-semibold text-horror-text-muted uppercase tracking-wider">
+        <Icon name={stat.icon} class="w-3.5 h-3.5" />
+        {stat.label}
+      </div>
+      <div class="text-horror-text font-bold text-sm sm:text-base">{stat.value}</div>
+    </div>
+  ))}
+</div>

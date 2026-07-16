@@ -1,0 +1,109 @@
+---
+import { getCollection } from 'astro:content';
+import MainLayout from '../../layouts/MainLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import GuideCard from '../../components/GuideCard.astro';
+
+const bosses = await getCollection('boss');
+const weapons = await getCollection('weapon');
+
+const title = 'Best Weapons Against Resident Evil Requiem Bosses';
+const description = 'Best weapons for every Resident Evil Requiem boss: shotguns, rifles, magnums, and special tools ranked by boss matchup and strategy.';
+
+const keywords = [
+  'best weapon against resident evil requiem bosses',
+  'resident evil requiem boss weapon guide',
+  'resident evil requiem best weapons',
+  'resident evil requiem boss loadout',
+];
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://requiemguide.com' },
+    { '@type': 'ListItem', position: 2, name: 'Bosses', item: 'https://requiemguide.com/bosses' },
+    { '@type': 'ListItem', position: 3, name: 'Best Weapons', item: 'https://requiemguide.com/bosses/best-weapons' },
+  ],
+};
+---
+
+<MainLayout
+  title={title}
+  description={description}
+  keywords={keywords}
+  currentPath="/bosses/best-weapons"
+  extraSchema={[breadcrumbSchema]}
+>
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <Breadcrumb
+      items={[
+        { label: 'Bosses', href: '/bosses' },
+        { label: 'Best Weapons', href: '/bosses/best-weapons' },
+      ]}
+    />
+
+    <header class="mb-12">
+      <span class="text-horror-red font-semibold tracking-widest uppercase text-sm mb-4">Boss Loadouts</span>
+      <h1 class="text-4xl sm:text-5xl font-extrabold text-horror-text mb-4">Best Weapons Against Resident Evil Requiem Bosses</h1>
+      <p class="text-xl text-horror-text-secondary max-w-3xl">{description}</p>
+    </header>
+
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-horror-text mb-4">Weapon Matchups by Boss</h2>
+      
+      <div class="space-y-6">
+        {bosses.map((boss) => (
+          <div class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+            <div class="flex items-center justify-between mb-3">
+              <a href={`/bosses/${boss.slug}`} class="text-xl font-bold text-horror-text hover:text-horror-red transition-colors">
+                {boss.data.title} Boss
+              </a>
+              <span class="text-xs font-semibold text-horror-text-muted uppercase">{boss.data.difficulty}</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+              <div>
+                <div class="text-xs font-semibold text-horror-text-muted uppercase">Best Weapon</div>
+                <div class="text-horror-green font-semibold">{boss.data.recommendedWeapon}</div>
+              </div>
+              <div>
+                <div class="text-xs font-semibold text-horror-text-muted uppercase">Weakness</div>
+                <div class="text-horror-red font-semibold">{boss.data.weakness}</div>
+              </div>
+              <div>
+                <div class="text-xs font-semibold text-horror-text-muted uppercase">Location</div>
+                <div class="text-horror-text-secondary">{boss.data.location}</div>
+              </div>
+            </div>
+
+            <p class="text-sm text-horror-text-secondary">
+              {boss.data.description}
+            </p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-horror-text mb-6">Weapon Guides</h2>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {weapons.map((weapon) => (
+          <GuideCard
+            href={`/weapons/${weapon.slug}`}
+            title={weapon.data.title}
+            category={weapon.data.type || 'Weapon'}
+            description={weapon.data.description || `Resident Evil Requiem ${weapon.data.title} weapon guide`}
+            image={weapon.data.image}
+            variant="weapon"
+          />
+        ))}
+      </div>
+    </section>
+
+    <div class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+      <a href="/bosses" class="text-horror-red font-semibold hover:underline">← All Boss Guides</a>
+    </div>
+  </div>
+</MainLayout>

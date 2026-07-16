@@ -1,0 +1,61 @@
+---
+import { Icon } from 'astro-icon/components';
+
+export interface Props {
+  step: number;
+  title: string;
+  objective?: string;
+  image?: string;
+  imageAlt?: string;
+  tips?: string[];
+}
+
+const { step, title, objective, image, imageAlt, tips } = Astro.props;
+---
+
+<div class="group relative rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6 mb-6 scroll-mt-28">
+  <div class="flex items-start gap-4 mb-4">
+    <div class="flex-shrink-0 w-10 h-10 rounded-full bg-horror-red/10 text-horror-red flex items-center justify-center font-black text-lg">
+      {step}
+    </div>
+    <div class="flex-1 min-w-0">
+      <h3 class="text-lg sm:text-xl font-bold text-horror-text mb-1">{title}</h3>
+      {objective && (
+        <p class="text-sm text-horror-text-muted">
+          <span class="text-horror-red font-semibold">Objective:</span> {objective}
+        </p>
+      )}
+    </div>
+  </div>
+
+  {image && (
+    <div class="rounded-lg overflow-hidden border border-horror-border mb-4">
+      <img
+        src={image}
+        alt={imageAlt || title}
+        width="800"
+        height="450"
+        loading="lazy"
+        class="w-full h-auto object-cover"
+      />
+    </div>
+  )}
+
+  <div class="prose-horror max-w-none text-horror-text-secondary">
+    <slot />
+  </div>
+
+  {tips && tips.length > 0 && (
+    <div class="mt-4 p-4 rounded-lg bg-horror-red/5 border border-horror-red/20">
+      <div class="flex items-center gap-2 text-horror-red font-bold text-sm mb-2">
+        <Icon name="lucide:lightbulb" class="w-4 h-4" />
+        Tips
+      </div>
+      <ul class="space-y-1 text-sm text-horror-text-secondary list-disc pl-4">
+        {tips.map((tip) => (
+          <li>{tip}</li>
+        ))}
+      </ul>
+    </div>
+  )}
+</div>

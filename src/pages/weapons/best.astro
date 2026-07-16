@@ -1,0 +1,124 @@
+---
+import { getCollection } from 'astro:content';
+import MainLayout from '../../layouts/MainLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import GuideCard from '../../components/GuideCard.astro';
+import { Icon } from 'astro-icon/components';
+
+const weapons = await getCollection('weapon');
+const bosses = await getCollection('boss');
+
+const title = 'Best Weapons in Resident Evil Requiem - Top Picks for Every Situation';
+const description = 'Best weapons in Resident Evil Requiem: top handguns, shotguns, rifles, and melee options for every character, boss, and difficulty.';
+
+const bestHandgun = weapons.find((w) => w.data.title === 'S&S M232');
+const bestShotgun = weapons.find((w) => w.data.title === 'MSBG 500');
+const bestRifle = weapons.find((w) => w.data.title === 'Requiem');
+const bestMelee = weapons.find((w) => w.data.title === 'Kotetsu');
+
+const categories = [
+  { name: 'Best Handgun', weapon: bestHandgun, reason: 'Best balance of power, stability, and precision for Grace.' },
+  { name: 'Best Shotgun', weapon: bestShotgun, reason: 'Highest close-range burst and boss stagger for Leon.' },
+  { name: 'Best Rifle', weapon: bestRifle, reason: 'Highest raw damage and penetration for bosses and mini-bosses.' },
+  { name: 'Best Melee', weapon: bestMelee, reason: 'Infinite durability makes it perfect for challenge modes and replays.' },
+];
+
+const keywords = [
+  'best weapons resident evil requiem',
+  'resident evil requiem best weapons',
+  'top weapons resident evil requiem',
+  'resident evil requiem weapon recommendations',
+];
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://requiemguide.com' },
+    { '@type': 'ListItem', position: 2, name: 'Weapons', item: 'https://requiemguide.com/weapons' },
+    { '@type': 'ListItem', position: 3, name: 'Best Weapons', item: 'https://requiemguide.com/weapons/best' },
+  ],
+};
+
+const itemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Best Weapons in Resident Evil Requiem',
+  itemListElement: categories.filter((c) => c.weapon).map((c, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: c.name,
+    url: `https://requiemguide.com/weapons/${c.weapon.slug}`,
+  })),
+};
+---
+
+<MainLayout
+  title={title}
+  description={description}
+  keywords={keywords}
+  currentPath="/weapons/best"
+  extraSchema={[breadcrumbSchema, itemListSchema]}
+>
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <Breadcrumb
+      items={[
+        { label: 'Weapons', href: '/weapons' },
+        { label: 'Best Weapons', href: '/weapons/best' },
+      ]}
+    />
+
+    <header class="mb-12">
+      <span class="text-horror-red font-semibold tracking-widest uppercase text-sm mb-4">Top Picks</span>
+      <h1 class="text-4xl sm:text-5xl font-extrabold text-horror-text mb-4">Best Weapons in Resident Evil Requiem</h1>
+      <p class="text-xl text-horror-text-secondary max-w-3xl">{description}</p>
+    </header>
+
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-horror-text mb-4">Best Weapons by Category</h2>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        {categories.filter((c) => c.weapon).map((category) => (
+          <a href={`/weapons/${category.weapon.slug}`} class="group rounded-xl border border-horror-border bg-horror-surface p-5 hover:border-horror-red/50 transition-all">
+            <div class="flex items-center gap-3 mb-3">
+              <img
+                src={category.weapon.data.image}
+                alt={`Resident Evil Requiem ${category.weapon.data.title} ${category.weapon.data.type} weapon - best ${category.name.toLowerCase()}`}
+                class="w-16 h-16 object-contain rounded-lg bg-horror-bg"
+              />
+              <div>
+                <div class="text-xs font-semibold text-horror-red uppercase">{category.name}</div>
+                <div class="text-xl font-bold text-horror-text group-hover:text-horror-red transition-colors">{category.weapon.data.title}</div>
+              </div>
+            </div>
+            <p class="text-sm text-horror-text-secondary">{category.reason}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-horror-text mb-4">Best Weapons for Bosses</h2>
+      
+      <div class="space-y-3">
+        {bosses.map((boss) => (
+          <div class="flex items-center justify-between rounded-xl border border-horror-border bg-horror-surface p-4">
+            <div class="flex items-center gap-4">
+              <div class="font-bold text-horror-text">{boss.data.title}</div>
+              <div class="text-sm text-horror-text-secondary">{boss.data.weakness}</div>
+            </div>
+            <div class="text-sm font-semibold text-horror-green">{boss.data.recommendedWeapon}</div>
+          </div>
+        ))}
+      </div>
+
+      <div class="mt-4">
+        <a href="/bosses/best-weapons" class="text-horror-red font-semibold hover:underline">View full boss weapon recommendations →</a>
+      </div>
+    </section>
+
+    <div class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+      <a href="/weapons" class="text-horror-red font-semibold hover:underline">← All Weapons Database</a>
+    </div>
+  </div>
+</MainLayout>

@@ -1,0 +1,256 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import MainLayout from '../../layouts/MainLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import GuideCard from '../../components/GuideCard.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import { Icon } from 'astro-icon/components';
+
+export async function getStaticPaths() {
+  const puzzles = await getCollection('puzzle');
+  return puzzles.map((puzzle) => ({
+    params: { slug: puzzle.slug },
+    props: { puzzle },
+  }));
+}
+
+interface Props {
+  puzzle: CollectionEntry<'puzzle'>;
+}
+
+const { puzzle } = Astro.props;
+const { Content } = await puzzle.render();
+
+const allPuzzles = await getCollection('puzzle');
+const allGuides = await getCollection('guide');
+const chapterGuide = puzzle.data.chapter ? allGuides.find((g) => g.data.category === 'walkthrough' && g.data.chapter === puzzle.data.chapter) : null;
+
+const relatedPuzzles = allPuzzles
+  .filter((p) => p.slug !== puzzle.slug && (puzzle.data.related?.includes(p.slug) || p.data.location === puzzle.data.location))
+  .slice(0, 3);
+
+const pageTitle = `${puzzle.data.title} Solution - Resident Evil Requiem`;
+const pageDescription = `Complete ${puzzle.data.title} solution for Resident Evil Requiem: location, requirements, code, step-by-step solution and reward. ${puzzle.data.description || ''}`;
+
+const breadcrumbItems = [
+  { label: 'Puzzles', href: '/puzzles' },
+  { label: puzzle.data.title, href: `/puzzles/${puzzle.slug}` },
+];
+
+const typeLabels: Record<string, string> = {
+  'safe-code': 'Safe Code',
+  'door-lock': 'Door Lock',
+  'symbol': 'Symbol Puzzle',
+  'logic': 'Logic Puzzle',
+  'combination': 'Combination Puzzle',
+  'key-item': 'Key Item Puzzle',
+  'mechanism': 'Mechanism',
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://requiemguide.com' },
+    { '@type': 'ListItem', position: 2, name: 'Puzzle Solutions', item: 'https://requiemguide.com/puzzles' },
+    { '@type': 'ListItem', position: 3, name: puzzle.data.title, item: `https://requiemguide.com/puzzles/${puzzle.slug}` },
+  ],
+};
+
+const faqSchema = puzzle.data.faq?.length ? {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: puzzle.data.faq.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer,
+    },
+  })),
+} : null;
+---
+
+<MainLayout
+  title={pageTitle}
+  description={pageDescription}
+  keywords={puzzle.data.keywords}
+  type="article"
+  modifiedTime={puzzle.data.updated}
+  currentPath={`/puzzles/${puzzle.slug}`}
+  extraSchema={[breadcrumbSchema, faqSchema].filter(Boolean)}
+>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <Breadcrumb items={breadcrumbItems} />
+
+    <article class="max-w-none">
+      <!-- Hero Header -->
+      <header class="relative mb-8 rounded-2xl overflow-hidden border border-horror-border">
+        <div class="relative h-56 sm:h-72">
+          <img
+            src={puzzle.data.image || '/images/requiem_survival_guide_library_puzzle_solution_038.jpg'}
+            alt={`${puzzle.data.title} solution in Resident Evil Requiem - ${puzzle.data.location}`}
+            width="800"
+            height="450"
+            loading="eager"
+            fetchpriority="high"
+            class="w-full h-full object-cover"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-horror-bg via-horror-bg/60 to-transparent"></div>
+        </div>
+
+        <div class="p-6 sm:p-8">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-horror-red/10 text-horror-red">
+              {puzzle.data.puzzleType ? typeLabels[puzzle.data.puzzleType] : 'Puzzle'}
+            </span>
+            {puzzle.data.difficulty && (
+              <span class="text-sm text-horror-text-muted">Difficulty: {puzzle.data.difficulty}</span>
+            )}
+          </div>
+
+          <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-horror-text mb-4">
+            {puzzle.data.title} Solution
+          </h1>
+
+          {puzzle.data.description && (
+            <p class="text-lg sm:text-xl text-horror-text-secondary">{puzzle.data.description}</p>
+          )}
+        </div>
+      </header>
+
+      <!-- Overview Stats -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+        {puzzle.data.location && (
+          <div class="bg-horror-surface border border-horror-border rounded-xl p-4">
+            <div class="flex items-center gap-2 text-xs font-semibold text-horror-text-muted uppercase tracking-wider mb-1">
+              <Icon name="lucide:map-pin" class="w-3.5 h-3.5" />
+              Location
+            </div>
+            <p class="text-horror-text font-semibold">{puzzle.data.location}</p>
+          </div>
+        )}
+        {puzzle.data.difficulty && (
+          <div class="bg-horror-surface border border-horror-border rounded-xl p-4">
+            <div class="flex items-center gap-2 text-xs font-semibold text-horror-text-muted uppercase tracking-wider mb-1">
+              <Icon name="lucide:bar-chart" class="w-3.5 h-3.5" />
+              Difficulty
+            </div>
+            <p class="text-horror-text font-semibold">{puzzle.data.difficulty}</p>
+          </div>
+        )}
+        {puzzle.data.reward && (
+          <div class="bg-horror-surface border border-horror-border rounded-xl p-4">
+            <div class="flex items-center gap-2 text-xs font-semibold text-horror-text-muted uppercase tracking-wider mb-1">
+              <Icon name="lucide:gift" class="w-3.5 h-3.5" />
+              Reward
+            </div>
+            <p class="text-horror-green font-semibold">{puzzle.data.reward}</p>
+          </div>
+        )}
+      </div>
+
+      <!-- Requirements -->
+      {puzzle.data.requirements && puzzle.data.requirements.length > 0 && (
+        <div class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6 mb-8">
+          <div class="flex items-center gap-2 text-horror-text font-bold mb-3">
+            <Icon name="lucide:clipboard-list" class="w-5 h-5 text-horror-red" />
+            Requirements
+          </div>
+          <ul class="space-y-2 text-horror-text-secondary text-sm list-disc pl-4">
+            {puzzle.data.requirements.map((req) => <li>{req}</li>)}
+          </ul>
+
+          {chapterGuide && (
+            <div class="mt-4 p-4 rounded-lg bg-horror-red/5 border border-horror-red/20">
+              <div class="text-sm text-horror-text-secondary mb-2">
+                Found during <span class="text-horror-text font-semibold">{chapterGuide.data.title}</span>.
+              </div>
+              <a
+                href={`/walkthrough/${chapterGuide.slug}`}
+                class="inline-flex items-center gap-1 text-sm font-semibold text-horror-red hover:underline"
+              >
+                View Chapter {chapterGuide.data.chapter} Walkthrough
+                <Icon name="lucide:arrow-right" class="w-4 h-4" />
+              </a>
+            </div>
+          )}
+        </div>
+      )}
+
+      <!-- Solution Steps -->
+      <section class="mb-8">
+        <div class="flex items-center gap-2 text-horror-text font-bold text-xl mb-6">
+          <Icon name="lucide:list-ordered" class="w-5 h-5 text-horror-red" />
+          Step-by-Step Solution
+        </div>
+
+        {puzzle.data.steps && puzzle.data.steps.length > 0 ? (
+          <div class="space-y-6">
+            {puzzle.data.steps.map((step, index) => (
+              <div class="group relative rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+                <div class="flex items-start gap-4">
+                  <div class="flex-shrink-0 w-10 h-10 rounded-full bg-horror-red/10 text-horror-red flex items-center justify-center font-black">
+                    {index + 1}
+                  </div>
+                  <div class="flex-1">
+                    <h3 class="text-lg font-bold text-horror-text mb-2">{step.title}</h3>
+                    <p class="text-horror-text-secondary leading-relaxed">{step.detail}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+            <div class="prose-horror max-w-none text-horror-text-secondary">
+              <Content />
+            </div>
+          </div>
+        )}
+      </section>
+
+      <!-- Code Box -->
+      {puzzle.data.code && (
+        <div class="rounded-xl border border-horror-red/30 bg-horror-red/5 p-6 sm:p-8 mb-8 text-center">
+          <div class="text-xs font-semibold text-horror-red uppercase tracking-wider mb-2">Code / Sequence</div>
+          <div class="text-2xl sm:text-3xl font-black text-horror-text tracking-wide font-mono">{puzzle.data.code}</div>
+        </div>
+      )}
+
+      <!-- Additional Notes -->
+      <div class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6 mb-8">
+        <div class="flex items-center gap-2 text-horror-text font-bold mb-4">
+          <Icon name="lucide:file-text" class="w-5 h-5 text-horror-red" />
+          Additional Notes
+        </div>
+        <div class="prose-horror max-w-none text-horror-text-secondary">
+          <Content />
+        </div>
+      </div>
+
+      <!-- FAQ -->
+      {puzzle.data.faq?.length > 0 && (
+        <FAQSection faqs={puzzle.data.faq} />
+      )}
+
+      <!-- Related Puzzles -->
+      {relatedPuzzles.length > 0 && (
+        <div class="mt-12">
+          <h2 class="text-2xl font-bold text-horror-text mb-6">Related Puzzles</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {relatedPuzzles.map((relatedPuzzle) => (
+              <GuideCard
+                href={`/puzzles/${relatedPuzzle.slug}`}
+                title={`${relatedPuzzle.data.title} Solution`}
+                category={relatedPuzzle.data.difficulty || 'Puzzle'}
+                description={relatedPuzzle.data.description || `Solution for ${relatedPuzzle.data.title}`}
+                image={relatedPuzzle.data.image}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+    </article>
+  </div>
+</MainLayout>

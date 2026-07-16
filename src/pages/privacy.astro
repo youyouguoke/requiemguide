@@ -1,0 +1,100 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+
+const title = 'Privacy Policy';
+const description = 'Privacy policy for Requiem Guide. Learn how we collect, use, and protect your personal information.';
+const lastUpdated = new Date('2026-07-15');
+
+const sections = [
+  {
+    heading: 'Information We Collect',
+    content: [
+      'Usage Data: We collect anonymous information about how visitors interact with the site, such as pages visited, time spent, and referral sources.',
+      'Analytics: We use Google Analytics and Plausible Analytics to understand traffic patterns and improve the site.',
+      'Cookies: We use cookies and similar technologies to enhance user experience and gather analytics data.',
+    ],
+  },
+  {
+    heading: 'How We Use Information',
+    content: [
+      'To operate and maintain the Requiem Guide website.',
+      'To analyze site usage and improve our content and features.',
+      'To respond to inquiries submitted via our contact page.',
+    ],
+  },
+  {
+    heading: 'Third-Party Services',
+    content: [
+      'We may use third-party analytics, hosting, and search providers. These services have their own privacy policies and data handling practices.',
+      'We do not sell or rent personal information to third parties.',
+    ],
+  },
+  {
+    heading: 'Data Security',
+    content: [
+      'We implement reasonable security measures to protect data from unauthorized access or disclosure.',
+      'However, no method of transmission over the internet is 100% secure.',
+    ],
+  },
+  {
+    heading: 'Your Rights',
+    content: [
+      'You can disable cookies through your browser settings.',
+      'You may contact us to request information about the data we hold or to request deletion.',
+    ],
+  },
+  {
+    heading: 'Changes to This Policy',
+    content: [
+      'We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated date.',
+    ],
+  },
+  {
+    heading: 'Contact Us',
+    content: [
+      'If you have questions about this Privacy Policy, contact us at hello@requiemguide.com.',
+    ],
+  },
+];
+---
+
+<MainLayout
+  title={title}
+  description={description}
+  currentPath="/privacy"
+  type="article"
+  modifiedTime={lastUpdated}
+>
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+    <Breadcrumb items={[{ label: 'Privacy', href: '/privacy' }]} />
+
+    <article class="prose-horror max-w-none">
+      <header class="mb-8 sm:mb-10">
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-horror-text mb-4">
+          Privacy Policy
+        </h1>
+        <p class="text-horror-text-secondary">
+          Last updated: <time datetime={lastUpdated.toISOString()}>
+            {lastUpdated.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+          </time>
+        </p>
+      </header>
+
+      <div class="space-y-8">
+        {sections.map((section) => (
+          <section class="bg-horror-surface border border-horror-border rounded-xl p-5 sm:p-6">
+            <h2 class="text-xl font-bold text-horror-text mb-3">{section.heading}</h2>
+            <ul class="space-y-2">
+              {section.content.map((item) => (
+                <li class="text-horror-text-secondary pl-4 relative before:content-[''] before:absolute before:left-0 before:top-2.5 before:w-1.5 before:h-1.5 before:rounded-full before:bg-horror-red">
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
+    </article>
+  </div>
+</MainLayout>

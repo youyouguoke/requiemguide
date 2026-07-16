@@ -1,0 +1,98 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import { Icon } from 'astro-icon/components';
+
+const title = 'About';
+const description = 'Learn about Requiem Guide, a fan-made Resident Evil Requiem survival companion built by players, for players.';
+---
+
+<MainLayout
+  title={title}
+  description={description}
+  currentPath="/about"
+>
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+    <Breadcrumb items={[{ label: 'About', href: '/about' }]} />
+
+    <article class="prose-horror max-w-none">
+      <header class="mb-8 sm:mb-10">
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-horror-text mb-4">About Requiem Guide</h1>
+        <p class="text-lg sm:text-xl text-horror-text-secondary">
+          A fan-made survival companion for Resident Evil Requiem players.
+        </p>
+      </header>
+
+      <section class="space-y-6 mb-8 sm:mb-10">
+        <p class="text-horror-text-secondary">
+          Requiem Guide is an independent project created by fans of the Resident Evil series. We built this site to give players a single, reliable place for walkthroughs, puzzle solutions, boss strategies, weapon stats, character profiles, and story explanations.
+        </p>
+        <p class="text-horror-text-secondary">
+          Our content is written with a focus on clarity and speed. Whether you are stuck on a safe code, preparing for a boss fight, or trying to unlock the true ending, the goal is to get you back into the game as quickly as possible.
+        </p>
+      </section>
+
+      <section class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-8 sm:mb-10">
+        <div class="p-5 rounded-xl border border-horror-border bg-horror-surface">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="p-2 rounded-lg bg-horror-red/10 text-horror-red">
+              <Icon name="lucide:book-open" class="w-5 h-5" />
+            </div>
+            <h2 class="text-lg font-bold text-horror-text">Guides</h2>
+          </div>
+          <p class="text-sm text-horror-text-secondary">Step-by-step walkthroughs, puzzle solutions, and boss strategies.</p>
+        </div>
+
+        <div class="p-5 rounded-xl border border-horror-border bg-horror-surface">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="p-2 rounded-lg bg-horror-red/10 text-horror-red">
+              <Icon name="lucide:database" class="w-5 h-5" />
+            </div>
+            <h2 class="text-lg font-bold text-horror-text">Database</h2>
+          </div>
+          <p class="text-sm text-horror-text-secondary">Weapons, characters, and endings with clear stats and context.</p>
+        </div>
+
+        <div class="p-5 rounded-xl border border-horror-border bg-horror-surface">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="p-2 rounded-lg bg-horror-red/10 text-horror-red">
+              <Icon name="lucide:zap" class="w-5 h-5" />
+            </div>
+            <h2 class="text-lg font-bold text-horror-text">Fast Search</h2>
+          </div>
+          <p class="text-sm text-horror-text-secondary">Instant search across every guide via Pagefind.</p>
+        </div>
+
+        <div class="p-5 rounded-xl border border-horror-border bg-horror-surface">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="p-2 rounded-lg bg-horror-red/10 text-horror-red">
+              <Icon name="lucide:mail" class="w-5 h-5" />
+            </div>
+            <h2 class="text-lg font-bold text-horror-text">Community Driven</h2>
+          </div>
+          <p class="text-sm text-horror-text-secondary">Corrections and suggestions are welcome by email.</p>
+        </div>
+      </section>
+
+      <section class="bg-horror-surface border border-horror-border rounded-xl p-5 sm:p-6 mb-8 sm:mb-10">
+        <h2 class="text-xl font-bold text-horror-text mb-4">Disclaimer</h2>
+        <p class="text-horror-text-secondary text-sm">
+          Requiem Guide is a fan-made project and is not affiliated with, endorsed by, or sponsored by Capcom. All game names, characters, and related assets are trademarks or registered trademarks of their respective owners.
+        </p>
+      </section>
+
+      <section class="text-center sm:text-left">
+        <h2 class="text-xl font-bold text-horror-text mb-4">Get in Touch</h2>
+        <p class="text-horror-text-secondary mb-6">
+          Have feedback or found an error? Reach out and we will look into it.
+        </p>
+        <a
+          href="mailto:hello@requiemguide.com"
+          class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-horror-red text-white font-semibold rounded-xl hover:bg-horror-red-hover transition-colors"
+        >
+          Contact Us
+        </a>
+      </section>
+    </article>
+  </div>
+</MainLayout>

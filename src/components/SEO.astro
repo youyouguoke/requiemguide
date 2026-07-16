@@ -1,0 +1,119 @@
+---
+import { SITE } from '../lib/config';
+
+export interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  canonical?: string;
+  type?: 'website' | 'article';
+  publishedTime?: Date;
+  modifiedTime?: Date;
+  keywords?: string[];
+  noindex?: boolean;
+  nofollow?: boolean;
+  extraSchema?: Record<string, any>[];
+}
+
+const {
+  title,
+  description,
+  image = SITE.ogImage,
+  canonical,
+  type = 'website',
+  publishedTime,
+  modifiedTime,
+  keywords,
+  noindex = false,
+  nofollow = false,
+  extraSchema = [],
+} = Astro.props;
+
+const fullTitle = title === SITE.title ? title : `${title} | ${SITE.title}`;
+const ogImage = image?.startsWith('http') ? image : `${SITE.url}${image || '/og-image.jpg'}`;
+const canonicalUrl = canonical ? new URL(canonical, SITE.url).href : new URL(Astro.url.pathname, SITE.url).href;
+const robots = noindex || nofollow ? `${noindex ? 'noindex' : 'index'},${nofollow ? 'nofollow' : 'follow'}` : 'index, follow';
+
+// Helper to normalize URLs without trailing slashes for canonical / og:url
+const normalizedCanonicalUrl = canonicalUrl.replace(/\/+$/, '') || `${SITE.url}`;
+---
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+
+{keywords && keywords.length > 0 && <meta name="keywords" content={keywords.join(', ')} />}
+
+<meta name="robots" content={robots} />
+
+<link rel="canonical" href={normalizedCanonicalUrl} />
+
+<meta property="og:site_name" content={SITE.title} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:type" content={type} />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content={normalizedCanonicalUrl} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={title} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content={SITE.twitterHandle} />
+<meta name="twitter:creator" content={SITE.twitterHandle} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+<meta name="theme-color" content="#7f1d1d" />
+
+{type === 'article' && publishedTime && <meta property="article:published_time" content={publishedTime.toISOString()} />}
+{type === 'article' && modifiedTime && <meta property="article:modified_time" content={modifiedTime.toISOString()} />}
+
+<link rel="sitemap" href="/sitemap-index.xml" />
+
+<script type="application/ld+json" set:html={JSON.stringify(type === 'article' ? {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  name: title,
+  headline: title,
+  description: description,
+  url: normalizedCanonicalUrl,
+  image: ogImage,
+  author: {
+    '@type': 'Organization',
+    name: SITE.title,
+    url: SITE.url,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: SITE.title,
+    description: SITE.description,
+    url: SITE.url,
+  },
+  ...(publishedTime ? { datePublished: publishedTime.toISOString() } : {}),
+  ...(modifiedTime ? { dateModified: modifiedTime.toISOString() } : {}),
+} : {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: SITE.title,
+  description: SITE.description,
+  url: SITE.url,
+  image: SITE.image,
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: `${SITE.url}/search?q={search_term_string}`,
+    'query-input': 'required name=search_term_string',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: SITE.title,
+    description: SITE.description,
+    url: SITE.url,
+  },
+})} />
+
+{extraSchema.map((schema, index) => (
+  <script type="application/ld+json" key={index} set:html={JSON.stringify(schema)} />
+))}

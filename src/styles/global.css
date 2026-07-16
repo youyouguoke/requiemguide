@@ -1,0 +1,224 @@
+@import "tailwindcss";
+
+@theme {
+  --color-horror-bg: #08090D;
+  --color-horror-surface: #111318;
+  --color-horror-surface-hover: #181A20;
+  --color-horror-border: #27272A;
+  --color-horror-red: #B91C1C;
+  --color-horror-red-light: #DC2626;
+  --color-horror-green: #84CC16;
+  --color-horror-text: #F5F5F5;
+  --color-horror-text-secondary: #A1A1AA;
+  --color-horror-text-muted: #71717A;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-horror-bg);
+  color: var(--color-horror-text);
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+::selection {
+  background-color: rgba(185, 28, 28, 0.4);
+  color: #fff;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0c0d12;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #27272A;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #B91C1C;
+}
+
+/* Prose / content styles */
+.prose-horror h2,
+.prose-horror h3,
+.prose-horror h4 {
+  color: var(--color-horror-text);
+  font-weight: 700;
+}
+
+.prose-horror h2 {
+  font-size: 1.5rem;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-horror-border);
+}
+
+.prose-horror h3 {
+  font-size: 1.25rem;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  color: #DC2626;
+}
+
+.prose-horror p {
+  color: var(--color-horror-text-secondary);
+  line-height: 1.75;
+  margin-bottom: 1rem;
+}
+
+.prose-horror ul,
+.prose-horror ol {
+  color: var(--color-horror-text-secondary);
+  margin-left: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.prose-horror li {
+  margin-bottom: 0.5rem;
+}
+
+.prose-horror a {
+  color: #DC2626;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.prose-horror a:hover {
+  color: #FCA5A5;
+  text-decoration: underline;
+}
+
+.prose-horror strong {
+  color: var(--color-horror-text);
+  font-weight: 600;
+}
+
+.prose-horror blockquote {
+  border-left: 3px solid var(--color-horror-red);
+  background: rgba(185, 28, 28, 0.08);
+  padding: 1rem 1.25rem;
+  border-radius: 0 0.5rem 0.5rem 0;
+  margin: 1.5rem 0;
+  font-style: italic;
+}
+
+.prose-horror img {
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-horror-border);
+  max-width: 100%;
+  height: auto;
+  margin: 1.5rem 0;
+}
+
+.prose-horror code {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.25rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.875em;
+  color: #FCA5A5;
+}
+
+.prose-horror pre {
+  background: #0c0d12;
+  border: 1px solid var(--color-horror-border);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+}
+
+.prose-horror pre code {
+  background: transparent;
+  padding: 0;
+  color: var(--color-horror-text-secondary);
+}
+
+/* Animation utilities */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out forwards;
+}
+
+/* Card hover */
+.card-hover {
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-horror-red);
+  box-shadow: 0 10px 40px rgba(185, 28, 28, 0.1);
+}
+
+/* Glass panel */
+.glass-panel {
+  background: rgba(17, 19, 24, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--color-horror-border);
+}
+
+/* Warning pulse for boss pages */
+@keyframes pulse-red {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(185, 28, 28, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 20px 4px rgba(185, 28, 28, 0.2);
+  }
+}
+
+.pulse-red {
+  animation: pulse-red 2s ease-in-out infinite;
+}
+
+/* Pagefind search UI overrides */
+.pagefind-ui {
+  --pagefind-ui-primary: #B91C1C !important;
+  --pagefind-ui-text: #F5F5F5 !important;
+  --pagefind-ui-background: #111318 !important;
+  --pagefind-ui-border: #27272A !important;
+  --pagefind-ui-border-width: 1px !important;
+}
+
+.pagefind-ui__search-input {
+  background: #111318 !important;
+  border: 1px solid #27272A !important;
+  border-radius: 0.75rem !important;
+  color: #F5F5F5 !important;
+}
+
+.pagefind-ui__search-clear {
+  color: #A1A1AA !important;
+}
+
+.pagefind-ui__result-link {
+  color: #DC2626 !important;
+}
+
+.pagefind-ui__result-excerpt {
+  color: #A1A1AA !important;
+}

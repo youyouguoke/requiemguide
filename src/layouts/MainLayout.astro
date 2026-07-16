@@ -1,0 +1,123 @@
+---
+import SEO from '../components/SEO.astro';
+import Header from '../components/Header.astro';
+import { SITE } from '../lib/config';
+import '../styles/global.css';
+import '../styles/mobile.css';
+
+export interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  canonical?: string;
+  type?: 'website' | 'article';
+  publishedTime?: Date;
+  modifiedTime?: Date;
+  keywords?: string[];
+  noindex?: boolean;
+  currentPath?: string;
+  showBreadcrumb?: boolean;
+  extraSchema?: Record<string, any>[];
+}
+
+const {
+  title,
+  description,
+  image,
+  canonical,
+  type = 'website',
+  publishedTime,
+  modifiedTime,
+  keywords,
+  noindex,
+  currentPath = Astro.url.pathname,
+  extraSchema,
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <SEO
+      title={title}
+      description={description}
+      image={image}
+      canonical={canonical}
+      type={type}
+      publishedTime={publishedTime}
+      modifiedTime={modifiedTime}
+      keywords={keywords}
+      noindex={noindex}
+      extraSchema={extraSchema}
+    />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9X76Q8VJ4Q"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-9X76Q8VJ4Q');
+    </script>
+    <!-- Plausible Analytics -->
+    <script defer data-domain="requiemguide.com" src="https://plausible.shipsolo.io/js/script.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  </head>
+
+  <body class="bg-horror-bg min-h-screen">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-horror-red focus:text-white focus:rounded-lg focus:font-semibold">
+      Skip to main content
+    </a>
+    
+    <Header currentPath={currentPath} />
+
+    <main id="main-content" role="main" class="min-h-[calc(100vh-4rem)]">
+      <slot />
+    </main>
+
+    <footer class="border-t border-horror-border bg-horror-surface">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div class="md:col-span-2">
+            <span class="text-xl font-bold tracking-tight text-horror-text">
+              REQUIEM<span class="text-horror-red">GUIDE</span>
+            </span>
+            <p class="mt-4 text-sm text-horror-text-secondary max-w-md">
+              {SITE.description}
+            </p>
+          </div>
+
+          <div>
+            <h4 class="text-sm font-bold text-horror-text uppercase tracking-wider mb-4">Guides</h4>
+            <ul class="space-y-2 text-sm">
+              <li><a href="/walkthrough" class="text-horror-text-secondary hover:text-horror-red transition-colors">Walkthrough</a></li>
+              <li><a href="/puzzles" class="text-horror-text-secondary hover:text-horror-red transition-colors">Puzzles</a></li>
+              <li><a href="/bosses" class="text-horror-text-secondary hover:text-horror-red transition-colors">Bosses</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="text-sm font-bold text-horror-text uppercase tracking-wider mb-4">Database</h4>
+            <ul class="space-y-2 text-sm">
+              <li><a href="/weapons" class="text-horror-text-secondary hover:text-horror-red transition-colors">Weapons</a></li>
+              <li><a href="/characters" class="text-horror-text-secondary hover:text-horror-red transition-colors">Characters</a></li>
+              <li><a href="/story/endings" class="text-horror-text-secondary hover:text-horror-red transition-colors">Endings</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="mt-12 pt-8 border-t border-horror-border flex flex-col sm:flex-row justify-between items-center gap-4">
+          <p class="text-sm text-horror-text-muted">
+            © {new Date().getFullYear()} Requiem Guide. Not affiliated with Capcom.
+          </p>
+          <div class="flex items-center gap-4 text-sm">
+            <a href="/privacy" class="text-horror-text-muted hover:text-horror-red transition-colors">Privacy</a>
+            <a href="/about" class="text-horror-text-muted hover:text-horror-red transition-colors">About</a>
+            <a href="mailto:hello@requiemguide.com" class="text-horror-text-muted hover:text-horror-red transition-colors">Contact</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,118 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import MainLayout from '../../layouts/MainLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import GuideCard from '../../components/GuideCard.astro';
+
+export async function getStaticPaths() {
+  const puzzles = await getCollection('puzzle');
+  const typeLabels: Record<string, string> = {
+    'safe-code': 'Safe Codes',
+    'door-lock': 'Door Locks',
+    'symbol': 'Symbol Puzzles',
+    'logic': 'Logic Puzzles',
+    'combination': 'Combination Puzzles',
+    'key-item': 'Key Item Puzzles',
+    'mechanism': 'Mechanisms',
+  };
+  const categories = Object.keys(typeLabels);
+  return categories.map((category) => ({
+    params: { category },
+    props: { category, puzzles: puzzles.filter((p) => p.data.puzzleType === category) },
+  }));
+}
+
+interface Props {
+  category: string;
+  puzzles: CollectionEntry<'puzzle'>[];
+}
+
+const { category, puzzles } = Astro.props;
+
+const typeLabels: Record<string, string> = {
+  'safe-code': 'Safe Codes',
+  'door-lock': 'Door Locks',
+  'symbol': 'Symbol Puzzles',
+  'logic': 'Logic Puzzles',
+  'combination': 'Combination Puzzles',
+  'key-item': 'Key Item Puzzles',
+  'mechanism': 'Mechanisms',
+};
+
+const typeDescriptions: Record<string, string> = {
+  'safe-code': 'All safe code and combination lock solutions in Resident Evil Requiem. Find the code, the location, and the reward for every safe.',
+  'door-lock': 'All door lock and key code solutions in Resident Evil Requiem. Learn which keys, wristbands, or codes are needed to open each door.',
+  'symbol': 'All symbol sequence puzzles in Resident Evil Requiem, including the Quartz Box puzzles in Chapter 3.',
+  'logic': 'All logic puzzles in Resident Evil Requiem, including the Blood Analyzer puzzles in the underground lab.',
+  'combination': 'All combination puzzles in Resident Evil Requiem that require a specific sequence of actions or items.',
+  'key-item': 'All key-item puzzles in Resident Evil Requiem that require a specific object to progress.',
+  'mechanism': 'All mechanism and final-door puzzles in Resident Evil Requiem, including the Central Hall Quartz mechanism.',
+};
+
+const label = typeLabels[category] || category;
+const title = `Resident Evil Requiem ${label} - Complete Solutions`;
+const description = typeDescriptions[category] || `Complete ${label.toLowerCase()} solutions for Resident Evil Requiem.`;
+
+const breadcrumbItems = [
+  { label: 'Puzzles', href: '/puzzles' },
+  { label: label, href: `/puzzles/${category}` },
+];
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://requiemguide.com' },
+    { '@type': 'ListItem', position: 2, name: 'Puzzle Solutions', item: 'https://requiemguide.com/puzzles' },
+    { '@type': 'ListItem', position: 3, name: label, item: `https://requiemguide.com/puzzles/${category}` },
+  ],
+};
+
+const keywords = [
+  `resident evil requiem ${label.toLowerCase()}`,
+  `resident evil requiem ${category.replace(/-/g, ' ')} solution`,
+  `resident evil requiem puzzle solution`,
+];
+---
+
+<MainLayout
+  title={title}
+  description={description}
+  keywords={keywords}
+  currentPath={`/puzzles/${category}`}
+  extraSchema={[breadcrumbSchema]}
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <Breadcrumb items={breadcrumbItems} />
+
+    <header class="mb-12">
+      <span class="text-horror-red font-semibold tracking-widest uppercase text-sm mb-4">Puzzle Category</span>
+      <h1 class="text-4xl sm:text-5xl font-extrabold text-horror-text mb-4">Resident Evil Requiem {label}</h1>
+      <p class="text-xl text-horror-text-secondary max-w-2xl">{description}</p>
+    </header>
+
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-horror-text mb-6">{puzzles.length} {label} Solution{puzzles.length === 1 ? '' : 's'}</h2>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {puzzles.map((puzzle) => (
+          <GuideCard
+            href={`/puzzles/${puzzle.slug}`}
+            title={`${puzzle.data.title} Solution`}
+            category={puzzle.data.difficulty || 'Puzzle'}
+            description={puzzle.data.description || `Solution for ${puzzle.data.title}`}
+            image={puzzle.data.image || '/images/requiem_survival_guide_library_puzzle_solution_038.jpg'}
+          >
+            <div slot="footer" class="mt-3 pt-3 border-t border-horror-border text-xs text-horror-text-muted truncate">
+              {puzzle.data.location} · {puzzle.data.reward ? `Reward: ${puzzle.data.reward}` : ''}
+            </div>
+          </GuideCard>
+        ))}
+      </div>
+    </section>
+
+    <div class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+      <a href="/puzzles" class="text-horror-red font-semibold hover:underline">← All Puzzle Solutions</a>
+    </div>
+  </div>
+</MainLayout>

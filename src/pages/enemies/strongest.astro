@@ -1,0 +1,83 @@
+---
+import { getCollection } from 'astro:content';
+import MainLayout from '../../layouts/MainLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { Icon } from 'astro-icon/components';
+
+const enemies = await getCollection('enemy');
+const sorted = [...enemies].sort((a, b) => {
+  const order = { low: 1, medium: 2, high: 3, extreme: 4 };
+  return (order[b.data.threat || 'low'] || 0) - (order[a.data.threat || 'low'] || 0);
+});
+
+const title = 'Strongest Enemies in Resident Evil Requiem - Most Dangerous Creatures';
+const description = 'The strongest enemies in Resident Evil Requiem: threat levels, weaknesses, locations, and strategies to survive the most dangerous encounters.';
+
+const keywords = [
+  'strongest enemy resident evil requiem',
+  'most dangerous enemies resident evil requiem',
+  'resident evil requiem strongest creatures',
+  'resident evil requiem high threat enemies',
+];
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://requiemguide.com' },
+    { '@type': 'ListItem', position: 2, name: 'Enemies', item: 'https://requiemguide.com/enemies' },
+    { '@type': 'ListItem', position: 3, name: 'Strongest Enemies', item: 'https://requiemguide.com/enemies/strongest' },
+  ],
+};
+---
+
+<MainLayout
+  title={title}
+  description={description}
+  keywords={keywords}
+  currentPath="/enemies/strongest"
+  extraSchema={[breadcrumbSchema]}
+>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <Breadcrumb
+      items={[
+        { label: 'Enemies', href: '/enemies' },
+        { label: 'Strongest Enemies', href: '/enemies/strongest' },
+      ]}
+    />
+
+    <header class="mb-12">
+      <span class="text-horror-red font-semibold tracking-widest uppercase text-sm mb-4">Top Threats</span>
+      <h1 class="text-4xl sm:text-5xl font-extrabold text-horror-text mb-4">Strongest Enemies in Resident Evil Requiem</h1>
+      <p class="text-xl text-horror-text-secondary max-w-3xl">{description}</p>
+    </header>
+
+    <section class="mb-12">
+      <div class="space-y-4">
+        {sorted.map((enemy) => (
+          <a href={`/enemies/${enemy.slug}`} class="group flex items-center gap-4 p-4 rounded-xl border border-horror-border bg-horror-surface hover:border-horror-red/50 transition-all">
+            <img
+              src={enemy.data.image}
+              alt={`Resident Evil Requiem ${enemy.data.title} enemy threat ${enemy.data.threat}`}
+              class="w-16 h-16 object-cover rounded-lg bg-horror-bg"
+            />
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-1">
+                <div class="text-xl font-bold text-horror-text group-hover:text-horror-red transition-colors">{enemy.data.title}</div>
+                <div class="text-xs font-semibold px-2 py-0.5 rounded-full bg-horror-red/10 text-horror-red capitalize">
+                  {enemy.data.threat} Threat
+                </div>
+              </div>
+              <div class="text-sm text-horror-text-secondary">{enemy.data.weakness} · {enemy.data.location}</div>
+            </div>
+            <Icon name="lucide:chevron-right" class="w-5 h-5 text-horror-text-muted" />
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <div class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+      <a href="/enemies" class="text-horror-red font-semibold hover:underline">← All Enemies Database</a>
+    </div>
+  </div>
+</MainLayout>

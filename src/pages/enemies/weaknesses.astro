@@ -1,0 +1,95 @@
+---
+import { getCollection } from 'astro:content';
+import MainLayout from '../../layouts/MainLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+
+const enemies = await getCollection('enemy');
+
+const title = 'Resident Evil Requiem Enemy Weakness Database - All Weaknesses';
+const description = 'Quick reference for every Resident Evil Requiem enemy weakness, threat level, and counter. Find the best way to defeat each enemy.';
+
+const keywords = [
+  'resident evil requiem enemy weaknesses',
+  'resident evil requiem enemy weakness chart',
+  'resident evil requiem enemy counters',
+  'how to beat resident evil requiem enemies',
+];
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://requiemguide.com' },
+    { '@type': 'ListItem', position: 2, name: 'Enemies', item: 'https://requiemguide.com/enemies' },
+    { '@type': 'ListItem', position: 3, name: 'Enemy Weakness Database', item: 'https://requiemguide.com/enemies/weaknesses' },
+  ],
+};
+
+const itemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Resident Evil Requiem Enemy Weakness Database',
+  itemListElement: enemies.map((enemy, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: `${enemy.data.title} weakness`,
+    url: `https://requiemguide.com/enemies/${enemy.slug}`,
+  })),
+};
+---
+
+<MainLayout
+  title={title}
+  description={description}
+  keywords={keywords}
+  currentPath="/enemies/weaknesses"
+  extraSchema={[breadcrumbSchema, itemListSchema]}
+>
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <Breadcrumb
+      items={[
+        { label: 'Enemies', href: '/enemies' },
+        { label: 'Enemy Weakness Database', href: '/enemies/weaknesses' },
+      ]}
+    />
+
+    <header class="mb-12">
+      <span class="text-horror-red font-semibold tracking-widest uppercase text-sm mb-4">Weakness Database</span>
+      <h1 class="text-4xl sm:text-5xl font-extrabold text-horror-text mb-4">Resident Evil Requiem Enemy Weakness Database</h1>
+      <p class="text-xl text-horror-text-secondary max-w-3xl">{description}</p>
+    </header>
+
+    <section class="mb-12">
+      <div class="overflow-x-auto rounded-xl border border-horror-border">
+        <table class="w-full text-left text-sm">
+          <thead class="bg-horror-surface text-horror-text-muted uppercase text-xs font-semibold">
+            <tr>
+              <th class="px-4 py-3">Enemy</th>
+              <th class="px-4 py-3">Threat</th>
+              <th class="px-4 py-3">Weakness</th>
+              <th class="px-4 py-3">Counter</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-horror-border">
+            {enemies.map((enemy) => (
+              <tr class="hover:bg-horror-surface/50 transition-colors">
+                <td class="px-4 py-3">
+                  <a href={`/enemies/${enemy.slug}`} class="font-semibold text-horror-text hover:text-horror-red transition-colors">
+                    {enemy.data.title}
+                  </a>
+                </td>
+                <td class="px-4 py-3 text-horror-text-secondary capitalize">{enemy.data.threat}</td>
+                <td class="px-4 py-3 text-horror-text-secondary">{enemy.data.weakness}</td>
+                <td class="px-4 py-3 text-horror-text-secondary">{enemy.data.tactics}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+      <a href="/enemies" class="text-horror-red font-semibold hover:underline">← All Enemies Database</a>
+    </div>
+  </div>
+</MainLayout>

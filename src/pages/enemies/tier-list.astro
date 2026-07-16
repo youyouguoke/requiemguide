@@ -1,0 +1,111 @@
+---
+import { getCollection } from 'astro:content';
+import MainLayout from '../../layouts/MainLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { Icon } from 'astro-icon/components';
+
+const enemies = await getCollection('enemy');
+
+const tiers = [
+  { name: 'S-Tier', color: 'text-yellow-400', bg: 'bg-yellow-400/10', border: 'border-yellow-400/30', desc: 'Enemies that can end a run if mishandled.' },
+  { name: 'A-Tier', color: 'text-horror-red', bg: 'bg-horror-red/10', border: 'border-horror-red/30', desc: 'High threat enemies that require attention.' },
+  { name: 'B-Tier', color: 'text-horror-text', bg: 'bg-horror-surface', border: 'border-horror-border', desc: 'Moderate threats that are manageable with caution.' },
+  { name: 'C-Tier', color: 'text-horror-text-muted', bg: 'bg-horror-surface/50', border: 'border-horror-border', desc: 'Low threat enemies that can usually be avoided.' },
+];
+
+const tierMap: Record<string, string> = {
+  'Blister Borne Minion': 'S-Tier',
+  'Howler': 'A-Tier',
+  'Crawler': 'B-Tier',
+  'Shambler': 'C-Tier',
+};
+
+const grouped = tiers.map((tier) => ({
+  ...tier,
+  enemies: enemies.filter((e) => tierMap[e.data.title] === tier.name),
+}));
+
+const title = 'Resident Evil Requiem Enemies Tier List - Most Dangerous Ranked';
+const description = 'Resident Evil Requiem enemies tier list: all common, mutated, and mini-boss enemies ranked by threat level and danger.';
+
+const keywords = [
+  'resident evil requiem enemies tier list',
+  'resident evil requiem enemy ranking',
+  'strongest enemy tier list resident evil requiem',
+  'resident evil requiem threat ranking',
+];
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://requiemguide.com' },
+    { '@type': 'ListItem', position: 2, name: 'Enemies', item: 'https://requiemguide.com/enemies' },
+    { '@type': 'ListItem', position: 3, name: 'Enemies Tier List', item: 'https://requiemguide.com/enemies/tier-list' },
+  ],
+};
+---
+
+<MainLayout
+  title={title}
+  description={description}
+  keywords={keywords}
+  currentPath="/enemies/tier-list"
+  extraSchema={[breadcrumbSchema]}
+>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <Breadcrumb
+      items={[
+        { label: 'Enemies', href: '/enemies' },
+        { label: 'Enemies Tier List', href: '/enemies/tier-list' },
+      ]}
+    />
+
+    <header class="mb-12">
+      <span class="text-horror-red font-semibold tracking-widest uppercase text-sm mb-4">Tier List</span>
+      <h1 class="text-4xl sm:text-5xl font-extrabold text-horror-text mb-4">Resident Evil Requiem Enemies Tier List</h1>
+      <p class="text-xl text-horror-text-secondary max-w-3xl">{description}</p>
+    </header>
+
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-horror-text mb-4">Ranking Methodology</h2>
+      <p class="text-horror-text-secondary leading-relaxed">
+        Enemies are ranked by threat level, speed, ability to call reinforcements, and how much resources they force you to spend. S-Tier enemies can end a run if ignored; C-Tier enemies can usually be avoided or killed with minimal ammo.
+      </p>
+    </section>
+
+    <section class="mb-12">
+      <div class="space-y-8">
+        {grouped.map((tier) => (
+          <div class={`rounded-xl border ${tier.border} ${tier.bg} p-5 sm:p-6`}>
+            <div class="flex items-center gap-3 mb-4">
+              <div class={`text-2xl font-black ${tier.color}`}>{tier.name}</div>
+              <p class="text-sm text-horror-text-secondary">{tier.desc}</p>
+            </div>
+
+            <div class="space-y-3">
+              {tier.enemies.map((enemy) => (
+                <a href={`/enemies/${enemy.slug}`} class="flex items-center gap-4 p-3 rounded-lg border border-horror-border bg-horror-bg hover:border-horror-red/50 transition-all">
+                  <img
+                    src={enemy.data.image}
+                    alt={`Resident Evil Requiem ${enemy.data.title} enemy tier`}
+                    class="w-12 h-12 object-cover rounded bg-horror-surface"
+                  />
+                  <div class="flex-1">
+                    <div class="font-bold text-horror-text">{enemy.data.title}</div>
+                    <div class="text-sm text-horror-text-secondary">{enemy.data.weakness} · {enemy.data.location}</div>
+                  </div>
+                  <div class="text-sm font-semibold text-horror-text-muted capitalize">{enemy.data.threat}</div>
+                </a>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <div class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+      <a href="/enemies" class="text-horror-red font-semibold hover:underline">← All Enemies Database</a>
+    </div>
+  </div>
+</MainLayout>

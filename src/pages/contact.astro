@@ -1,0 +1,101 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import { Icon } from 'astro-icon/components';
+
+const title = 'Contact Us';
+const description = 'Contact Requiem Guide for questions, feedback, or inquiries about our Resident Evil Requiem guides.';
+const email = 'hello@requiemguide.com';
+---
+
+<MainLayout
+  title={title}
+  description={description}
+  currentPath="/contact"
+>
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+    <Breadcrumb items={[{ label: 'Contact', href: '/contact' }]} />
+
+    <article class="prose-horror max-w-none">
+      <header class="relative mb-8 sm:mb-10 text-center sm:text-left rounded-2xl overflow-hidden border border-horror-border">
+        <div class="relative h-48 sm:h-56 md:h-64">
+          <img
+            src="/images/requiem_survival_guide_homepage_023.jpg"
+            alt="Gothic mansion atmospheric background"
+            loading="eager"
+            fetchpriority="high"
+            class="w-full h-full object-cover"
+          />
+          <div class="absolute inset-0 bg-gradient-to-r from-horror-bg via-horror-bg/80 to-transparent"></div>
+        </div>
+        <div class="relative z-10 p-5 sm:p-6 md:p-8 -mt-16 sm:-mt-20">
+          <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-horror-red/10 text-horror-red mb-4">
+            <Icon name="lucide:mail" class="w-8 h-8" />
+          </div>
+          <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-horror-text mb-4">
+            Contact Us
+          </h1>
+          <p class="text-lg sm:text-xl text-horror-text-secondary">
+            Have feedback, corrections, or questions? Reach out and we’ll get back to you as soon as possible.
+          </p>
+        </div>
+      </header>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-8 sm:mb-10">
+        <a
+          href={`mailto:${email}`}
+          class="group flex items-center gap-4 p-5 rounded-xl border border-horror-border bg-horror-surface hover:border-horror-red/50 hover:bg-horror-surface-hover transition-all"
+        >
+          <div class="p-3 rounded-xl bg-horror-red/10 text-horror-red">
+            <Icon name="lucide:mail" class="w-6 h-6" />
+          </div>
+          <div class="min-w-0">
+            <p class="text-sm text-horror-text-muted">Email</p>
+            <p class="text-horror-text font-semibold group-hover:text-horror-red transition-colors truncate">{email}</p>
+          </div>
+        </a>
+
+        <a
+          href="/search"
+          class="group flex items-center gap-4 p-5 rounded-xl border border-horror-border bg-horror-surface hover:border-horror-red/50 hover:bg-horror-surface-hover transition-all"
+        >
+          <div class="p-3 rounded-xl bg-horror-red/10 text-horror-red">
+            <Icon name="lucide:search" class="w-6 h-6" />
+          </div>
+          <div class="min-w-0">
+            <p class="text-sm text-horror-text-muted">Search Guides</p>
+            <p class="text-horror-text font-semibold group-hover:text-horror-red transition-colors truncate">Find answers fast</p>
+          </div>
+        </a>
+      </div>
+
+      <div class="bg-horror-surface border border-horror-border rounded-xl p-5 sm:p-6">
+        <h2 class="text-xl font-bold text-horror-text mb-4">Common Topics</h2>
+        <ul class="space-y-3">
+          <li class="flex items-start gap-3 text-horror-text-secondary">
+            <span class="w-1.5 h-1.5 rounded-full bg-horror-red mt-2 flex-shrink-0"></span>
+            <span>Walkthrough corrections or missing content</span>
+          </li>
+          <li class="flex items-start gap-3 text-horror-text-secondary">
+            <span class="w-1.5 h-1.5 rounded-full bg-horror-red mt-2 flex-shrink-0"></span>
+            <span>Puzzle or boss strategy questions</span>
+          </li>
+          <li class="flex items-start gap-3 text-horror-text-secondary">
+            <span class="w-1.5 h-1.5 rounded-full bg-horror-red mt-2 flex-shrink-0"></span>
+            <span>Bug reports or website feedback</span>
+          </li>
+          <li class="flex items-start gap-3 text-horror-text-secondary">
+            <span class="w-1.5 h-1.5 rounded-full bg-horror-red mt-2 flex-shrink-0"></span>
+            <span>Business or partnership inquiries</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="mt-8 sm:mt-10 text-center sm:text-left">
+        <p class="text-horror-text-secondary">
+          Response time is typically 24–48 hours. For urgent game help, use the search above to find specific guides.
+        </p>
+      </div>
+    </article>
+  </div>
+</MainLayout>

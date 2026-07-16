@@ -1,0 +1,93 @@
+{
+  "requiem_survival_guide_homepage": {
+    "hero": "requiem_survival_guide_homepage_024.jpg",
+    "logo": "requiem_survival_guide_homepage_023.jpg",
+    "featured_sewers": "requiem_survival_guide_homepage_025.jpg",
+    "featured_puzzle": "requiem_survival_guide_homepage_026.jpg",
+    "featured_boss": "requiem_survival_guide_homepage_027.jpg",
+    "database_weapons": "requiem_survival_guide_homepage_028.jpg",
+    "database_items": "requiem_survival_guide_homepage_029.jpg",
+    "database_characters": "requiem_survival_guide_homepage_030.jpg",
+    "database_locations": "requiem_survival_guide_homepage_031.jpg"
+  },
+  "requiem_survival_guide_the_executioner_boss_strategy": {
+    "hero": "requiem_survival_guide_the_executioner_boss_strategy_049.jpg",
+    "attack_1": "requiem_survival_guide_the_executioner_boss_strategy_050.jpg",
+    "attack_2": "requiem_survival_guide_the_executioner_boss_strategy_051.jpg",
+    "attack_3": "requiem_survival_guide_the_executioner_boss_strategy_052.jpg"
+  },
+  "requiem_survival_guide_grace_ashcroft_profile": {
+    "hero": "requiem_survival_guide_grace_ashcroft_profile_017.jpg",
+    "related_story": "requiem_survival_guide_grace_ashcroft_profile_018.jpg",
+    "related_ending": "requiem_survival_guide_grace_ashcroft_profile_019.jpg",
+    "profile_img": "requiem_survival_guide_grace_ashcroft_profile_016.jpg"
+  },
+  "requiem_survival_guide_chapter_3_walkthrough": {
+    "step_1": "requiem_survival_guide_chapter_3_walkthrough_006.jpg",
+    "step_2": "requiem_survival_guide_chapter_3_walkthrough_007.jpg",
+    "step_3": "requiem_survival_guide_chapter_3_walkthrough_008.jpg",
+    "step_4": "requiem_survival_guide_chapter_3_walkthrough_009.jpg"
+  },
+  "requiem_survival_guide_library_puzzle_solution": {
+    "step_1": "requiem_survival_guide_library_puzzle_solution_038.jpg",
+    "step_2": "requiem_survival_guide_library_puzzle_solution_039.jpg",
+    "step_3": "requiem_survival_guide_library_puzzle_solution_040.jpg",
+    "step_4": "requiem_survival_guide_library_puzzle_solution_041.jpg"
+  },
+  "requiem_survival_guide_weapons_database": {
+    "weapon_1": "requiem_survival_guide_weapons_database_058.jpg",
+    "weapon_2": "requiem_survival_guide_weapons_database_059.jpg",
+    "weapon_3": "requiem_survival_guide_weapons_database_060.jpg",
+    "weapon_4": "requiem_survival_guide_weapons_database_061.jpg"
+  },
+  "requiem_survival_guide_item_database": {
+    "item_1": "requiem_survival_guide_item_database_032.jpg",
+    "item_2": "requiem_survival_guide_item_database_033.jpg",
+    "item_3": "requiem_survival_guide_item_database_034.jpg",
+    "item_4": "requiem_survival_guide_item_database_035.jpg",
+    "item_5": "requiem_survival_guide_item_database_036.jpg",
+    "item_6": "requiem_survival_guide_item_database_037.jpg"
+  },
+  "requiem_survival_guide_walkthrough_hub": {
+    "hero": "requiem_survival_guide_walkthrough_hub_053.jpg",
+    "card_1": "requiem_survival_guide_walkthrough_hub_054.jpg",
+    "card_2": "requiem_survival_guide_walkthrough_hub_055.jpg",
+    "card_3": "requiem_survival_guide_walkthrough_hub_056.jpg",
+    "card_4": "requiem_survival_guide_walkthrough_hub_057.jpg"
+  },
+  "requiem_survival_guide_guides_hub_mobile": {
+    "hero": "requiem_survival_guide_guides_hub_mobile_020.jpg",
+    "card_1": "requiem_survival_guide_guides_hub_mobile_021.jpg",
+    "card_2": "requiem_survival_guide_guides_hub_mobile_022.jpg"
+  },
+  "requiem_survival_guide_mobile_home": {
+    "hero": "requiem_survival_guide_mobile_home_042.jpg",
+    "card_1": "requiem_survival_guide_mobile_home_044.jpg",
+    "card_2": "requiem_survival_guide_mobile_home_045.jpg"
+  },
+  "requiem_survival_guide_search_results_safe_code": {
+    "result_1": "requiem_survival_guide_search_results_safe_code_046.jpg",
+    "result_2": "requiem_survival_guide_search_results_safe_code_047.jpg",
+    "result_3": "requiem_survival_guide_search_results_safe_code_048.jpg"
+  },
+  "requiem_survival_guide_chapter_3_mobile": {
+    "img_1": "requiem_survival_guide_chapter_3_mobile_001.jpg",
+    "img_2": "requiem_survival_guide_chapter_3_mobile_002.jpg",
+    "img_3": "requiem_survival_guide_chapter_3_mobile_003.jpg",
+    "img_4": "requiem_survival_guide_chapter_3_mobile_004.jpg",
+    "img_5": "requiem_survival_guide_chapter_3_mobile_005.jpg"
+  },
+  "requiem_survival_guide_ending_explained": {
+    "hero": "requiem_survival_guide_ending_explained_010.jpg",
+    "ending_1": "requiem_survival_guide_ending_explained_011.jpg",
+    "ending_2": "requiem_survival_guide_ending_explained_012.jpg",
+    "ending_3": "requiem_survival_guide_ending_explained_013.jpg",
+    "ending_4": "requiem_survival_guide_ending_explained_014.jpg",
+    "ending_5": "requiem_survival_guide_ending_explained_015.jpg"
+  },
+  "requiem_survival_guide_weapons_mobile": {
+    "weapon_1": "requiem_survival_guide_weapons_mobile_062.jpg",
+    "weapon_2": "requiem_survival_guide_weapons_mobile_063.jpg",
+    "weapon_3": "requiem_survival_guide_weapons_mobile_064.jpg"
+  }
+}

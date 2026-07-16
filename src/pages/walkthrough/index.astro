@@ -1,0 +1,166 @@
+---
+import { getCollection } from 'astro:content';
+import MainLayout from '../../layouts/MainLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import GuideCard from '../../components/GuideCard.astro';
+
+const title = 'Resident Evil Requiem Walkthrough - Complete Chapter Guide';
+const description = 'Complete Resident Evil Requiem walkthrough for all chapters. Step-by-step chapter guides with objectives, puzzle solutions, item locations, bosses, collectibles and survival tips.';
+
+const chapters = await getCollection('guide', (entry) => entry.data.category === 'walkthrough');
+chapters.sort((a, b) => (a.data.chapter ?? 0) - (b.data.chapter ?? 0));
+
+const allItems = await getCollection('item');
+const allPuzzles = await getCollection('puzzle');
+const allBosses = await getCollection('boss');
+
+const totalItems = chapters.reduce((sum, c) => sum + (c.data.importantItems || 0), 0);
+const totalPuzzles = chapters.reduce((sum, c) => sum + (c.data.puzzles?.length || 0), 0);
+const totalBosses = chapters.filter((c) => c.data.boss).length;
+
+const keywords = [
+  'resident evil requiem walkthrough',
+  'resident evil requiem complete guide',
+  'resident evil requiem chapter guide',
+  'resident evil requiem all chapters',
+  'resident evil requiem objectives',
+  'resident evil requiem puzzle solutions',
+  'resident evil requiem item locations',
+  'resident evil requiem boss fights',
+];
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://requiemguide.com' },
+    { '@type': 'ListItem', position: 2, name: 'Walkthrough', item: 'https://requiemguide.com/walkthrough' },
+  ],
+};
+---
+
+<MainLayout
+  title={title}
+  description={description}
+  keywords={keywords}
+  currentPath="/walkthrough"
+  extraSchema={[breadcrumbSchema]}
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <Breadcrumb items={[{ label: 'Walkthrough', href: '/walkthrough' }]} />
+
+    <header class="relative mb-12 rounded-2xl overflow-hidden border border-horror-border">
+      <div class="relative h-40 sm:h-48 md:h-64">
+        <img
+          src="/images/requiem_survival_guide_chapter_3_walkthrough_006.jpg"
+          alt="Resident Evil Requiem complete walkthrough hub covering all chapters"
+          width="1200"
+          height="675"
+          loading="eager"
+          fetchpriority="high"
+          class="w-full h-full object-cover"
+        />
+        <div class="absolute inset-0 bg-gradient-to-r from-horror-bg via-horror-bg/80 to-transparent"></div>
+      </div>
+      <div class="p-5 sm:p-6 md:p-8">
+        <p class="text-horror-red font-semibold tracking-widest uppercase text-xs sm:text-sm mb-3">Complete Story Guide</p>
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-horror-text mb-3">Resident Evil Requiem Walkthrough</h1>
+        <p class="text-lg sm:text-xl text-horror-text-secondary max-w-2xl">{description}</p>
+      </div>
+    </header>
+
+    <section class="mb-10">
+      <h2 class="text-2xl font-bold text-horror-text mb-4">Walkthrough Overview</h2>
+      <p class="text-horror-text-secondary leading-relaxed mb-6">
+        This Resident Evil Requiem walkthrough covers every story chapter from the opening moments in Rhodes Hill to the final choice in the Elpis containment chamber. Each chapter guide includes a step-by-step route, puzzle solutions, important item locations, enemy tips and boss strategies so you can progress without getting lost or missing collectibles.
+      </p>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+        <div class="p-4 rounded-xl border border-horror-border bg-horror-surface/50">
+          <div class="text-xs text-horror-text-muted uppercase font-semibold mb-1">Chapters</div>
+          <div class="text-2xl font-bold text-horror-text">{chapters.length}</div>
+        </div>
+        <div class="p-4 rounded-xl border border-horror-border bg-horror-surface/50">
+          <div class="text-xs text-horror-text-muted uppercase font-semibold mb-1">Important Items</div>
+          <div class="text-2xl font-bold text-horror-text">{totalItems}</div>
+        </div>
+        <div class="p-4 rounded-xl border border-horror-border bg-horror-surface/50">
+          <div class="text-xs text-horror-text-muted uppercase font-semibold mb-1">Puzzles</div>
+          <div class="text-2xl font-bold text-horror-text">{totalPuzzles}</div>
+        </div>
+        <div class="p-4 rounded-xl border border-horror-border bg-horror-surface/50">
+          <div class="text-xs text-horror-text-muted uppercase font-semibold mb-1">Bosses</div>
+          <div class="text-2xl font-bold text-horror-text">{totalBosses}</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-horror-text mb-6">All Chapter Guides</h2>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+        {chapters.map((chapter) => {
+          const chapterBoss = chapter.data.boss ? allBosses.find((b) => b.slug === chapter.data.boss) : null;
+          const chapterItemCount = chapter.data.importantItems || chapter.data.items?.length || 0;
+          const chapterPuzzleCount = chapter.data.puzzles?.length || 0;
+          const chapterTitle = chapter.data.title.replace(/^Chapter \d+:\s*/, '');
+          const meta = [
+            chapter.data.difficulty,
+            chapter.data.length,
+            chapterItemCount > 0 ? `${chapterItemCount} items` : null,
+            chapterPuzzleCount > 0 ? `${chapterPuzzleCount} puzzles` : null,
+            chapterBoss ? chapterBoss.data.title : null,
+          ].filter(Boolean).join(' · ');
+
+          return (
+            <GuideCard
+              href={`/walkthrough/${chapter.slug}`}
+              title={chapterTitle}
+              category={`Chapter ${chapter.data.chapter}`}
+              description={chapter.data.description || `Complete ${chapterTitle}`}
+              image={chapter.data.image || '/images/requiem_survival_guide_walkthrough_hub_053.jpg'}
+            >
+              <div slot="footer" class="mt-3 pt-3 border-t border-horror-border text-xs text-horror-text-muted">
+                {meta}
+              </div>
+            </GuideCard>
+          );
+        })}
+      </div>
+    </section>
+
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-horror-text mb-4">What Each Chapter Guide Includes</h2>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="p-4 rounded-xl border border-horror-border bg-horror-surface/50">
+          <h3 class="font-bold text-horror-text mb-1">Step-by-Step Objectives</h3>
+          <p class="text-sm text-horror-text-secondary">Clear story route with every main objective and hidden collectible marked.</p>
+        </div>
+        <div class="p-4 rounded-xl border border-horror-border bg-horror-surface/50">
+          <h3 class="font-bold text-horror-text mb-1">Puzzle Solutions</h3>
+          <p class="text-sm text-horror-text-secondary">Detailed inputs for every safe, box, quartz, and analyzer puzzle in the game.</p>
+        </div>
+        <div class="p-4 rounded-xl border border-horror-border bg-horror-surface/50">
+          <h3 class="font-bold text-horror-text mb-1">Item Locations</h3>
+          <p class="text-sm text-horror-text-secondary">Find keys, weapons, herbs, ammo and upgrades exactly where they spawn.</p>
+        </div>
+        <div class="p-4 rounded-xl border border-horror-border bg-horror-surface/50">
+          <h3 class="font-bold text-horror-text mb-1">Boss Strategies</h3>
+          <p class="text-sm text-horror-text-secondary">Weaknesses, recommended weapons, and safe patterns for every boss encounter.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+      <h2 class="text-2xl font-bold text-horror-text mb-4">Related Guides</h2>
+      <div class="flex flex-wrap gap-3">
+        <a href="/puzzles" class="px-4 py-2 rounded-lg bg-horror-bg border border-horror-border text-sm text-horror-text hover:border-horror-red transition-colors">All Puzzle Solutions</a>
+        <a href="/bosses" class="px-4 py-2 rounded-lg bg-horror-bg border border-horror-border text-sm text-horror-text hover:border-horror-red transition-colors">All Boss Guides</a>
+        <a href="/items" class="px-4 py-2 rounded-lg bg-horror-bg border border-horror-border text-sm text-horror-text hover:border-horror-red transition-colors">All Items</a>
+        <a href="/enemies" class="px-4 py-2 rounded-lg bg-horror-bg border border-horror-border text-sm text-horror-text hover:border-horror-red transition-colors">All Enemies</a>
+        <a href="/story" class="px-4 py-2 rounded-lg bg-horror-bg border border-horror-border text-sm text-horror-text hover:border-horror-red transition-colors">Story Summary</a>
+      </div>
+    </section>
+  </div>
+</MainLayout>

@@ -1,0 +1,30 @@
+---
+import { Icon } from 'astro-icon/components';
+
+export interface Props {
+  items: { label: string; href: string }[];
+}
+
+const { items } = Astro.props;
+---
+
+<nav aria-label="Breadcrumb" class="py-4 overflow-x-auto">
+  <ol class="flex items-center gap-2 text-sm text-horror-text-muted min-w-0 whitespace-nowrap">
+    <li class="flex items-center gap-2">
+      <a href="/" class="hover:text-horror-text transition-colors">Home</a>
+      <Icon name="lucide:chevron-right" class="w-4 h-4 flex-shrink-0" />
+    </li>
+    {items.map((item, index) => (
+      <li class="flex items-center gap-2">
+        {index === items.length - 1 ? (
+          <span class="text-horror-text truncate max-w-[200px] sm:max-w-xs">{item.label}</span>
+        ) : (
+          <>
+            <a href={item.href} class="hover:text-horror-text transition-colors truncate max-w-[120px] sm:max-w-[200px]">{item.label}</a>
+            <Icon name="lucide:chevron-right" class="w-4 h-4 flex-shrink-0" />
+          </>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>

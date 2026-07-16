@@ -1,0 +1,128 @@
+/* Pagefind search UI responsive tweaks */
+.pagefind-ui .pagefind-ui__search-input {
+  min-height: 48px;
+  padding: 0.75rem 1rem;
+  font-size: 16px; /* Prevent iOS zoom on focus */
+}
+
+.pagefind-ui .pagefind-ui__result {
+  padding: 1rem 0;
+}
+
+.pagefind-ui .pagefind-ui__result-title {
+  font-size: 1.125rem;
+  line-height: 1.4;
+}
+
+.pagefind-ui .pagefind-ui__result-excerpt {
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.pagefind-ui .pagefind-ui__result-link {
+  word-break: break-word;
+}
+
+/* Mobile touch targets */
+.pagefind-ui .pagefind-ui__button,
+.pagefind-ui .pagefind-ui__search-clear {
+  min-height: 40px;
+  min-width: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ensure images don't break layout on narrow screens */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Prose content table overflow for mobile */
+.prose-horror table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.prose-horror th,
+.prose-horror td {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-horror-border);
+  white-space: nowrap;
+}
+
+.prose-horror th {
+  background: rgba(185, 28, 28, 0.1);
+  color: var(--color-horror-text);
+  font-weight: 600;
+  text-align: left;
+}
+
+/* Reduce large headings on very small screens */
+@media (max-width: 640px) {
+  .prose-horror h2 {
+    font-size: 1.25rem;
+    margin-top: 2rem;
+  }
+  
+  .prose-horror h3 {
+    font-size: 1.125rem;
+    margin-top: 1.5rem;
+  }
+  
+  .prose-horror p {
+    line-height: 1.7;
+  }
+}
+
+/* Smooth scrolling with offset for fixed header */
+html {
+  scroll-padding-top: 5rem;
+}
+
+/* Safe area for notched devices */
+body {
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+/* Touch-friendly cards on mobile */
+@media (max-width: 640px) {
+  .card-hover:hover {
+    transform: translateY(-2px);
+  }
+}
+
+/* Prevent horizontal overflow on the whole page */
+html, body {
+  overflow-x: hidden;
+}
+
+/* Better tap highlight on mobile */
+a, button {
+  -webkit-tap-highlight-color: rgba(185, 28, 28, 0.2);
+}
+
+/* Ensure form inputs are touch-friendly */
+input, button {
+  min-height: 44px;
+}
+
+/* Mobile menu animation */
+#mobile-menu:not(.hidden) {
+  animation: slide-down 0.2s ease-out;
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

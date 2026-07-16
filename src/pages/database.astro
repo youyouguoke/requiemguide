@@ -1,0 +1,158 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import { Icon } from 'astro-icon/components';
+
+const title = 'Resident Evil Requiem Database Hub | Characters, Weapons, Items, Enemies, Bosses & Story';
+const description = 'Explore the complete Resident Evil Requiem database hub. Browse characters, weapons, items, enemies, bosses, puzzles, and story lore with structured guides, schemas, and FAQ answers.';
+const keywords = [
+  'resident evil requiem database',
+  'resident evil requiem wiki',
+  'resident evil requiem characters database',
+  'resident evil requiem weapons database',
+  'resident evil requiem items database',
+  'resident evil requiem enemies database',
+  'resident evil requiem bosses',
+  'resident evil requiem lore',
+];
+
+const databases = [
+  {
+    title: 'Characters Database',
+    description: 'Grace, Leon, Emily, Elena and all roles, relationships, and timelines.',
+    href: '/characters',
+    icon: 'lucide:users',
+  },
+  {
+    title: 'Weapons Database',
+    description: 'All weapons, stats, ammo, locations, upgrades, and best weapon tier lists.',
+    href: '/weapons',
+    icon: 'lucide:target',
+  },
+  {
+    title: 'Items Database',
+    description: 'Key items, healing items, resources, collectibles, and locations.',
+    href: '/items',
+    icon: 'lucide:package',
+  },
+  {
+    title: 'Enemies Database',
+    description: 'Common enemies, mini-bosses, weaknesses, and strategies.',
+    href: '/enemies',
+    icon: 'lucide:skull',
+  },
+  {
+    title: 'Boss Guides',
+    description: 'Every boss, weaknesses, best weapons, and ranking.',
+    href: '/bosses',
+    icon: 'lucide:shield',
+  },
+  {
+    title: 'Puzzle Guides',
+    description: 'Moon Quartz, Braille notes, and all puzzle solutions.',
+    href: '/puzzles',
+    icon: 'lucide:puzzle',
+  },
+  {
+    title: 'Story & Lore',
+    description: 'Story explained, timeline, endings, and lore wiki.',
+    href: '/story',
+    icon: 'lucide:book-open',
+  },
+  {
+    title: 'Walkthrough',
+    description: 'Chapter-by-chapter guide through the entire game.',
+    href: '/walkthrough',
+    icon: 'lucide:map',
+  },
+];
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://requiemguide.com' },
+    { '@type': 'ListItem', position: 2, name: 'Database', item: 'https://requiemguide.com/database' },
+  ],
+};
+
+const itemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Resident Evil Requiem Database Hub',
+  numberOfItems: databases.length,
+  itemListElement: databases.map((db, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: db.title,
+    url: `https://requiemguide.com${db.href}`,
+  })),
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'What is the Resident Evil Requiem database?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'The Resident Evil Requiem database is a structured collection of guides covering characters, weapons, items, enemies, bosses, puzzles, story, and walkthrough content.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Who are the main characters in Resident Evil Requiem?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'The main characters are Grace Ashcroft, Leon S. Kennedy, Emily, and Elena / Elpis.',
+      },
+    },
+  ],
+};
+---
+
+<MainLayout
+  title={title}
+  description={description}
+  keywords={keywords}
+  currentPath="/database"
+  extraSchema={[breadcrumbSchema, itemListSchema, faqSchema]}
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <Breadcrumb items={[{ label: 'Database', href: '/database' }]} />
+
+    <header class="mb-12">
+      <p class="text-horror-red font-semibold tracking-widest uppercase text-sm mb-4">Database Hub</p>
+      <h1 class="text-4xl sm:text-5xl font-extrabold text-horror-text mb-4">Resident Evil Requiem Database Hub</h1>
+      <p class="text-xl text-horror-text-secondary max-w-2xl">
+        Browse the complete Resident Evil Requiem knowledge graph. Characters, weapons, items, enemies, bosses, puzzles, story, and walkthroughs — all in one place.
+      </p>
+    </header>
+
+    <section class="mb-12">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {databases.map((db) => (
+          <a
+            href={db.href}
+            class="group p-5 rounded-xl border border-horror-border bg-horror-surface/50 hover:bg-horror-surface hover:border-horror-red/50 transition-all"
+          >
+            <div class="flex items-center gap-3 mb-3">
+              <Icon name={db.icon} class="w-6 h-6 text-horror-red" />
+              <div class="font-bold text-horror-text group-hover:text-horror-red transition-colors">{db.title}</div>
+            </div>
+            <p class="text-sm text-horror-text-secondary">{db.description}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+      <h2 class="text-2xl font-bold text-horror-text mb-4">About the Database</h2>
+      <p class="text-horror-text-secondary leading-relaxed">
+        This database hub connects every Resident Evil Requiem guide on the site. Each section is structured for both players and AI search engines, with clear entity relationships, timelines, and FAQ schemas. Use the cards above to navigate directly to the topic you need.
+      </p>
+    </section>
+  </div>
+</MainLayout>

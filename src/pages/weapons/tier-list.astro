@@ -1,0 +1,112 @@
+---
+import { getCollection } from 'astro:content';
+import MainLayout from '../../layouts/MainLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { Icon } from 'astro-icon/components';
+
+const weapons = await getCollection('weapon');
+
+const tiers = [
+  { name: 'S-Tier', color: 'text-yellow-400', bg: 'bg-yellow-400/10', border: 'border-yellow-400/30', desc: 'Top-tier weapons that dominate their category.' },
+  { name: 'A-Tier', color: 'text-horror-green', bg: 'bg-horror-green/10', border: 'border-horror-green/30', desc: 'Excellent weapons with strong stats and clear use cases.' },
+  { name: 'B-Tier', color: 'text-horror-text', bg: 'bg-horror-surface', border: 'border-horror-border', desc: 'Solid options that are useful but situational.' },
+  { name: 'C-Tier', color: 'text-horror-text-muted', bg: 'bg-horror-surface/50', border: 'border-horror-border', desc: 'Outclassed or very situational weapons.' },
+];
+
+const tierMap: Record<string, string> = {
+  'Requiem': 'S-Tier',
+  'S&S M232': 'S-Tier',
+  'MSBG 500': 'A-Tier',
+  'Kotetsu': 'A-Tier',
+  'B934': 'C-Tier',
+};
+
+const grouped = tiers.map((tier) => ({
+  ...tier,
+  weapons: weapons.filter((w) => tierMap[w.data.title] === tier.name),
+}));
+
+const title = 'Resident Evil Requiem Weapon Tier List - Best to Worst Ranked';
+const description = 'Resident Evil Requiem weapon tier list: all handguns, shotguns, rifles, and melee weapons ranked from S-Tier to C-Tier with reasons.';
+
+const keywords = [
+  'resident evil requiem weapon tier list',
+  'resident evil requiem weapon ranking',
+  'best weapons tier list resident evil requiem',
+  'resident evil requiem s tier weapons',
+];
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://requiemguide.com' },
+    { '@type': 'ListItem', position: 2, name: 'Weapons', item: 'https://requiemguide.com/weapons' },
+    { '@type': 'ListItem', position: 3, name: 'Weapon Tier List', item: 'https://requiemguide.com/weapons/tier-list' },
+  ],
+};
+---
+
+<MainLayout
+  title={title}
+  description={description}
+  keywords={keywords}
+  currentPath="/weapons/tier-list"
+  extraSchema={[breadcrumbSchema]}
+>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <Breadcrumb
+      items={[
+        { label: 'Weapons', href: '/weapons' },
+        { label: 'Weapon Tier List', href: '/weapons/tier-list' },
+      ]}
+    />
+
+    <header class="mb-12">
+      <span class="text-horror-red font-semibold tracking-widest uppercase text-sm mb-4">Tier List</span>
+      <h1 class="text-4xl sm:text-5xl font-extrabold text-horror-text mb-4">Resident Evil Requiem Weapon Tier List</h1>
+      <p class="text-xl text-horror-text-secondary max-w-3xl">{description}</p>
+    </header>
+
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-horror-text mb-4">Ranking Methodology</h2>
+      <p class="text-horror-text-secondary leading-relaxed">
+        Weapons are ranked based on damage output, ammo efficiency, availability, upgrade potential, and usefulness across standard and Hardcore difficulties. S-Tier weapons are must-picks, while C-Tier weapons are quickly replaced.
+      </p>
+    </section>
+
+    <section class="mb-12">
+      <div class="space-y-8">
+        {grouped.map((tier) => (
+          <div class={`rounded-xl border ${tier.border} ${tier.bg} p-5 sm:p-6`}>
+            <div class="flex items-center gap-3 mb-4">
+              <div class={`text-2xl font-black ${tier.color}`}>{tier.name}</div>
+              <p class="text-sm text-horror-text-secondary">{tier.desc}</p>
+            </div>
+
+            <div class="space-y-3">
+              {tier.weapons.map((weapon) => (
+                <a href={`/weapons/${weapon.slug}`} class="flex items-center gap-4 p-3 rounded-lg border border-horror-border bg-horror-bg hover:border-horror-red/50 transition-all">
+                  <img
+                    src={weapon.data.image}
+                    alt={`Resident Evil Requiem ${weapon.data.title} ${weapon.data.type} weapon tier`}
+                    class="w-12 h-12 object-contain rounded bg-horror-surface"
+                  />
+                  <div class="flex-1">
+                    <div class="font-bold text-horror-text">{weapon.data.title}</div>
+                    <div class="text-sm text-horror-text-secondary">{weapon.data.type} · {weapon.data.bestForLong}</div>
+                  </div>
+                  <div class="text-sm font-semibold text-horror-text-muted">{weapon.data.damage}</div>
+                </a>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <div class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+      <a href="/weapons" class="text-horror-red font-semibold hover:underline">← All Weapons Database</a>
+    </div>
+  </div>
+</MainLayout>

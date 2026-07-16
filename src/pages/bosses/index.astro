@@ -1,0 +1,208 @@
+---
+import { getCollection } from 'astro:content';
+import MainLayout from '../../layouts/MainLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import GuideCard from '../../components/GuideCard.astro';
+import FAQSection from '../../components/FAQSection.astro';
+
+const title = 'Resident Evil Requiem Boss Guide: Weaknesses, Strategies & Rewards';
+const description = 'Complete Resident Evil Requiem boss guide covering every boss weakness, attack pattern, best weapons, strategies, and tips to defeat all boss fights.';
+
+const bosses = await getCollection('boss');
+const sortedBosses = bosses.sort((a, b) => {
+  const order = { Easy: 1, Medium: 2, 'Medium-Hard': 3, Hard: 4, Extreme: 5 };
+  return (order[a.data.difficulty] || 0) - (order[b.data.difficulty] || 0);
+});
+
+const totalBosses = bosses.length;
+const hardBosses = bosses.filter((b) => ['Hard', 'Medium-Hard', 'Extreme'].includes(b.data.difficulty || '')).length;
+const totalWeapons = [...new Set(bosses.map((b) => b.data.recommendedWeapon).filter(Boolean))].length;
+const totalLocations = new Set(bosses.map((b) => b.data.location)).size;
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://requiemguide.com' },
+    { '@type': 'ListItem', position: 2, name: 'Bosses', item: 'https://requiemguide.com/bosses' },
+  ],
+};
+
+const itemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Resident Evil Requiem Boss List',
+  itemListElement: sortedBosses.map((boss, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: `${boss.data.title} Boss Guide`,
+    url: `https://requiemguide.com/bosses/${boss.slug}`,
+  })),
+};
+
+const faqs = [
+  {
+    question: 'How many bosses are in Resident Evil Requiem?',
+    answer: `Resident Evil Requiem features ${totalBosses} major boss encounters: Shadow Ghost, Blister Borne, Chunk, Titan Spinner, and Emily Transformed. Each boss requires a different strategy, weapon choice, and weakness exploit.`,
+  },
+  {
+    question: 'What is the hardest boss in Resident Evil Requiem?',
+    answer: 'Titan Spinner and Emily Transformed are considered the hardest bosses due to their multiple phases, high health, and powerful area attacks. Hardcore mode makes these fights even more demanding.',
+  },
+  {
+    question: 'Are there secret bosses in Resident Evil Requiem?',
+    answer: 'Some bosses only appear under certain story conditions. Emily Transformed, for example, only occurs if Emily is harmed or left behind in earlier chapters.',
+  },
+  {
+    question: 'What weapons should I use against bosses?',
+    answer: 'Shotguns are ideal for Chunk and Blister Borne, high-penetration rifles like the Requiem work best against Titan Spinner and Emily, and the flashlight is essential for the Shadow Ghost encounter.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+  })),
+};
+
+const keywords = [
+  'resident evil requiem bosses',
+  'resident evil requiem boss guide',
+  'resident evil requiem boss list',
+  'resident evil requiem boss weakness',
+  'how to beat resident evil requiem bosses',
+  'resident evil requiem all bosses',
+  'resident evil requiem boss fight',
+  'resident evil requiem boss rewards',
+];
+---
+
+<MainLayout
+  title={title}
+  description={description}
+  keywords={keywords}
+  currentPath="/bosses"
+  extraSchema={[breadcrumbSchema, itemListSchema, faqSchema]}
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <Breadcrumb items={[{ label: 'Bosses', href: '/bosses' }]} />
+
+    <!-- Hero Header -->
+    <header class="relative mb-12 rounded-2xl overflow-hidden border border-horror-border">
+      <div class="relative h-48 sm:h-64">
+        <img
+          src="/images/requiem_survival_guide_the_executioner_boss_strategy_049.jpg"
+          alt="Resident Evil Requiem boss guide: weaknesses, strategies, and rewards for every boss fight"
+          width="512"
+          height="286"
+          loading="eager"
+          fetchpriority="high"
+          class="w-full h-full object-cover"
+        />
+        <div class="absolute inset-0 bg-gradient-to-r from-horror-bg via-horror-bg/80 to-transparent"></div>
+      </div>
+      <div class="p-6 sm:p-8">
+        <p class="text-horror-red font-semibold tracking-widest uppercase text-sm mb-4">Boss Database</p>
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-horror-text mb-4">Resident Evil Requiem Boss Guide</h1>
+        <p class="text-xl text-horror-text-secondary max-w-2xl">{description}</p>
+      </div>
+    </header>
+
+    <!-- Stats -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-12">
+      <div class="p-4 rounded-xl border border-horror-border bg-horror-surface/50">
+        <div class="text-xs text-horror-text-muted uppercase font-semibold mb-1">Total Bosses</div>
+        <div class="text-2xl font-bold text-horror-text">{totalBosses}</div>
+      </div>
+      <div class="p-4 rounded-xl border border-horror-border bg-horror-surface/50">
+        <div class="text-xs text-horror-text-muted uppercase font-semibold mb-1">Hard Bosses</div>
+        <div class="text-2xl font-bold text-horror-text">{hardBosses}</div>
+      </div>
+      <div class="p-4 rounded-xl border border-horror-border bg-horror-surface/50">
+        <div class="text-xs text-horror-text-muted uppercase font-semibold mb-1">Weapons Covered</div>
+        <div class="text-2xl font-bold text-horror-text">{totalWeapons}</div>
+      </div>
+      <div class="p-4 rounded-xl border border-horror-border bg-horror-surface/50">
+        <div class="text-xs text-horror-text-muted uppercase font-semibold mb-1">Locations</div>
+        <div class="text-2xl font-bold text-horror-text">{totalLocations}</div>
+      </div>
+    </div>
+
+    <!-- Intro -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-horror-text mb-4">Resident Evil Requiem Boss List</h2>
+      
+      <p class="text-horror-text-secondary leading-relaxed mb-4">
+        Resident Evil Requiem features several challenging boss encounters that test your ammo management, positioning, and knowledge of each enemy's weakness. This complete boss guide covers every major boss fight in the game, including Shadow Ghost, Blister Borne, Chunk, Titan Spinner, and Emily Transformed.
+      </p>
+      
+      <p class="text-horror-text-secondary leading-relaxed mb-4">
+        On each boss page you will find the exact location, HP level, weakness, recommended weapon, attack patterns, and a step-by-step strategy to defeat them without wasting resources. We also include Hardcore mode tips and the rewards you receive for winning each fight.
+      </p>
+      
+      <p class="text-horror-text-secondary leading-relaxed">
+        Use the database below to find the boss you are stuck on, or browse by category for weakness charts, weapon recommendations, and ranking lists. If you need help with a specific chapter, our walkthrough guides also link to the relevant boss strategies.
+      </p>
+    </section>
+
+    <!-- Database -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-horror-text mb-6">All Boss Guides</h2>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {sortedBosses.map((boss) => (
+          <GuideCard
+            href={`/bosses/${boss.slug}`}
+            title={`${boss.data.title} Boss Guide`}
+            category={boss.data.difficulty || 'Boss'}
+            description={boss.data.description || `How to beat ${boss.data.title} in Resident Evil Requiem`}
+            image={boss.data.image || '/images/requiem_survival_guide_the_executioner_boss_strategy_049.jpg'}
+            variant="boss"
+          >
+            <div slot="footer" class="mt-3 pt-3 border-t border-horror-border text-xs text-horror-text-muted truncate">
+              {boss.data.location} · {boss.data.weakness ? `Weakness: ${boss.data.weakness}` : ''}
+            </div>
+          </GuideCard>
+        ))}
+      </div>
+    </section>
+
+    <!-- Programmatic SEO links -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-horror-text mb-4">Boss Resources</h2>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <a href="/bosses/weaknesses" class="group p-5 rounded-xl border border-horror-border bg-horror-surface/50 hover:bg-horror-surface hover:border-horror-red/50 transition-all">
+          <div class="font-bold text-horror-text group-hover:text-horror-red transition-colors mb-1">Boss Weakness Database</div>
+          <p class="text-xs text-horror-text-secondary">Full weakness chart for every boss in Resident Evil Requiem.</p>
+        </a>
+        <a href="/bosses/best-weapons" class="group p-5 rounded-xl border border-horror-border bg-horror-surface/50 hover:bg-horror-surface hover:border-horror-red/50 transition-all">
+          <div class="font-bold text-horror-text group-hover:text-horror-red transition-colors mb-1">Best Weapons Against Bosses</div>
+          <p class="text-xs text-horror-text-secondary">Recommended guns, ammo, and strategies for each boss fight.</p>
+        </a>
+        <a href="/bosses/ranking" class="group p-5 rounded-xl border border-horror-border bg-horror-surface/50 hover:bg-horror-surface hover:border-horror-red/50 transition-all">
+          <div class="font-bold text-horror-text group-hover:text-horror-red transition-colors mb-1">Boss Difficulty Ranking</div>
+          <p class="text-xs text-horror-text-secondary">Hardest bosses ranked from easiest to most challenging.</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <FAQSection faqs={faqs} />
+
+    <!-- E-E-A-T About -->
+    <section class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+      <h2 class="text-2xl font-bold text-horror-text mb-4">About This Boss Guide</h2>
+      <p class="text-horror-text-secondary leading-relaxed mb-4">
+        This guide is written by the Requiem Guide team, a group of survival horror fans who play through Resident Evil Requiem on multiple difficulties to capture accurate boss mechanics, attack patterns, and loadout recommendations. Our goal is to give players practical, tested strategies for every boss fight without wasting ammo or healing items.
+      </p>
+      <p class="text-horror-text-secondary leading-relaxed">
+        Every boss page is updated as new strategies are discovered. If you find a faster or safer method, check our walkthrough and weapons guides for the full picture.
+      </p>
+    </section>
+  </div>
+</MainLayout>

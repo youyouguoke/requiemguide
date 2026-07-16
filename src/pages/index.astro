@@ -1,17 +1,419 @@
 ---
+import { getCollection } from 'astro:content';
+import MainLayout from '../layouts/MainLayout.astro';
+import HubCard from '../components/HubCard.astro';
+import GuideCard from '../components/GuideCard.astro';
+import { SITE } from '../lib/config';
 
+const title = SITE.title;
+const description = 'Complete Resident Evil Requiem survival guide with chapter walkthroughs, puzzle solutions, boss strategies, weapon locations, character guides, endings and secrets.';
+
+const guides = await getCollection('guide');
+const latestWalkthrough = guides
+  .filter((g) => g.data.category === 'walkthrough')
+  .sort((a, b) => (b.data.chapter || 0) - (a.data.chapter || 0))[0];
+
+const puzzles = await getCollection('puzzle');
+const featuredPuzzle = puzzles[0];
+
+const bosses = await getCollection('boss');
+const featuredBoss = bosses[0];
+
+const keywords = [
+  'resident evil requiem walkthrough',
+  'resident evil requiem guide',
+  'resident evil requiem puzzle solutions',
+  'resident evil requiem boss guide',
+  'resident evil requiem weapons',
+  'resident evil requiem characters',
+  'resident evil requiem endings',
+  'resident evil requiem enemies',
+  'resident evil requiem items',
+];
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<MainLayout
+  title={title}
+  description={description}
+  keywords={keywords}
+  currentPath="/"
+>
+  <!-- Hero -->
+  <section class="relative overflow-hidden border-b border-horror-border min-h-[80vh] flex items-center">
+    <div class="absolute inset-0 z-0">
+      <img
+        src="/images/requiem_survival_guide_homepage_024.jpg"
+        alt="Resident Evil Requiem atmospheric gothic mansion"
+        width="512"
+        height="286"
+        loading="eager"
+        fetchpriority="high"
+        class="w-full h-full object-cover opacity-60"
+      />
+      <div class="absolute inset-0 bg-gradient-to-t from-horror-bg via-horror-bg/70 to-transparent"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-horror-bg/90 via-horror-bg/50 to-transparent"></div>
+    </div>
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24 lg:py-32 w-full">
+      <div class="max-w-3xl">
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-horror-text leading-[1.1] mb-6">
+          Resident Evil Requiem
+          <br />
+          <span class="text-horror-red">Survival Guide</span>
+        </h1>
+        <p class="text-lg sm:text-xl lg:text-2xl text-horror-text-secondary mb-4 max-w-2xl">
+          Complete walkthroughs, puzzle solutions, boss strategies, weapon locations, character guides, endings and secrets for the ultimate Resident Evil experience.
+        </p>
+        <p class="text-base sm:text-lg text-horror-text-muted mb-10 max-w-2xl">
+          Built as a game database, not a blog. Find chapter-by-chapter guides, puzzle answers, enemy and item data, and story analysis all in one place.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
+          <a href="/walkthrough" class="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3.5 sm:py-4 bg-horror-red text-white font-bold rounded-xl hover:bg-horror-red-light transition-colors shadow-lg shadow-horror-red/20 text-base">
+            Start Walkthrough
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+          <a href="/search" class="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3.5 sm:py-4 border border-horror-border bg-horror-surface/80 text-horror-text font-semibold rounded-xl hover:bg-horror-surface-hover transition-colors text-base">
+            Search Guides
+          </a>
+        </div>
+
+        <div class="mt-8 sm:mt-10 flex flex-wrap items-center gap-4 sm:gap-6 text-sm text-horror-text-muted">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-horror-green"></span>
+            Updated July 2026
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-horror-blue"></span>
+            AI-powered summaries
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-horror-red"></span>
+            Spoiler-free sections
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hubs -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+    <div class="mb-8 sm:mb-10">
+      <h2 class="text-2xl sm:text-3xl font-bold text-horror-text mb-4">Browse the Complete Resident Evil Requiem Database</h2>
+      <p class="text-horror-text-secondary max-w-3xl text-lg mb-4">
+        This is your central hub for everything about Resident Evil Requiem. Instead of chasing a single high-competition keyword, we built a structured survival guide covering every system, chapter, enemy, item, and secret in the game. Use the sections below to navigate straight to the walkthrough, puzzle solutions, boss strategies, or database entries you need.
+      </p>
+      <p class="text-horror-text-secondary max-w-3xl">
+        New players can start with the walkthrough and progress in order, while returning players can jump directly to puzzle solutions, boss tactics, or item locations. Every hub page links deeper into specific guides, so you spend less time searching and more time surviving.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+      <HubCard
+        href="/walkthrough"
+        title="Walkthrough"
+        description="Step-by-step chapter guides with every objective and item."
+        icon="lucide:book-open"
+        image="/images/requiem_survival_guide_homepage_028.jpg"
+      />
+      <HubCard
+        href="/puzzles"
+        title="Puzzles"
+        description="Safe codes, door locks, and every puzzle solution."
+        icon="lucide:puzzle"
+        image="/images/requiem_survival_guide_homepage_029.jpg"
+      />
+      <HubCard
+        href="/bosses"
+        title="Bosses"
+        description="Weaknesses, patterns, and strategies for every boss."
+        icon="lucide:skull"
+        image="/images/requiem_survival_guide_homepage_030.jpg"
+      />
+      <HubCard
+        href="/weapons"
+        title="Weapons"
+        description="Stats, locations, upgrades, and best-use cases."
+        icon="lucide:crosshair"
+        image="/images/requiem_survival_guide_homepage_031.jpg"
+      />
+      <HubCard
+        href="/enemies"
+        title="Enemies"
+        description="Threat profiles, weaknesses, and combat tactics."
+        icon="lucide:bug"
+        image="/images/enemy_shambler.jpg"
+      />
+      <HubCard
+        href="/items"
+        title="Items"
+        description="Key items, herbs, ammo, and collectibles."
+        icon="lucide:box"
+        image="/images/item_east-wing-key.jpg"
+      />
+      <HubCard
+        href="/characters"
+        title="Characters"
+        description="Profiles, roles, and story connections."
+        icon="lucide:users"
+        image="/images/requiem_survival_guide_grace_ashcroft_profile_017.jpg"
+      />
+      <HubCard
+        href="/story/endings"
+        title="Story & Endings"
+        description="Ending explanations and story analysis."
+        icon="lucide:film"
+        image="/images/requiem_survival_guide_ending_explained_010.jpg"
+      />
+    </div>
+  </section>
+
+  <!-- Resident Evil Requiem Walkthrough -->
+  <section class="border-y border-horror-border bg-horror-surface">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+      <h2 class="text-2xl sm:text-3xl font-bold text-horror-text mb-6">Resident Evil Requiem Walkthrough</h2>
+      <p class="text-horror-text-secondary mb-4 max-w-3xl text-lg">
+        Our Resident Evil Requiem walkthrough provides complete chapter guides covering story objectives, important items, puzzles, enemies, and boss encounters. Follow each chapter step by step to survive every area and discover hidden secrets.
+      </p>
+      <p class="text-horror-text-secondary mb-8 max-w-3xl">
+        Whether you are stuck on a specific encounter or want a full playthrough route, the walkthrough breaks every location into manageable sections. Each chapter guide includes recommended equipment, key item locations, enemy spawn warnings, and safe-room positions so you can plan your route before entering dangerous areas.
+      </p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+        {latestWalkthrough && (
+          <GuideCard
+            href={`/walkthrough/${latestWalkthrough.slug}`}
+            title={latestWalkthrough.data.title}
+            category="Walkthrough"
+            description={latestWalkthrough.data.description || `Chapter ${latestWalkthrough.data.chapter} walkthrough`}
+            image={latestWalkthrough.data.image || '/images/requiem_survival_guide_homepage_025.jpg'}
+          />
+        )}
+        <GuideCard
+          href="/walkthrough"
+          title="All Chapters"
+          category="Walkthrough"
+          description="View every chapter guide in chronological order."
+          image="/images/requiem_survival_guide_walkthrough_hub_053.jpg"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Resident Evil Requiem Puzzle Solutions -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+      <div>
+        <h2 class="text-2xl sm:text-3xl font-bold text-horror-text mb-6">Resident Evil Requiem Puzzle Solutions</h2>
+        <p class="text-horror-text-secondary mb-4 text-lg">
+          Find solutions for every puzzle in Resident Evil Requiem. Our puzzle database includes locations, step-by-step solutions, required items, and rewards.
+        </p>
+        <p class="text-horror-text-secondary mb-6">
+          Puzzles block progress in many areas, from locked doors and safes to environmental riddles tied to the story. Each puzzle solution page explains the logic behind the answer, shows the exact input or combination, and tells you where to find the missing pieces if you arrive unprepared. Keep this section open while exploring the mansion, hospital, and underground labs.
+        </p>
+        <ul class="space-y-3 text-horror-text-secondary mb-8">
+          <li class="flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-horror-red"></span>
+            Safe code combinations
+          </li>
+          <li class="flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-horror-red"></span>
+            Door lock patterns
+          </li>
+          <li class="flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-horror-red"></span>
+            Key item locations
+          </li>
+        </ul>
+        <a href="/puzzles" class="inline-flex items-center gap-2 text-horror-red font-semibold hover:text-horror-red-light transition-colors">
+          Browse all puzzles
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+        {featuredPuzzle && (
+          <GuideCard
+            href={`/puzzles/${featuredPuzzle.slug}`}
+            title={featuredPuzzle.data.title}
+            category="Puzzle"
+            description={featuredPuzzle.data.description || `Solution for ${featuredPuzzle.data.title}`}
+            image={featuredPuzzle.data.image || '/images/requiem_survival_guide_homepage_026.jpg'}
+          />
+        )}
+      </div>
+    </div>
+  </section>
+
+  <!-- Resident Evil Requiem Boss Guides -->
+  <section class="border-y border-horror-border bg-horror-surface">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+      <h2 class="text-2xl sm:text-3xl font-bold text-horror-text mb-6">Resident Evil Requiem Boss Guides</h2>
+      <p class="text-horror-text-secondary mb-4 max-w-3xl text-lg">
+        Learn how to defeat every boss with detailed strategies, weakness information, recommended weapons, and combat tips. From mini-bosses to the final encounter, find the tactics you need to survive.
+      </p>
+      <p class="text-horror-text-secondary mb-8 max-w-3xl">
+        Boss fights in Resident Evil Requiem demand more than raw firepower. Each guide breaks down attack patterns, tells you which weapons deal the most damage, and highlights environmental advantages you can exploit. Use the boss database to prepare your inventory before a big encounter and avoid wasting limited healing items.
+      </p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+        {featuredBoss && (
+          <GuideCard
+            href={`/bosses/${featuredBoss.slug}`}
+            title={featuredBoss.data.title}
+            category="Boss"
+            description={featuredBoss.data.description || `How to beat ${featuredBoss.data.title}`}
+            image={featuredBoss.data.image || '/images/requiem_survival_guide_homepage_027.jpg'}
+            variant="boss"
+          />
+        )}
+        <GuideCard
+          href="/bosses"
+          title="All Bosses"
+          category="Boss"
+          description="Full list of boss strategies and weaknesses."
+          image="/images/requiem_survival_guide_the_executioner_boss_strategy_049.jpg"
+          variant="boss"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Resident Evil Requiem Database -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+    <h2 class="text-2xl sm:text-3xl font-bold text-horror-text mb-6">Resident Evil Requiem Database</h2>
+    <p class="text-horror-text-secondary mb-4 max-w-3xl text-lg">
+      Explore our growing database of weapons, items, enemies, characters, and locations. Every entry is organized to help you find exactly what you need during your playthrough.
+    </p>
+    <p class="text-horror-text-secondary mb-8 max-w-3xl">
+      A traditional guide only covers the main story, but Resident Evil Requiem rewards players who understand its systems. The database lets you compare weapon stats, check enemy weaknesses, review character roles, and track key items. This structure builds a complete resource hub that grows as the community discovers more about the game.
+    </p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+      <HubCard
+        href="/weapons"
+        title="Weapons Database"
+        description="All weapons, stats, and locations."
+        icon="lucide:crosshair"
+        image="/images/requiem_survival_guide_weapons_database_058.jpg"
+      />
+      <HubCard
+        href="/characters"
+        title="Characters Database"
+        description="Profiles and story connections."
+        icon="lucide:users"
+        image="/images/requiem_survival_guide_grace_ashcroft_profile_017.jpg"
+      />
+      <HubCard
+        href="/items"
+        title="Items Database"
+        description="Key items, herbs, and collectibles."
+        icon="lucide:box"
+        image="/images/item_east-wing-key.jpg"
+      />
+      <HubCard
+        href="/enemies"
+        title="Enemies Database"
+        description="Threat profiles and weaknesses."
+        icon="lucide:bug"
+        image="/images/enemy_shambler.jpg"
+      />
+    </div>
+  </section>
+
+  <!-- Resident Evil Requiem Story & Endings -->
+  <section class="border-y border-horror-border bg-horror-surface">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-bold text-horror-text mb-6">Resident Evil Requiem Story & Ending Explained</h2>
+          <p class="text-horror-text-secondary mb-4 text-lg">
+            Uncover the story behind Resident Evil Requiem, including all endings, character arcs, and hidden lore. Whether you want a full story breakdown or just the ending conditions, this section has you covered.
+          </p>
+          <p class="text-horror-text-secondary mb-6">
+            Multiple endings are tied to your choices, collectibles, and late-game actions. The story guide explains which decisions matter, how to unlock the true ending, and how the lore connects to the wider Resident Evil universe. Check back after finishing the game to make sure you did not miss any hidden story content.
+          </p>
+          <a href="/story/endings" class="inline-flex items-center gap-2 text-horror-red font-semibold hover:text-horror-red-light transition-colors">
+            Explore story & endings
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+        </div>
+        <div class="rounded-2xl overflow-hidden border border-horror-border">
+          <img
+            src="/images/requiem_survival_guide_ending_explained_010.jpg"
+            alt="Resident Evil Requiem story and endings"
+            width="512"
+            height="286"
+            loading="lazy"
+            class="w-full h-auto object-cover"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+    <div class="mb-8 sm:mb-10">
+      <h2 class="text-2xl sm:text-3xl font-bold text-horror-text mb-4">Resident Evil Requiem FAQ</h2>
+      <p class="text-horror-text-secondary max-w-3xl">
+        Quick answers to common questions about Resident Evil Requiem. If you need deeper information, follow the links to the full walkthrough, boss guides, or database pages.
+      </p>
+    </div>
+    
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div class="p-6 rounded-xl border border-horror-border bg-horror-surface">
+        <h3 class="text-lg font-bold text-horror-text mb-2">What is Resident Evil Requiem?</h3>
+        <p class="text-horror-text-secondary">Resident Evil Requiem is a survival horror game guide covering walkthroughs, puzzles, bosses, enemies, items, weapons, characters, and story information.</p>
+      </div>
+      <div class="p-6 rounded-xl border border-horror-border bg-horror-surface">
+        <h3 class="text-lg font-bold text-horror-text mb-2">Does Resident Evil Requiem have multiple endings?</h3>
+        <p class="text-horror-text-secondary">Yes. Resident Evil Requiem features multiple endings based on key choices, collectibles, and final boss conditions. Our endings guide explains how to unlock each one.</p>
+      </div>
+      <div class="p-6 rounded-xl border border-horror-border bg-horror-surface">
+        <h3 class="text-lg font-bold text-horror-text mb-2">Who are the main characters in Resident Evil Requiem?</h3>
+        <p class="text-horror-text-secondary">The story follows a cast of survivors tied to the outbreak. Our character database covers their roles, backstories, and relationships.</p>
+      </div>
+      <div class="p-6 rounded-xl border border-horror-border bg-horror-surface">
+        <h3 class="text-lg font-bold text-horror-text mb-2">How do I beat the bosses in Resident Evil Requiem?</h3>
+        <p class="text-horror-text-secondary">Each boss has unique weaknesses and attack patterns. Browse our boss guides for detailed strategies, recommended weapons, and combat tips.</p>
+      </div>
+      <div class="p-6 rounded-xl border border-horror-border bg-horror-surface">
+        <h3 class="text-lg font-bold text-horror-text mb-2">Where can I find all puzzle solutions?</h3>
+        <p class="text-horror-text-secondary">Our puzzle database lists every puzzle with step-by-step solutions, including safe codes, door locks, and key item requirements.</p>
+      </div>
+      <div class="p-6 rounded-xl border border-horror-border bg-horror-surface">
+        <h3 class="text-lg font-bold text-horror-text mb-2">What weapons are available in Resident Evil Requiem?</h3>
+        <p class="text-horror-text-secondary">The weapons database covers all firearms, melee weapons, and upgrades, including stats, locations, and best-use scenarios.</p>
+      </div>
+      <div class="p-6 rounded-xl border border-horror-border bg-horror-surface">
+        <h3 class="text-lg font-bold text-horror-text mb-2">How long is Resident Evil Requiem?</h3>
+        <p class="text-horror-text-secondary">A standard playthrough takes roughly 10–14 hours depending on difficulty and how thoroughly you explore. Completionists hunting every puzzle, collectible, and alternate ending can expect closer to 20–25 hours.</p>
+      </div>
+      <div class="p-6 rounded-xl border border-horror-border bg-horror-surface">
+        <h3 class="text-lg font-bold text-horror-text mb-2">What are the best weapons in Resident Evil Requiem?</h3>
+        <p class="text-horror-text-secondary">The best weapon depends on your inventory and the encounter. Shotguns excel at close range, magnums handle bosses, and rifles are ideal for distant enemies. Our weapons database ranks every option by damage, ammo efficiency, and location.</p>
+      </div>
+      <div class="p-6 rounded-xl border border-horror-border bg-horror-surface">
+        <h3 class="text-lg font-bold text-horror-text mb-2">Where do I find healing items and herbs?</h3>
+        <p class="text-horror-text-secondary">Green herbs are the most common healing source and appear near save rooms and high-traffic corridors. Red herbs boost healing when combined with green, and first aid sprays are usually hidden in optional rooms. The item database lists every herb and healing location.</p>
+      </div>
+      <div class="p-6 rounded-xl border border-horror-border bg-horror-surface">
+        <h3 class="text-lg font-bold text-horror-text mb-2">Are there difficulty settings in Resident Evil Requiem?</h3>
+        <p class="text-horror-text-secondary">Yes. Multiple difficulty options affect enemy health, item availability, and autosave behavior. Our walkthrough notes route changes and resource adjustments for each mode.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="border-y border-horror-border bg-horror-surface">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 text-center">
+      <h2 class="text-2xl sm:text-3xl font-bold text-horror-text mb-4">Found something missing?</h2>
+      <p class="text-horror-text-secondary mb-8 max-w-xl mx-auto px-2 sm:px-0">
+        Have a correction or suggestion? Send us an email and help make this guide better for everyone.
+      </p>
+      <a
+        href="mailto:hello@requiemguide.com"
+        class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-horror-red text-white font-semibold rounded-xl hover:bg-horror-red-hover transition-colors"
+      >
+        Contact Us
+      </a>
+    </div>
+  </section>
+</MainLayout>

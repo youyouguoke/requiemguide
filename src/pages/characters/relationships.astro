@@ -1,0 +1,117 @@
+---
+import { getCollection } from 'astro:content';
+import MainLayout from '../../layouts/MainLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { Icon } from 'astro-icon/components';
+
+const characters = await getCollection('character');
+
+const title = 'Resident Evil Requiem Character Relationships - Grace, Leon, Emily, Elena';
+const description = 'Learn how the characters in Resident Evil Requiem are connected. Explore the relationships between Grace Ashcroft, Leon S. Kennedy, Emily, and Elena / Elpis.';
+
+const keywords = [
+  'resident evil requiem character relationships',
+  'Grace Ashcroft relationships',
+  'Leon Kennedy Resident Evil Requiem',
+  'Emily Resident Evil Requiem',
+  'Elena Elpis Resident Evil Requiem',
+];
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://requiemguide.com' },
+    { '@type': 'ListItem', position: 2, name: 'Characters', item: 'https://requiemguide.com/characters' },
+    { '@type': 'ListItem', position: 3, name: 'Character Relationships', item: 'https://requiemguide.com/characters/relationships' },
+  ],
+};
+
+const characterPersons = characters.map((character) => ({
+  '@type': 'Person',
+  name: character.data.title,
+  description: character.data.description,
+  url: `https://requiemguide.com/characters/${character.slug}`,
+  knows: character.data.relationships?.map((rel) => ({
+    '@type': 'Person',
+    name: rel.name,
+    ...(rel.slug ? { url: `https://requiemguide.com/characters/${rel.slug}` } : {}),
+  })) || [],
+}));
+---
+
+<MainLayout
+  title={title}
+  description={description}
+  keywords={keywords}
+  currentPath="/characters/relationships"
+  extraSchema={[breadcrumbSchema, ...characterPersons]}
+>
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <Breadcrumb
+      items={[
+        { label: 'Characters', href: '/characters' },
+        { label: 'Character Relationships', href: '/characters/relationships' },
+      ]}
+    />
+
+    <header class="mb-12">
+      <span class="text-horror-red font-semibold tracking-widest uppercase text-sm mb-4">Character Knowledge Graph</span>
+      <h1 class="text-4xl sm:text-5xl font-extrabold text-horror-text mb-4">Resident Evil Requiem Character Relationships</h1>
+      <p class="text-xl text-horror-text-secondary max-w-3xl">{description}</p>
+    </header>
+
+    <section class="mb-12">
+      <p class="text-horror-text-secondary leading-relaxed mb-6">
+        The characters in Resident Evil Requiem are bound together by the events at the Rhodes Hill Care Center. Their relationships drive the story, shape the ending, and influence which bosses the player will face. The diagram below shows how each character is connected.
+      </p>
+    </section>
+
+    <section class="mb-12">
+      <div class="space-y-8">
+        {characters.map((character) => (
+          <div class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+            <div class="flex items-center gap-4 mb-4">
+              <img
+                src={character.data.image}
+                alt={`Resident Evil Requiem ${character.data.title} character profile`}
+                class="w-14 h-14 object-cover rounded-lg bg-horror-bg"
+              />
+              <div>
+                <a href={`/characters/${character.slug}`} class="text-xl font-bold text-horror-text hover:text-horror-red transition-colors">
+                  {character.data.title}
+                </a>
+                <div class="text-sm text-horror-text-secondary">{character.data.role}</div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {character.data.relationships?.map((rel) => {
+                const relSlug = rel.slug || characters.find((c) => c.data.title === rel.name)?.slug;
+                return (
+                  <div class="flex items-start gap-3 p-3 rounded-lg border border-horror-border bg-horror-bg">
+                    <Icon name="lucide:arrow-right" class="w-4 h-4 text-horror-red mt-1 flex-shrink-0" />
+                    <div>
+                      <div class="font-semibold text-horror-text">
+                        {relSlug ? (
+                          <a href={`/characters/${relSlug}`} class="hover:text-horror-red transition-colors">{rel.name}</a>
+                        ) : (
+                          rel.name
+                        )}
+                      </div>
+                      <div class="text-sm text-horror-text-secondary">{rel.relationship}</div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <div class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+      <a href="/characters" class="text-horror-red font-semibold hover:underline">← All Characters Database</a>
+    </div>
+  </div>
+</MainLayout>

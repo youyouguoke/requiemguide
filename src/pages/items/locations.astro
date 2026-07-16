@@ -1,0 +1,90 @@
+---
+import { getCollection } from 'astro:content';
+import MainLayout from '../../layouts/MainLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { Icon } from 'astro-icon/components';
+
+const items = await getCollection('item');
+
+const locations = [...new Set(items.map((i) => i.data.location).filter(Boolean))];
+const grouped = locations.map((location) => ({
+  location,
+  items: items.filter((i) => i.data.location === location),
+}));
+
+const title = 'Resident Evil Requiem Item Locations - All Items by Area';
+const description = 'Find every item location in Resident Evil Requiem. Browse key items, healing items, and resources by chapter and area.';
+
+const keywords = [
+  'resident evil requiem item locations',
+  'resident evil requiem items by location',
+  'where to find items resident evil requiem',
+  'resident evil requiem all item locations',
+];
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://requiemguide.com' },
+    { '@type': 'ListItem', position: 2, name: 'Items', item: 'https://requiemguide.com/items' },
+    { '@type': 'ListItem', position: 3, name: 'Item Locations', item: 'https://requiemguide.com/items/locations' },
+  ],
+};
+---
+
+<MainLayout
+  title={title}
+  description={description}
+  keywords={keywords}
+  currentPath="/items/locations"
+  extraSchema={[breadcrumbSchema]}
+>
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <Breadcrumb
+      items={[
+        { label: 'Items', href: '/items' },
+        { label: 'Item Locations', href: '/items/locations' },
+      ]}
+    />
+
+    <header class="mb-12">
+      <span class="text-horror-red font-semibold tracking-widest uppercase text-sm mb-4">Item Locations</span>
+      <h1 class="text-4xl sm:text-5xl font-extrabold text-horror-text mb-4">Resident Evil Requiem Item Locations</h1>
+      <p class="text-xl text-horror-text-secondary max-w-3xl">{description}</p>
+    </header>
+
+    <section class="mb-12">
+      <div class="space-y-8">
+        {grouped.map((group) => (
+          <div class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+            <div class="flex items-center gap-2 text-horror-text font-bold text-xl mb-4">
+              <Icon name="lucide:map-pin" class="w-5 h-5 text-horror-red" />
+              {group.location}
+            </div>
+
+            <div class="space-y-3">
+              {group.items.map((item) => (
+                <a href={`/items/${item.slug}`} class="flex items-center gap-4 p-3 rounded-lg border border-horror-border bg-horror-bg hover:border-horror-red/50 transition-all">
+                  <img
+                    src={item.data.image}
+                    alt={`Resident Evil Requiem ${item.data.title} item location`}
+                    class="w-12 h-12 object-contain rounded bg-horror-surface"
+                  />
+                  <div class="flex-1">
+                    <div class="font-bold text-horror-text">{item.data.title}</div>
+                    <div class="text-sm text-horror-text-secondary">{item.data.effect}</div>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <div class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+      <a href="/items" class="text-horror-red font-semibold hover:underline">← All Items Database</a>
+    </div>
+  </div>
+</MainLayout>

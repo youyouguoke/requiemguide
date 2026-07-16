@@ -1,0 +1,57 @@
+---
+import { Icon } from 'astro-icon/components';
+
+export interface Props {
+  name: string;
+  href: string;
+  weakness?: string;
+  recommendedWeapon?: string;
+  strategy?: string[];
+}
+
+const { name, href, weakness, recommendedWeapon, strategy } = Astro.props;
+---
+
+<div class="relative rounded-xl border border-horror-red/30 bg-horror-surface p-5 sm:p-6 mb-8 overflow-hidden">
+  <div class="absolute top-0 right-0 p-3 opacity-10">
+    <Icon name="lucide:skull" class="w-24 h-24 text-horror-red" />
+  </div>
+
+  <div class="relative z-10">
+    <div class="flex items-center gap-2 text-horror-red font-bold text-xl mb-4">
+      <Icon name="lucide:sword" class="w-5 h-5" />
+      Boss Encounter
+    </div>
+
+    <h3 class="text-2xl font-bold text-horror-text mb-4">{name}</h3>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
+      {weakness && (
+        <div class="p-3 rounded-lg border border-horror-border bg-horror-bg">
+          <div class="text-xs font-semibold text-horror-text-muted uppercase">Weakness</div>
+          <div class="text-horror-red font-semibold">{weakness}</div>
+        </div>
+      )}
+      {recommendedWeapon && (
+        <div class="p-3 rounded-lg border border-horror-border bg-horror-bg">
+          <div class="text-xs font-semibold text-horror-text-muted uppercase">Recommended Weapon</div>
+          <div class="text-horror-green font-semibold">{recommendedWeapon}</div>
+        </div>
+      )}
+    </div>
+
+    {strategy && strategy.length > 0 && (
+      <ul class="space-y-2 mb-5 text-horror-text-secondary text-sm list-disc pl-4">
+        {strategy.map((s) => <li>{s}</li>)}
+      </ul>
+    )}
+
+    <a
+      href={href}
+      class="inline-flex items-center gap-2 text-sm font-semibold text-horror-red hover:text-horror-red-light transition-colors"
+    >
+      Full boss guide
+      <Icon name="lucide:arrow-right" class="w-4 h-4" />
+    </a>
+  </div>
+</div>

@@ -1,0 +1,292 @@
+---
+import { getCollection } from 'astro:content';
+import MainLayout from '../../layouts/MainLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import GuideCard from '../../components/GuideCard.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import { Icon } from 'astro-icon/components';
+
+const title = 'Resident Evil Requiem Characters Database - Profiles, Roles & Relationships';
+const description = 'Explore the complete Resident Evil Requiem characters database. Learn about Grace Ashcroft, Leon S. Kennedy, Emily, Elena and other characters including their story roles, relationships, backgrounds, and impact on the game timeline.';
+
+const characters = await getCollection('character');
+const total = characters.length;
+const mainCount = characters.filter((c) => c.data.roleType === 'main').length;
+const playableCount = characters.filter((c) => c.data.roleType === 'playable' || c.data.roleType === 'main').length;
+const antagonistCount = characters.filter((c) => c.data.roleType === 'antagonist').length;
+
+const roleTypeLabels: Record<string, string> = {
+  main: 'Main Characters',
+  playable: 'Playable Characters',
+  supporting: 'Supporting Characters',
+  antagonist: 'Antagonists',
+  boss: 'Boss Characters',
+};
+
+const roleTypeSlugs: Record<string, string> = {
+  main: 'main',
+  playable: 'playable',
+  supporting: 'supporting',
+  antagonist: 'antagonist',
+  boss: 'bosses',
+};
+
+const roleTypes = [...new Set(characters.map((c) => c.data.roleType).filter((roleType): roleType is string => Boolean(roleType)))];
+
+const faqs = [
+  {
+    question: 'Who is the main character in Resident Evil Requiem?',
+    answer: 'Grace Ashcroft is the main protagonist of Resident Evil Requiem. She awakens in the Rhodes Hill Care Center with no memory and uncovers her connection to the outbreak.',
+  },
+  {
+    question: 'Is Leon Kennedy in Resident Evil Requiem?',
+    answer: 'Yes, Leon S. Kennedy is a playable character in Resident Evil Requiem. He is a veteran DSO agent who arrives at Rhodes Hill to investigate the outbreak.',
+  },
+  {
+    question: 'Who is Emily in Resident Evil Requiem?',
+    answer: 'Emily is a young survivor Grace meets at Rhodes Hill. She is visually impaired but can read Braille, and her fate is central to the game\'s story and endings.',
+  },
+  {
+    question: 'What is the relationship between Grace and Elena?',
+    answer: 'Elena, also known as Elpis, has a mysterious connection to Grace\'s past and the origin of the Rhodes Hill outbreak. This connection is revealed in the final act.',
+  },
+  {
+    question: 'Who are the playable characters in Resident Evil Requiem?',
+    answer: 'Resident Evil Requiem features Grace Ashcroft and Leon S. Kennedy as playable characters. Grace focuses on stealth and puzzles, while Leon focuses on combat and boss fights.',
+  },
+];
+
+const keywords = [
+  'resident evil requiem characters database',
+  'resident evil requiem characters guide',
+  'Grace Ashcroft Resident Evil Requiem',
+  'Leon S. Kennedy Resident Evil Requiem',
+  'Emily Resident Evil Requiem',
+  'Elena Elpis Resident Evil Requiem',
+  'resident evil requiem character relationships',
+  'resident evil requiem playable characters',
+];
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://requiemguide.com' },
+    { '@type': 'ListItem', position: 2, name: 'Characters', item: 'https://requiemguide.com/characters' },
+  ],
+};
+
+const itemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Resident Evil Requiem Characters',
+  numberOfItems: total,
+  itemListElement: characters.map((character, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: character.data.title,
+    url: `https://requiemguide.com/characters/${character.slug}`,
+  })),
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+  })),
+};
+---
+
+<MainLayout
+  title={title}
+  description={description}
+  keywords={keywords}
+  currentPath="/characters"
+  extraSchema={[breadcrumbSchema, itemListSchema, faqSchema]}
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <Breadcrumb items={[{ label: 'Characters', href: '/characters' }]} />
+
+    <header class="relative mb-12 rounded-2xl overflow-hidden border border-horror-border">
+      <div class="relative h-48 sm:h-64">
+        <img
+          loading="eager"
+          width="512"
+          height="286"
+          src="/images/requiem_survival_guide_grace_ashcroft_profile_017.jpg"
+          alt="Resident Evil Requiem characters database featuring Grace, Leon, Emily, and Elena"
+          fetchpriority="high"
+          class="w-full h-full object-cover"
+        />
+        <div class="absolute inset-0 bg-gradient-to-r from-horror-bg via-horror-bg/80 to-transparent"></div>
+      </div>
+      <div class="p-6 sm:p-8">
+        <p class="text-horror-red font-semibold tracking-widest uppercase text-sm mb-4">Character Database</p>
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-horror-text mb-4">Resident Evil Requiem Characters Database</h1>
+        <p class="text-xl text-horror-text-secondary max-w-2xl">{description}</p>
+      </div>
+    </header>
+
+    <!-- Stats -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-12">
+      <div class="p-4 rounded-xl border border-horror-border bg-horror-surface/50">
+        <div class="text-xs text-horror-text-muted uppercase font-semibold mb-1">Total Characters</div>
+        <div class="text-2xl font-bold text-horror-text">{total}</div>
+      </div>
+      <div class="p-4 rounded-xl border border-horror-border bg-horror-surface/50">
+        <div class="text-xs text-horror-text-muted uppercase font-semibold mb-1">Main Characters</div>
+        <div class="text-2xl font-bold text-horror-text">{mainCount}</div>
+      </div>
+      <div class="p-4 rounded-xl border border-horror-border bg-horror-surface/50">
+        <div class="text-xs text-horror-text-muted uppercase font-semibold mb-1">Playable</div>
+        <div class="text-2xl font-bold text-horror-text">{playableCount}</div>
+      </div>
+      <div class="p-4 rounded-xl border border-horror-border bg-horror-surface/50">
+        <div class="text-xs text-horror-text-muted uppercase font-semibold mb-1">Antagonists</div>
+        <div class="text-2xl font-bold text-horror-text">{antagonistCount}</div>
+      </div>
+    </div>
+
+    <!-- Character Summary Box -->
+    <section class="mb-12 rounded-xl border border-horror-border bg-horror-surface p-6 sm:p-8">
+      <div class="flex items-center gap-2 text-horror-text font-bold text-xl mb-4">
+        <Icon name="lucide:users" class="w-5 h-5 text-horror-red" />
+        Resident Evil Requiem Characters Overview
+      </div>
+      
+      <p class="text-horror-text-secondary leading-relaxed mb-4">
+        Resident Evil Requiem features several key characters connected to the Rhodes Hill Care Center incident. The main characters include:
+      </p>
+      
+      <ul class="space-y-2 text-horror-text-secondary">
+        <li class="flex items-start gap-3">
+          <span class="w-2 h-2 rounded-full bg-horror-red mt-2 flex-shrink-0"></span>
+          <span><strong class="text-horror-text">Grace Ashcroft</strong> — the protagonist investigating the outbreak and her lost memories</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="w-2 h-2 rounded-full bg-horror-red mt-2 flex-shrink-0"></span>
+          <span><strong class="text-horror-text">Leon S. Kennedy</strong> — a veteran DSO agent and playable combat specialist</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="w-2 h-2 rounded-full bg-horror-red mt-2 flex-shrink-0"></span>
+          <span><strong class="text-horror-text">Emily</strong> — a young survivor whose fate shapes the game's ending</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="w-2 h-2 rounded-full bg-horror-red mt-2 flex-shrink-0"></span>
+          <span><strong class="text-horror-text">Elena / Elpis</strong> — the mysterious antagonist and catalyst of the outbreak</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Categories -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-horror-text mb-4">Character Categories</h2>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {roleTypes.map((roleType) => (
+          <a
+            href={`/characters/${roleTypeSlugs[roleType]}`}
+            class="group p-5 rounded-xl border border-horror-border bg-horror-surface/50 hover:bg-horror-surface hover:border-horror-red/50 transition-all"
+          >
+            <div class="font-bold text-horror-text group-hover:text-horror-red transition-colors mb-1">{roleTypeLabels[roleType]}</div>
+            <div class="text-sm text-horror-text-secondary">Browse all {roleTypeLabels[roleType].toLowerCase()}</div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- Overview Table -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-horror-text mb-6">Character Overview Table</h2>
+
+      <div class="overflow-x-auto rounded-xl border border-horror-border">
+        <table class="w-full text-left text-sm">
+          <thead class="bg-horror-surface text-horror-text-muted uppercase text-xs font-semibold">
+            <tr>
+              <th class="px-4 py-3">Character</th>
+              <th class="px-4 py-3">Role</th>
+              <th class="px-4 py-3">Type</th>
+              <th class="px-4 py-3">First Appearance</th>
+              <th class="px-4 py-3">Key Relationship</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-horror-border">
+            {characters.map((character) => {
+              const primaryRelationship = character.data.relationships?.[0];
+              return (
+                <tr class="hover:bg-horror-surface/50 transition-colors">
+                  <td class="px-4 py-3">
+                    <a href={`/characters/${character.slug}`} class="font-semibold text-horror-text hover:text-horror-red transition-colors">
+                      {character.data.title}
+                    </a>
+                  </td>
+                  <td class="px-4 py-3 text-horror-text-secondary">{character.data.role}</td>
+                  <td class="px-4 py-3 text-horror-text-secondary">{roleTypeLabels[character.data.roleType || '']}</td>
+                  <td class="px-4 py-3 text-horror-text-secondary">{character.data.firstAppearance}</td>
+                  <td class="px-4 py-3 text-horror-text-secondary">
+                    {primaryRelationship && `${primaryRelationship.name} — ${primaryRelationship.relationship}`}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Character Cards -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-horror-text mb-6">Character Profiles</h2>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {characters.map((character) => (
+          <GuideCard
+            href={`/characters/${character.slug}`}
+            title={character.data.title}
+            category={character.data.role || 'Character'}
+            description={character.data.description || `${character.data.role} in Resident Evil Requiem`}
+            image={character.data.image || '/images/requiem_survival_guide_grace_ashcroft_profile_017.jpg'}
+            variant="character"
+          />
+        ))}
+      </div>
+    </section>
+
+    <!-- Special Pages -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-horror-text mb-4">Character Resources</h2>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <a href="/characters/relationships" class="group p-5 rounded-xl border border-horror-border bg-horror-surface/50 hover:bg-horror-surface hover:border-horror-red/50 transition-all">
+          <div class="font-bold text-horror-text group-hover:text-horror-red transition-colors mb-1">Character Relationships</div>
+          <p class="text-xs text-horror-text-secondary">How Grace, Leon, Emily, and Elena are connected.</p>
+        </a>
+        <a href="/characters/timeline" class="group p-5 rounded-xl border border-horror-border bg-horror-surface/50 hover:bg-horror-surface hover:border-horror-red/50 transition-all">
+          <div class="font-bold text-horror-text group-hover:text-horror-red transition-colors mb-1">Character Timeline</div>
+          <p class="text-xs text-horror-text-secondary">Story timeline and key moments for each character.</p>
+        </a>
+        <a href="/story" class="group p-5 rounded-xl border border-horror-border bg-horror-surface/50 hover:bg-horror-surface hover:border-horror-red/50 transition-all">
+          <div class="font-bold text-horror-text group-hover:text-horror-red transition-colors mb-1">Story Guide</div>
+          <p class="text-xs text-horror-text-secondary">Full story summary, endings, and plot explanations.</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <FAQSection faqs={faqs} />
+
+    <!-- E-E-A-T -->
+    <section class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+      <h2 class="text-2xl font-bold text-horror-text mb-4">About This Character Database</h2>
+      <p class="text-horror-text-secondary leading-relaxed mb-4">
+        This Resident Evil Requiem characters database is built to help players, lore fans, and AI search engines understand the people at the heart of the story. We cover character profiles, roles, relationships, story arcs, and ending connections.
+      </p>
+      <p class="text-horror-text-secondary leading-relaxed">
+        For gameplay help, visit the Boss Guides, Weapons Database, and Walkthrough Guides.
+      </p>
+    </section>
+  </div>
+</MainLayout>

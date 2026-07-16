@@ -1,0 +1,34 @@
+---
+import { Icon } from 'astro-icon/components';
+
+export interface Props {
+  title: string;
+  solution: string[];
+  href: string;
+}
+
+const { title, solution, href } = Astro.props;
+---
+
+<div class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6 mb-8">
+  <div class="flex items-center gap-2 text-horror-red font-bold text-lg mb-3">
+    <Icon name="lucide:puzzle" class="w-5 h-5" />
+    {title}
+  </div>
+
+  <p class="text-sm text-horror-text-muted mb-4">Need help solving this puzzle? Follow the steps below or view the detailed solution page.</p>
+
+  <ol class="space-y-2 mb-5 text-horror-text-secondary text-sm list-decimal pl-4">
+    {solution.map((step) => (
+      <li>{step}</li>
+    ))}
+  </ol>
+
+  <a
+    href={href}
+    class="inline-flex items-center gap-2 text-sm font-semibold text-horror-red hover:text-horror-red-light transition-colors"
+  >
+    View detailed solution
+    <Icon name="lucide:arrow-right" class="w-4 h-4" />
+  </a>
+</div>

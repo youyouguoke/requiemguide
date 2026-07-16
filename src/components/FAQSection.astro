@@ -1,0 +1,20 @@
+---
+export interface Props {
+  faqs: { question: string; answer: string }[];
+}
+
+const { faqs } = Astro.props;
+---
+
+<div class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6 mb-8">
+  <h2 id="faq" class="text-2xl font-bold text-horror-text mb-6">Frequently Asked Questions</h2>
+  
+  <div class="space-y-4">
+    {faqs.map((faq, index) => (
+      <div class="p-4 rounded-lg border border-horror-border bg-horror-bg">
+        <h3 class="text-base font-bold text-horror-text mb-2">{faq.question}</h3>
+        <p class="text-sm text-horror-text-secondary leading-relaxed">{faq.answer}</p>
+      </div>
+    ))}
+  </div>
+</div>

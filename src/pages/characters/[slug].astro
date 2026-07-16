@@ -1,0 +1,490 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import MainLayout from '../../layouts/MainLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import GuideCard from '../../components/GuideCard.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import { Icon } from 'astro-icon/components';
+
+const roleTypeLabels: Record<string, string> = {
+  main: 'Main Characters',
+  playable: 'Playable Characters',
+  supporting: 'Supporting Characters',
+  antagonist: 'Antagonists',
+  boss: 'Boss Characters',
+};
+
+export async function getStaticPaths() {
+  const characters = await getCollection('character');
+  const roles = ['main', 'playable', 'supporting', 'antagonist', 'bosses'];
+  const paths: Array<{ params: { slug: string }; props: { character?: CollectionEntry<'character'>; role?: string } }> = [];
+
+  characters.forEach((character) => {
+    paths.push({ params: { slug: character.slug }, props: { character } });
+  });
+
+  roles.forEach((roleSlug) => {
+    const role = roleSlug === 'bosses' ? 'boss' : roleSlug;
+    paths.push({ params: { slug: roleSlug }, props: { role } });
+  });
+
+  return paths;
+}
+
+interface Props {
+  character?: CollectionEntry<'character'>;
+  role?: string;
+}
+
+const { character, role } = Astro.props;
+
+if (!character && !role) {
+  throw new Error('Invalid character or role slug');
+}
+
+const allCharacters = await getCollection('character');
+
+let isRolePage = false;
+let roleSlug = '';
+let roleLabel = '';
+let filteredCharacters: CollectionEntry<'character'>[] = [];
+let roleTitle = '';
+let roleDescription = '';
+let roleKeywords: string[] = [];
+let roleBreadcrumbSchema: any;
+let roleItemListSchema: any;
+
+let entry: CollectionEntry<'character'> | undefined;
+let Content: any;
+let data: any;
+let pageTitle = '';
+let pageDescription = '';
+let keywords: string[] = [];
+let breadcrumbSchema: any;
+let faqSchema: any;
+let personSchema: any;
+let relationshipLinks: Array<{ name: string; slug?: string; relationship: string } > = [];
+let relatedCharacters: CollectionEntry<'character'>[] = [];
+let relatedGuides: any[] = [];
+
+if (role) {
+  isRolePage = true;
+  roleSlug = role === 'boss' ? 'bosses' : role;
+  roleLabel = roleTypeLabels[role];
+  filteredCharacters = allCharacters.filter((c) => c.data.roleType === role);
+
+  roleTitle = `Resident Evil Requiem ${roleLabel} - Profiles & Roles`;
+  roleDescription = `Complete Resident Evil Requiem ${roleLabel.toLowerCase()} guide. Browse profiles, roles, relationships, and story impact for every ${roleLabel.toLowerCase()} in the game.`;
+  roleKeywords = [
+    `resident evil requiem ${roleLabel.toLowerCase()}`,
+    `resident evil requiem ${role} characters`,
+    `resident evil requiem ${role} guide`,
+  ];
+
+  roleBreadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://requiemguide.com' },
+      { '@type': 'ListItem', position: 2, name: 'Characters', item: 'https://requiemguide.com/characters' },
+      { '@type': 'ListItem', position: 3, name: roleLabel, item: `https://requiemguide.com/characters/${roleSlug}` },
+    ],
+  };
+
+  roleItemListSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: `Resident Evil Requiem ${roleLabel}`,
+    numberOfItems: filteredCharacters.length,
+    itemListElement: filteredCharacters.map((character, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: character.data.title,
+      url: `https://requiemguide.com/characters/${character.slug}`,
+    })),
+  };
+} else {
+  entry = character!;
+  const rendered = await entry.render();
+  Content = rendered.Content;
+  data = entry.data;
+
+  pageTitle = `${data.title} Character Guide - Role, Story, Relationships & Ending`;
+  pageDescription = data.description || `Learn about ${data.title} in Resident Evil Requiem: role, story, relationships, and ending.`;
+  keywords = [
+    ...new Set([
+      `${data.title} Resident Evil Requiem`,
+      `${data.title} character`,
+      `${data.title} role`,
+      `${data.title} story`,
+      `${data.title} relationships`,
+      `${data.title} ending`,
+      ...(data.keywords || []),
+    ]),
+  ];
+
+  relationshipLinks = data.relationships?.map((rel: any) => {
+    const match = allCharacters.find((c) => c.slug === rel.slug || c.data.title === rel.name);
+    return {
+      ...rel,
+      slug: rel.slug || match?.slug,
+    };
+  }) || [];
+
+  relatedCharacters = allCharacters.filter(
+    (c) => c.slug !== entry.slug && (data.relatedCharacters?.includes(c.slug) || data.related?.includes(c.slug))
+  );
+
+  breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://requiemguide.com' },
+      { '@type': 'ListItem', position: 2, name: 'Characters', item: 'https://requiemguide.com/characters' },
+      { '@type': 'ListItem', position: 3, name: data.title, item: `https://requiemguide.com/characters/${entry.slug}` },
+    ],
+  };
+
+  faqSchema = data.faq?.length
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: data.faq.map((faq: any) => ({
+          '@type': 'Question',
+          name: faq.question,
+          acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+        })),
+      }
+    : null;
+
+  personSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: data.title,
+    alternateName: data.aliases?.join(', ') || data.fullName,
+    description: data.description,
+    knows: relationshipLinks.map((rel: any) => ({
+      '@type': 'Person',
+      name: rel.name,
+      ...(rel.slug ? { url: `https://requiemguide.com/characters/${rel.slug}` } : {}),
+    })),
+    ...(data.affiliation
+      ? { memberOf: { '@type': 'Organization', name: data.affiliation } }
+      : {}),
+    ...(data.firstAppearance
+      ? { subjectOf: { '@type': 'VideoGame', name: 'Resident Evil Requiem', description: data.firstAppearance } }
+      : {}),
+  };
+}
+---
+
+{
+  isRolePage ? (
+    <MainLayout
+      title={roleTitle}
+      description={roleDescription}
+      keywords={roleKeywords}
+      currentPath={`/characters/${roleSlug}`}
+      extraSchema={[roleBreadcrumbSchema, roleItemListSchema]}
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <Breadcrumb
+          items={[
+            { label: 'Characters', href: '/characters' },
+            { label: roleLabel, href: `/characters/${roleSlug}` },
+          ]}
+        />
+
+        <header class="mb-12">
+          <span class="text-horror-red font-semibold tracking-widest uppercase text-sm mb-4">Character Category</span>
+          <h1 class="text-4xl sm:text-5xl font-extrabold text-horror-text mb-4">Resident Evil Requiem {roleLabel}</h1>
+          <p class="text-xl text-horror-text-secondary max-w-3xl">{roleDescription}</p>
+        </header>
+
+        <section class="mb-12">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredCharacters.map((character) => (
+              <GuideCard
+                href={`/characters/${character.slug}`}
+                title={character.data.title}
+                category={character.data.role || 'Character'}
+                description={character.data.description || `${character.data.role} in Resident Evil Requiem`}
+                image={character.data.image || '/images/requiem_survival_guide_grace_ashcroft_profile_017.jpg'}
+                variant="character"
+              />
+            ))}
+          </div>
+        </section>
+
+        <div class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+          <a href="/characters" class="text-horror-red font-semibold hover:underline">← All Characters Database</a>
+        </div>
+      </div>
+    </MainLayout>
+  ) : (
+    <MainLayout
+      title={pageTitle}
+      description={pageDescription}
+      keywords={keywords}
+      type="article"
+      modifiedTime={data.updated}
+      currentPath="/characters"
+      extraSchema={[breadcrumbSchema, faqSchema, personSchema].filter(Boolean)}
+    >
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <Breadcrumb
+          items={[
+            { label: 'Characters', href: '/characters' },
+            { label: data.title, href: `/characters/${entry!.slug}` },
+          ]}
+        />
+
+        <article class="max-w-none">
+          <header class="relative mb-8 rounded-2xl overflow-hidden border border-horror-border">
+            <div class="relative h-56 sm:h-72">
+              <img
+                src={data.image}
+                alt={`Resident Evil Requiem ${data.title} character profile`}
+                width="512"
+                height="286"
+                loading="eager"
+                fetchpriority="high"
+                class="w-full h-full object-cover"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-horror-bg via-horror-bg/60 to-transparent"></div>
+            </div>
+
+            <div class="p-6 sm:p-8">
+              <div class="flex items-center gap-3 mb-4">
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-horror-red/10 text-horror-red">
+                  Character
+                </span>
+                {data.role && (
+                  <span class="text-sm text-horror-text-muted">{data.role}</span>
+                )}
+              </div>
+
+              <h1 class="text-4xl sm:text-5xl font-extrabold text-horror-text mb-4">
+                {data.title} Character Guide
+              </h1>
+
+              {data.description && <p class="text-xl text-horror-text-secondary">{data.description}</p>}
+            </div>
+          </header>
+
+          <!-- Basic Info Table -->
+          <section class="mb-8">
+            <div class="flex items-center gap-2 text-horror-text font-bold text-xl mb-4">
+              <Icon name="lucide:id-card" class="w-5 h-5 text-horror-red" />
+              Basic Information
+            </div>
+
+            <div class="overflow-x-auto rounded-xl border border-horror-border">
+              <table class="w-full text-left text-sm">
+                <tbody class="divide-y divide-horror-border">
+                  {data.fullName && (
+                    <tr class="hover:bg-horror-surface/50">
+                      <td class="px-4 py-3 font-semibold text-horror-text-muted">Full Name</td>
+                      <td class="px-4 py-3 text-horror-text">{data.fullName}</td>
+                    </tr>
+                  )}
+                  {data.aliases?.length > 0 && (
+                    <tr class="hover:bg-horror-surface/50">
+                      <td class="px-4 py-3 font-semibold text-horror-text-muted">Aliases</td>
+                      <td class="px-4 py-3 text-horror-text">{data.aliases.join(', ')}</td>
+                    </tr>
+                  )}
+                  {data.role && (
+                    <tr class="hover:bg-horror-surface/50">
+                      <td class="px-4 py-3 font-semibold text-horror-text-muted">Role</td>
+                      <td class="px-4 py-3 text-horror-text">{data.role}</td>
+                    </tr>
+                  )}
+                  {data.status && (
+                    <tr class="hover:bg-horror-surface/50">
+                      <td class="px-4 py-3 font-semibold text-horror-text-muted">Status</td>
+                      <td class="px-4 py-3 text-horror-text">{data.status}</td>
+                    </tr>
+                  )}
+                  {data.location && (
+                    <tr class="hover:bg-horror-surface/50">
+                      <td class="px-4 py-3 font-semibold text-horror-text-muted">Location</td>
+                      <td class="px-4 py-3 text-horror-text">{data.location}</td>
+                    </tr>
+                  )}
+                  {data.affiliation && (
+                    <tr class="hover:bg-horror-surface/50">
+                      <td class="px-4 py-3 font-semibold text-horror-text-muted">Affiliation</td>
+                      <td class="px-4 py-3 text-horror-text">{data.affiliation}</td>
+                    </tr>
+                  )}
+                  {data.firstAppearance && (
+                    <tr class="hover:bg-horror-surface/50">
+                      <td class="px-4 py-3 font-semibold text-horror-text-muted">First Appearance</td>
+                      <td class="px-4 py-3 text-horror-text">{data.firstAppearance}</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- Story Role -->
+          <section class="mb-8 rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+            <div class="flex items-center gap-2 text-horror-text font-bold text-xl mb-4">
+              <Icon name="lucide:book-open" class="w-5 h-5 text-horror-red" />
+              Story Role
+            </div>
+            <div class="prose-horror max-w-none text-horror-text-secondary">
+              <Content />
+            </div>
+          </section>
+
+          <!-- Relationships -->
+          {relationshipLinks.length > 0 && (
+            <section class="mb-8">
+              <div class="flex items-center gap-2 text-horror-text font-bold text-xl mb-4">
+                <Icon name="lucide:git-fork" class="w-5 h-5 text-horror-red" />
+                Relationships
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {relationshipLinks.map((rel) => {
+                  const Wrapper = rel.slug ? 'a' : 'div';
+                  return (
+                    <Wrapper
+                      href={rel.slug ? `/characters/${rel.slug}` : undefined}
+                      class={`p-4 rounded-xl border border-horror-border bg-horror-surface ${rel.slug ? 'hover:border-horror-red/50 transition-all' : ''}`}
+                    >
+                      <div class="font-bold text-horror-text">{rel.name}</div>
+                      <p class="text-sm text-horror-text-secondary">{rel.relationship}</p>
+                    </Wrapper>
+                  );
+                })}
+              </div>
+            </section>
+          )}
+
+          <!-- Timeline -->
+          {data.timeline?.length > 0 && (
+            <section class="mb-8">
+              <div class="flex items-center gap-2 text-horror-text font-bold text-xl mb-4">
+                <Icon name="lucide:clock" class="w-5 h-5 text-horror-red" />
+                Character Timeline
+              </div>
+
+              <div class="space-y-3">
+                {data.timeline.map((event: any, index: number) => (
+                  <div class="flex gap-4 rounded-xl border border-horror-border bg-horror-surface p-4">
+                    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-horror-red/10 text-horror-red font-bold flex items-center justify-center">
+                      {index + 1}
+                    </div>
+                    <div>
+                      <div class="font-bold text-horror-text">{event.title}</div>
+                      <p class="text-horror-text-secondary text-sm">{event.detail}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          <!-- Ending Connection -->
+          {data.endingConnection && (
+            <section class="mb-8">
+              <div class="flex items-center gap-2 text-horror-text font-bold text-xl mb-4">
+                <Icon name="lucide:flag" class="w-5 h-5 text-horror-red" />
+                Ending Connection
+              </div>
+
+              <div class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+                <p class="text-horror-text-secondary leading-relaxed">{data.endingConnection}</p>
+
+                <div class="mt-4 flex flex-wrap gap-3">
+                  <a href="/story" class="px-4 py-2 rounded-full border border-horror-border bg-horror-bg hover:border-horror-red/50 text-horror-text font-semibold text-sm transition-all">
+                    Story Guide
+                  </a>
+                  <a href="/ending-explained" class="px-4 py-2 rounded-full border border-horror-border bg-horror-bg hover:border-horror-red/50 text-horror-text font-semibold text-sm transition-all">
+                    Ending Explained
+                  </a>
+                </div>
+              </div>
+            </section>
+          )}
+
+          <!-- Related Bosses / Weapons / Guides -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+            {data.relatedBosses?.length > 0 && (
+              <div class="rounded-xl border border-horror-border bg-horror-surface p-4">
+                <div class="font-bold text-horror-text mb-2">Related Bosses</div>
+                <div class="flex flex-wrap gap-2">
+                  {data.relatedBosses.map((slug: string) => (
+                    <a href={`/bosses/${slug}`} class="text-sm text-horror-red hover:underline">
+                      {slug}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+            {data.relatedWeapons?.length > 0 && (
+              <div class="rounded-xl border border-horror-border bg-horror-surface p-4">
+                <div class="font-bold text-horror-text mb-2">Related Weapons</div>
+                <div class="flex flex-wrap gap-2">
+                  {data.relatedWeapons.map((slug: string) => (
+                    <a href={`/weapons/${slug}`} class="text-sm text-horror-red hover:underline">
+                      {slug}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+            {data.relatedStory?.length > 0 && (
+              <div class="rounded-xl border border-horror-border bg-horror-surface p-4">
+                <div class="font-bold text-horror-text mb-2">Related Story</div>
+                <div class="flex flex-wrap gap-2">
+                  {data.relatedStory.map((slug: string) => (
+                    <a href={`/${slug}`} class="text-sm text-horror-red hover:underline">
+                      {slug.replace(/-/g, ' ')}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          <!-- FAQ -->
+          {data.faq?.length > 0 && <FAQSection faqs={data.faq} />}
+
+          <!-- E-E-A-T -->
+          <section class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6 mb-8">
+            <h2 class="text-2xl font-bold text-horror-text mb-4">About This Character Guide</h2>
+            <p class="text-horror-text-secondary leading-relaxed mb-4">
+              This {data.title} character guide is part of the Requiem Guide character database. We document character roles, relationships, story arcs, and ending connections to help players and lore fans understand the people of Resident Evil Requiem.
+            </p>
+            <p class="text-horror-text-secondary leading-relaxed">
+              For the full story, visit the Story Guide and Ending Explained pages. For gameplay help, check the Boss Guides and Weapons Database.
+            </p>
+          </section>
+
+          {relatedCharacters.length > 0 && (
+            <div class="mt-12">
+              <h2 class="text-2xl font-bold text-horror-text mb-6">Related Characters</h2>
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {relatedCharacters.map((relatedCharacter) => (
+                  <GuideCard
+                    href={`/characters/${relatedCharacter.slug}`}
+                    title={relatedCharacter.data.title}
+                    category={relatedCharacter.data.role || 'Character'}
+                    description={relatedCharacter.data.description || `${relatedCharacter.data.role} in Resident Evil Requiem`}
+                    image={relatedCharacter.data.image || '/images/requiem_survival_guide_grace_ashcroft_profile_017.jpg'}
+                    variant="character"
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+        </article>
+      </div>
+    </MainLayout>
+  )
+}
