@@ -29,7 +29,7 @@ const {
   extraSchema = [],
 } = Astro.props;
 
-const fullTitle = title === SITE.title ? title : `${title} | ${SITE.title}`;
+const fullTitle = title === SITE.title ? title : title.includes('|') ? title : `${title} | ${SITE.title}`;
 const ogImage = image?.startsWith('http') ? image : `${SITE.url}${image || '/og-image.jpg'}`;
 const canonicalUrl = canonical ? new URL(canonical, SITE.url).href : new URL(Astro.url.pathname, SITE.url).href;
 const robots = noindex || nofollow ? `${noindex ? 'noindex' : 'index'},${nofollow ? 'nofollow' : 'follow'}` : 'index, follow';
@@ -71,7 +71,7 @@ const normalizedCanonicalUrl = canonicalUrl.replace(/\/+$/, '') || `${SITE.url}`
 {type === 'article' && publishedTime && <meta property="article:published_time" content={publishedTime.toISOString()} />}
 {type === 'article' && modifiedTime && <meta property="article:modified_time" content={modifiedTime.toISOString()} />}
 
-<link rel="sitemap" href="/sitemap-index.xml" />
+<link rel="sitemap" href="/sitemap.xml" />
 
 <script type="application/ld+json" set:html={JSON.stringify(type === 'article' ? {
   '@context': 'https://schema.org',
