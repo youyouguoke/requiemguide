@@ -21,22 +21,29 @@ const description = 'Search walkthroughs, puzzle solutions, boss strategies, wea
   </div>
 
   <script is:inline data-pagefind-ignore>
-    (async () => {
-      const PagefindUI = (await import('/pagefind/pagefind-ui.js')).PagefindUI;
-      new PagefindUI({
-        element: '#search',
-        showSubResults: true,
-        showImages: false,
-        excerptLength: 24,
-        debounceTimeout: 200,
-        translations: {
-          placeholder: 'Search guides, puzzles, bosses...',
-          zero_results: 'No results found. Try a different keyword.',
-          many_results: '# results for your search',
-        },
-      });
+    (function () {
+      function initPagefind() {
+        if (window.PagefindUI) {
+          new window.PagefindUI({
+            element: '#search',
+            showSubResults: true,
+            showImages: false,
+            excerptLength: 24,
+            debounceTimeout: 200,
+            translations: {
+              placeholder: 'Search guides, puzzles, bosses...',
+              zero_results: 'No results found. Try a different keyword.',
+              many_results: '# results for your search',
+            },
+          });
+        } else {
+          setTimeout(initPagefind, 100);
+        }
+      }
+      initPagefind();
     })();
   </script>
+  <script src="/pagefind/pagefind-ui.js" defer></script>
 
   <link href="/pagefind/pagefind-ui.css" rel="stylesheet" />
 </MainLayout>
