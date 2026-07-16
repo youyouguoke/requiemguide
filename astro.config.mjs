@@ -32,6 +32,7 @@ export default defineConfig({
       changefreq: 'weekly',
       lastmod: new Date(),
       priority: 0.7,
+      entryLimit: 50000,
     }),
     icon(),
   ],
