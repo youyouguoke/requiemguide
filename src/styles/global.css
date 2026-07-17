@@ -50,6 +50,13 @@ body {
   background: #B91C1C;
 }
 
+:root {
+  --type-chars-line-1: 28;
+  --type-chars-line-2: 29;
+  --type-chars-line-3: 34;
+  --type-chars-line-4: 30;
+}
+
 /* Prose / content styles */
 .prose-horror h2,
 .prose-horror h3,
@@ -193,6 +200,213 @@ body {
 
 .pulse-red {
   animation: pulse-red 2s ease-in-out infinite;
+}
+
+/* Secrets page — terminal / item slot styles */
+.terminal-hero {
+  --terminal-glow: 0 0 18px rgba(132, 204, 22, 0.12);
+}
+
+.terminal-hero .terminal-window {
+  box-shadow: var(--terminal-glow), inset 0 0 40px rgba(132, 204, 22, 0.03);
+}
+
+.terminal-hero .type-line {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 0;
+  animation: typewriter calc(var(--type-chars, 40) * 0.04s) steps(var(--type-chars, 40)) forwards;
+}
+
+.terminal-hero .type-line:nth-child(1) { --type-chars: var(--type-chars-line-1); animation-delay: 0ms; }
+.terminal-hero .type-line:nth-child(2) { --type-chars: var(--type-chars-line-2); animation-delay: 500ms; }
+.terminal-hero .type-line:nth-child(3) { --type-chars: var(--type-chars-line-3); animation-delay: 1000ms; }
+.terminal-hero .type-line:nth-child(4) { --type-chars: var(--type-chars-line-4); animation-delay: 1600ms; }
+
+@keyframes typewriter {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+.cursor-blink {
+  display: inline-block;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.system-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-horror-green);
+  box-shadow: 0 0 6px var(--color-horror-green), 0 0 12px var(--color-horror-green);
+  animation: pulse-green 2s ease-in-out infinite;
+}
+
+@keyframes pulse-green {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.3); }
+}
+
+.item-slot {
+  position: relative;
+}
+
+.item-slot .slot-number {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  padding: 0.3rem 0.6rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--color-horror-bg);
+  background: var(--color-horror-green);
+  border-bottom-right-radius: 0.5rem;
+  box-shadow: 0 0 10px rgba(132, 204, 22, 0.35);
+}
+
+/* 4-corner HUD bracket viewfinder */
+.slot-corners::before,
+.slot-corners::after,
+.slot-corners .corner-tl,
+.slot-corners .corner-br {
+  content: '';
+  position: absolute;
+  width: 1.1rem;
+  height: 1.1rem;
+  border-color: var(--color-horror-green);
+  border-style: solid;
+  pointer-events: none;
+  opacity: 0.3;
+  transition: opacity 0.25s ease, box-shadow 0.25s ease;
+}
+
+.slot-corners::before {
+  top: 0.5rem;
+  right: 0.5rem;
+  border-width: 2px 2px 0 0;
+}
+
+.slot-corners::after {
+  bottom: 0.5rem;
+  left: 0.5rem;
+  border-width: 0 0 2px 2px;
+}
+
+.slot-corners .corner-tl {
+  top: 0.5rem;
+  left: 1.45rem;
+  border-width: 2px 0 0 2px;
+}
+
+.slot-corners .corner-br {
+  bottom: 0.5rem;
+  right: 0.5rem;
+  border-width: 0 2px 2px 0;
+}
+
+.group:hover .slot-corners::before,
+.group:hover .slot-corners::after,
+.group:hover .slot-corners .corner-tl,
+.group:hover .slot-corners .corner-br {
+  opacity: 0.95;
+  box-shadow: 0 0 8px rgba(132, 204, 22, 0.25);
+}
+
+.locked-overlay {
+  z-index: 20;
+  backdrop-filter: blur(1.5px);
+}
+
+.locked-overlay .scan-lines {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(185, 28, 28, 0.08) 2px,
+    rgba(185, 28, 28, 0.08) 4px
+  );
+  animation: scan 2s linear infinite;
+}
+
+@keyframes scan {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+.locked-overlay .locked-glitch {
+  animation: locked-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes locked-pulse {
+  0%, 100% { opacity: 1; transform: translateX(0); }
+  50% { opacity: 0.7; }
+  52% { transform: translateX(-1px); }
+  54% { transform: translateX(1px); }
+  56% { transform: translateX(0); }
+}
+
+.locked-overlay.unlocked {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(1.05) rotate(1deg);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.locked-overlay.unlocked .locked-glitch {
+  animation: unlock-pop 0.6s ease forwards;
+}
+
+@keyframes unlock-pop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.2) rotate(-6deg); }
+  100% { transform: scale(0) rotate(12deg); opacity: 0; }
+}
+
+.unlock-shake {
+  animation: unlock-shake 0.35s ease-in-out;
+}
+
+@keyframes unlock-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  50% { transform: translateX(3px); }
+  75% { transform: translateX(-2px); }
+}
+
+.unlock-flash {
+  animation: unlock-flash 0.5s ease-out;
+}
+
+@keyframes unlock-flash {
+  0% { box-shadow: inset 0 0 0 rgba(132, 204, 22, 0); }
+  40% { box-shadow: inset 0 0 40px rgba(132, 204, 22, 0.25); }
+  100% { box-shadow: inset 0 0 0 rgba(132, 204, 22, 0); }
+}
+
+.unlock-trigger {
+  position: relative;
+  overflow: hidden;
+}
+
+.unlock-trigger::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(132, 204, 22, 0.15), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.unlock-trigger:hover::after {
+  transform: translateX(100%);
 }
 
 /* Pagefind search UI overrides */
