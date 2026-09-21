@@ -1,67 +1,46 @@
 ---
-title: "Emily Transformed"
-description: "Complete Emily Transformed boss guide for Resident Evil Requiem: location, head and core weakness, attack patterns, best weapons, and ending impact."
+title: "Emily (Transformed)"
+description: "The Emily boss fight in Resident Evil Requiem: what triggers her mutation, the Water Treatment Plant encounter, her weaknesses, and how the fight fits the story. Spoilers inside."
 image: "/images/requiem_survival_guide_the_executioner_boss_strategy_051.jpg"
-location: "Late-game facility area"
+location: "Water Treatment Plant (after the helicopter crash)"
 hp: "High"
 weakness: "Head and exposed core"
 weaknessEffect: "Head and chest core take the most damage; body shots waste ammo."
-recommendedWeapon: "Requiem / Magnum"
 difficulty: "Hard"
-reward: "Story progression / ending impact"
-keywords: ["Emily transformed boss guide", "Emily boss fight", "Resident Evil Requiem Emily", "how to beat Emily transformed", "RE9 Emily boss"]
-related: ["shadow-ghost", "blister-borne", "titan-spinner", "chunk"]
-updated: 2026-07-14
-attackPatterns:
-  - name: "Leaping Claw"
-    description: "Emily jumps across the arena and slashes with elongated claws."
-    counter: "Dodge sideways as she leaps."
-  - name: "Scream"
-    description: "A wide-area screech that briefly stuns Leon."
-    counter: "Keep your distance when she rears back."
-  - name: "Tendril Swipe"
-    description: "Extends mutated tendrils in a wide arc."
-    counter: "Back away or roll under the attack."
-  - name: "Core Beam"
-    description: "Charges a powerful beam from her exposed core."
-    counter: "Interrupt it with high-damage shots from the Requiem or Magnum."
-strategySteps:
-  - title: "Bring high-damage weapons"
-    detail: "Equip the Requiem rifle or a Magnum handgun. This fight is resource-intensive."
-  - title: "Aim for the head and core"
-    detail: "Only headshots and core shots deal meaningful damage. Avoid body shots."
-  - title: "Keep your distance"
-    detail: "Emily's melee attacks are fast and have long range. Stay at mid-range."
-  - title: "Use pillars during scream"
-    detail: "Hide behind pillars to break line of sight during her scream attack."
-  - title: "Interrupt the core beam"
-    detail: "When her core glows, unload high-damage rounds to stop the beam before it fires."
-hardcoreTips:
-  - "Whether you saved Emily earlier can determine if this fight happens at all."
-  - "Enter the fight with full healing and strong ammo."
-  - "The outcome of this fight affects which ending you receive."
-  - "Don't waste ammo on body shots that aren't hitting the core or head."
+reward: "Story progression"
 faq:
-  - question: "What is Emily Transformed's weakness?"
-    answer: "Her head and exposed chest core are the weak points. Body shots are ineffective."
-  - question: "What is the best weapon against Emily Transformed?"
-    answer: "The Requiem rifle or a Magnum handgun are ideal for high burst damage."
-  - question: "Can you avoid fighting Emily Transformed?"
-    answer: "Yes. If you keep Emily alive and safe in earlier chapters, this boss fight may not occur."
-  - question: "How does the Emily Transformed fight affect the ending?"
-    answer: "The outcome changes the tone of the final scenes and can influence which ending you receive."
+  - question: "What triggers the Emily boss fight in Resident Evil Requiem?"
+    answer: "A scripted story beat. During the helicopter escape from the Care Center, the crash kills Reed and severely injures Emily. She mutates and attacks Grace, and Leon steps in. It is not caused by earlier choices."
+  - question: "What is Emily's weakness when transformed?"
+    answer: "Her head and exposed chest core. Body shots waste ammo — focus fire on the weak points."
+  - question: "Does the Emily fight decide the ending?"
+    answer: "No. The ending branches only on your final choice about Elpis in the ARK. What happens to Emily afterwards differs between the two endings."
+  - question: "Where does the Emily fight take place?"
+    answer: "At the Water Treatment Plant, immediately after the helicopter crash sequence."
+keywords: ["Emily boss fight", "Resident Evil Requiem Emily", "RE9 Emily boss", "Emily transformed", "Emily mutation"]
+related: ["shadow-ghost", "blister-borne", "titan-spinner", "chunk"]
+updated: 2026-09-18
+verification: "corroborated"
 ---
 
-In one of the game's possible paths, **Emily mutates into a powerful boss** and Leon must step in to stop her. This fight is emotionally charged and tests your resource management.
+**Spoilers ahead.**
 
-## Overview
+During the helicopter escape from the Care Center, the crash kills Reed and leaves **Emily** severely injured — a fixed story beat, not a consequence of your earlier choices. Emily mutates and attacks Grace, and **Leon steps in**. This is one of the game's most emotionally charged encounters.
 
-Emily's transformed state is only encountered if she was harmed or left behind in earlier chapters. The fight is a tragic confrontation where Leon must put down someone he tried to save. Her mutated form is fast, unpredictable, and deals high damage.
+## Emily (Transformed) Overview
 
-## Reward
+| Stat | Value |
+| --- | --- |
+| Location | Water Treatment Plant, after the helicopter crash |
+| Difficulty | Hard |
+| Weakness | Head and exposed chest core |
+| Resists | Body shots |
+| Reward | Story progression |
 
-Defeating Emily (Transformed) advances the story toward the Elpis chamber and changes the tone of the final scenes depending on your choices.
+## The Fight
 
-## Visual Guide
+Emily's mutated form is fast and deals high damage. Focus fire on the **head** and the **glowing chest core** when it is exposed; body shots waste ammo. Bring your hardest-hitting weapon and keep healing items ready — but note the encounter resolves as a **scripted story beat**: Leon shoots her non-fatally. Prioritize survival over raw damage.
 
-![Emily transformed boss guide in Resident Evil Requiem](/images/requiem_survival_guide_the_executioner_boss_strategy_051.jpg)
+## How This Fits the Story
+
+Emily's mutation does **not** decide the ending. The ending branches only on your final choice about **Elpis** in the ARK. What happens to Emily afterwards differs between the two endings — see the [endings guide](/story/endings) for the full picture (major spoilers).

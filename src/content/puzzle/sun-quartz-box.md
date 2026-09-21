@@ -1,6 +1,6 @@
 ---
-title: "Sun Quartz Puzzle Box"
-description: "Complete solution for the Sun Quartz Puzzle Box in Resident Evil Requiem: location, corrosive item, symbol sequence, and reward."
+title: "Sun Quartz Puzzle Box Solution"
+description: "Need the Sun Quartz in Resident Evil Requiem? Find the puzzle box location, the Corrosive item, the Star → Sun → Moon → Sun code, and what to do next."
 image: "/images/requiem_survival_guide_library_puzzle_solution_041.jpg"
 location: "Lead Researcher's Office, East Wing 2F"
 difficulty: "Medium"
@@ -23,26 +23,59 @@ faq:
     answer: "It is in the Lead Researcher's Office on the second floor of the East Wing."
   - question: "What is the Sun Quartz code?"
     answer: "The sequence is Star → Sun → Moon → Sun. The clues are on photos and documents near the box."
-  - question: "What is the Leatherbound Notebook for?"
-    answer: "It contains lore about the research experiments and hints about Elena. It is required for story context."
-keywords: ["Sun Quartz", "Sun Quartz Puzzle Box", "Resident Evil Requiem Sun Quartz", "Resident Evil Requiem puzzle solution"]
+  - question: "Where is the Corrosive in Chapter 3?"
+    answer: "The Corrosive is in a cabinet in the Conference Room on East Wing 2F, near the Sun Quartz Box location."
+  - question: "What is the Sun Quartz used for?"
+    answer: "The Sun Quartz is one of three pieces required to open the Central Hall mechanism and reach the Courtyard."
+keywords:
+  - "Sun Quartz"
+  - "Sun Quartz Puzzle Box"
+  - "Resident Evil Requiem Sun Quartz"
+  - "Resident Evil Requiem puzzle solution"
+  - "Lead Researcher's Office puzzle"
+  - "Corrosive location Resident Evil Requiem"
+  - "Central Hall Quartz mechanism"
 related: ["moon-quartz-box", "star-quartz-box", "central-hall-quartz"]
-updated: 2026-07-14
+updated: 2026-09-18
+verification: "corroborated"
 ---
 
-The **Sun Quartz Puzzle Box** is the second Quartz puzzle required to open the Central Hall door. It is located in the Lead Researcher's Office on the second floor of the East Wing.
+## Where to Find the Sun Quartz Puzzle Box
 
-## Where to Find the Corrosive
+The puzzle box is in the **Lead Researcher's Office**, East Wing 2F. The office door is locked with a padlock that must be melted using the **Corrosive** item.
 
-The corrosive is in a cabinet in the Conference Room, also on the East Wing 2F. The room is accessible once you have the East Wing 2F key or wristband upgrade.
+## What You Need Before Starting
 
-## Reward
+The **Corrosive** is in a cabinet in the **Conference Room**, also on the East Wing 2F. The room is accessible once you have the East Wing 2F access from story progression. Pick up the Corrosive before heading to the Lead Researcher's Office.
 
-- **Sun Quartz**: Second of the three Quartz pieces needed for the Central Hall mechanism.
-- **Leatherbound Notebook**: Contains lore about the research experiments and hints about Elena.
+**Important:** the Corrosive is a single-use item. Use it only on the Sun Quartz Box padlock.
 
-## Tips
+## Exact Solution
 
-- Read the Leatherbound Notebook before proceeding; it provides context for later story beats.
-- The Lead Researcher's Office has a few items scattered around, so take your time searching.
-- The Sun Quartz Box is not guarded by enemies, but the path to it may have standard infected.
+Use the Corrosive on the padlock to open the office. Inside, examine the photos and documents on the wall to find the symbol sequence. The correct input is:
+
+1. **Star**
+2. **Sun**
+3. **Moon**
+4. **Sun**
+
+After entering the sequence, the box opens and gives you the **Sun Quartz** and the **Leatherbound Notebook**.
+
+## Why This Code Works
+
+The wall photos and documents in the Lead Researcher's Office show the research timeline in symbol form. The sequence mirrors the order the symbols appear across the clue photos — that is the in-game logic the puzzle checks, so you can verify it yourself instead of trusting a guide.
+
+## What You Get
+
+- **Sun Quartz**: the second of the three Quartz pieces needed for the Central Hall mechanism.
+- **Leatherbound Notebook**: contains research lore and a document that helps you open the Organ Transport Box later.
+
+## What To Do Next
+
+After collecting the Sun Quartz, your next target is the **Star Quartz**: get the **Level 2 ID Wristband** from the corpse in the East Wing Examination Room, then take Emily to the [Star Quartz Box](/puzzles/star-quartz-box) in the Security Manager's Office. Once all three Quartz pieces are collected, see the [Central Hall Quartz Mechanism](/puzzles/central-hall-quartz) to open the path to the Courtyard.
+
+## Common Mistakes
+
+- Using the Corrosive on a door other than the Sun Quartz Box padlock — it is single-use.
+- Missing the Leatherbound Notebook on the desk next to the box.
+- Forgetting the symbol sequence after reading the wall photos — the code is also listed in the Quick Answer at the top of this page.

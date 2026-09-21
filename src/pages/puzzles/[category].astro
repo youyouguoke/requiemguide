@@ -15,7 +15,7 @@ export async function getStaticPaths() {
     'key-item': 'Key Item Puzzles',
     'mechanism': 'Mechanisms',
   };
-  const categories = Object.keys(typeLabels);
+  const categories = [...new Set(puzzles.map((p) => p.data.puzzleType))];
   return categories.map((category) => ({
     params: { category },
     props: { category, puzzles: puzzles.filter((p) => p.data.puzzleType === category) },
@@ -40,13 +40,10 @@ const typeLabels: Record<string, string> = {
 };
 
 const typeDescriptions: Record<string, string> = {
-  'safe-code': 'All safe code and combination lock solutions in Resident Evil Requiem. Find the code, the location, and the reward for every safe.',
-  'door-lock': 'All door lock and key code solutions in Resident Evil Requiem. Learn which keys, wristbands, or codes are needed to open each door.',
-  'symbol': 'All symbol sequence puzzles in Resident Evil Requiem, including the Quartz Box puzzles in Chapter 3.',
-  'logic': 'All logic puzzles in Resident Evil Requiem, including the Blood Analyzer puzzles in the underground lab.',
-  'combination': 'All combination puzzles in Resident Evil Requiem that require a specific sequence of actions or items.',
-  'key-item': 'All key-item puzzles in Resident Evil Requiem that require a specific object to progress.',
-  'mechanism': 'All mechanism and final-door puzzles in Resident Evil Requiem, including the Central Hall Quartz mechanism.',
+  'safe-code': 'All safe code solutions in Resident Evil Requiem — the five dial safes, their Normal and Insanity codes, locations, and rewards.',
+  'symbol': 'The Quartz Box symbol puzzles in Resident Evil Requiem: Moon, Sun, and Star Quartz solutions with locations, requirements, and rewards.',
+  'logic': 'The Blood Analyzer logic puzzles in Resident Evil Requiem: Denatured, Reversible, and Converged Blood solutions with click patterns and unlocks.',
+  'mechanism': 'The Central Hall Quartz mechanism in Resident Evil Requiem: where to insert the three Quartz and what opening the door unlocks.',
 };
 
 const label = typeLabels[category] || category;
@@ -68,10 +65,21 @@ const breadcrumbSchema = {
   ],
 };
 
+const typeKeywords: Record<string, string[]> = {
+  'safe-code': ['safe codes', 'safe code', 'combination lock', 'numeric code'],
+  'door-lock': ['door lock', 'key code', 'locked door'],
+  'symbol': ['symbol puzzle', 'quartz puzzle', 'moon sun star'],
+  'logic': ['logic puzzle', 'blood analyzer', 'node puzzle'],
+  'combination': ['combination puzzle', 'sequence puzzle'],
+  'key-item': ['key item puzzle', 'required item', 'unlock puzzle'],
+  'mechanism': ['mechanism', 'final door', 'central hall'],
+};
+
 const keywords = [
   `resident evil requiem ${label.toLowerCase()}`,
   `resident evil requiem ${category.replace(/-/g, ' ')} solution`,
   `resident evil requiem puzzle solution`,
+  ...(typeKeywords[category] || []),
 ];
 ---
 
@@ -98,7 +106,7 @@ const keywords = [
         {puzzles.map((puzzle) => (
           <GuideCard
             href={`/puzzles/${puzzle.slug}`}
-            title={`${puzzle.data.title} Solution`}
+            title={`${puzzle.data.title.toLowerCase().endsWith('solution') ? puzzle.data.title : `${puzzle.data.title} Solution`}`}
             category={puzzle.data.difficulty || 'Puzzle'}
             description={puzzle.data.description || `Solution for ${puzzle.data.title}`}
             image={puzzle.data.image || '/images/requiem_survival_guide_library_puzzle_solution_038.jpg'}

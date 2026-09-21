@@ -12,7 +12,7 @@ pickupConditions: "Available during Chapter 3 after reaching the Quartz Path."
 relatedItems: ["east-wing-key"]
 relatedWeapons: ["s-and-s-m232"]
 relatedPuzzles: ["moon-quartz-box"]
-relatedGuides: ["chapter-3"]
+relatedGuides: []
 faq:
   - question: "Where do you find Moon Quartz in Resident Evil Requiem?"
     answer: "Moon Quartz is found in Chapter 3 on the Quartz Path, typically on a pedestal after a short enemy encounter."
@@ -21,7 +21,7 @@ faq:
   - question: "Can you miss Moon Quartz?"
     answer: "No, it is a story-critical item and is required to progress."
 keywords: ["Moon Quartz", "Resident Evil Requiem Moon Quartz", "Moon Quartz location", "Moon Quartz key item", "Moon Quartz Box puzzle"]
-related: ["moon-quartz-box", "chapter-3"]
+related: ["moon-quartz-box"]
 image: "/images/item_moon-quartz.jpg"
 updated: 2026-07-15
 ---

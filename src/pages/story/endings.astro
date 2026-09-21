@@ -2,10 +2,11 @@
 import MainLayout from '../../layouts/MainLayout.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import FAQSection from '../../components/FAQSection.astro';
+import VerificationBlock from '../../components/VerificationBlock.astro';
 import { Icon } from 'astro-icon/components';
 
-const title = 'Resident Evil Requiem Endings Explained - All Choices & True Ending';
-const description = 'Explore every Resident Evil Requiem ending explained. Learn all choices, consequences, true ending requirements, and how Emily and Elpis determine the final outcome.';
+const title = 'Resident Evil Requiem Endings Explained - All Choices & How to Unlock Both';
+const description = 'Resident Evil Requiem has exactly two endings, decided by one final choice in the ARK: Release Elpis (the true ending) or Destroy Elpis. Full conditions and outcomes, spoilers inside.';
 
 const keywords = [
   'resident evil requiem endings explained',
@@ -13,65 +14,44 @@ const keywords = [
   'resident evil requiem all endings',
   'resident evil requiem ending choices',
   'resident evil requiem emily ending',
-  'resident evil requiem elpis ending',
-  'resident evil requiem consequences',
+  'resident evil requiem elpis',
+  'resident evil requiem hope ending',
   'resident evil requiem story',
 ];
 
 const endings = [
   {
-    name: 'Standard Ending',
-    condition: 'Complete the game without meeting Emily/Elpis save conditions.',
-    outcome: 'The story resolves with the outbreak contained, but the mysteries of Elpis remain unanswered.',
+    name: 'Hope Ending (True Ending)',
+    condition: 'At the ARK central console, choose RELEASE Elpis and enter the password HOPE.',
+    outcome: 'Elpis — Oswell Spencer\'s antiviral cure — is released. Leon is cured of his T-virus strain, kills the mutated Victor Gideon, Emily is cured and adopted by Grace, and the Raccoon City Syndrome victims are cured.',
   },
   {
-    name: 'Save Emily Ending',
-    condition: 'Keep Emily alive through the story and protect her during the research wing.',
-    outcome: 'Emily survives and escapes with Grace and Leon. This unlocks additional post-credits dialogue.',
+    name: 'Destruction Ending (Alternate)',
+    condition: 'At the ARK central console, choose DESTROY Elpis (deliberately enter a wrong password).',
+    outcome: 'The ARK is destroyed. Leon dies at Zeno\'s hands, and Emily is left trapped in her cocoon.',
   },
-  {
-    name: 'Release Elpis Ending',
-    condition: 'Choose to release Elena / Elpis at the final decision point.',
-    outcome: 'Elpis is freed, potentially triggering a new bioterror threat beyond Rhodes Hill.',
-  },
-  {
-    name: 'Destroy Elpis Ending',
-    condition: 'Choose to destroy Elena / Elpis at the final decision point.',
-    outcome: 'The Elpis threat is terminated, but the facility suffers catastrophic collapse.',
-  },
-];
-
-const timeline = [
-  { title: 'Before the Incident', detail: 'Rhodes Hill Care Center operates as a medical facility, but secret experiments begin on patients, laying the groundwork for the outbreak.' },
-  { title: 'Grace Awakens', detail: 'Grace Ashcroft, the protagonist, wakes up in the facility with no memory of how she arrived.' },
-  { title: 'Meeting Emily', detail: 'Grace finds Emily, a young survivor who can read Braille, hiding in the church. Emily becomes central to the story.' },
-  { title: "Leon\'s Arrival", detail: 'Leon S. Kennedy arrives at Rhodes Hill to investigate the outbreak and joins Grace.' },
-  { title: 'Research Wing Incident', detail: 'Emily is injured during the research wing sequence. Her survival depends on player choices and actions.' },
-  { title: 'The Elpis Revelation', detail: 'Elena reveals herself as Elpis, the true source of the outbreak and the entity behind the chaos.' },
-  { title: 'Final Choice', detail: 'Grace and Leon must decide whether to release or destroy Elpis, determining the final ending.' },
-  { title: 'Aftermath', detail: 'The ending changes based on Emily\'s survival and the Elpis decision, affecting post-credits scenes and future implications.' },
 ];
 
 const faqs = [
   {
-    question: 'What is the true ending of Resident Evil Requiem?',
-    answer: 'The true ending is generally considered to be the Save Emily + Destroy Elpis combination. This ending preserves Emily\'s life, ends the Elpis threat, and provides the most complete post-credits scene.',
-  },
-  {
     question: 'How many endings does Resident Evil Requiem have?',
-    answer: 'Resident Evil Requiem has four main endings: Standard, Save Emily, Release Elpis, and Destroy Elpis. The exact outcome depends on Emily\'s survival and the final Elpis choice.',
+    answer: 'Exactly two. They are decided by a single final choice in the ARK: Release Elpis (the true "Hope" ending) or Destroy Elpis (the alternate "Destruction" ending). Nothing earlier in the game branches the ending.',
   },
   {
-    question: 'Does Emily survive in Resident Evil Requiem?',
-    answer: 'Emily\'s survival is determined by the player. Keeping her alive through the research wing and protecting her during key sequences leads to the Save Emily ending.',
+    question: 'Does Emily\'s fate decide the ending?',
+    answer: 'No. Emily\'s injury and mutation during the helicopter crash is a fixed scripted story beat — it happens regardless of your choices. Emily\'s fate differs between the two endings (she is cured and adopted by Grace in the true ending, or left in her cocoon in the alternate), but it does not cause either ending.',
   },
   {
-    question: 'What happens to Elpis in Resident Evil Requiem?',
-    answer: 'Elpis is an entity connected to Elena. At the final decision point, the player can choose to release Elpis, allowing it to escape and potentially cause future outbreaks, or destroy it to end the threat.',
+    question: 'How do I unlock the true ending of Resident Evil Requiem?',
+    answer: 'At the ARK central console, choose RELEASE Elpis and enter the password HOPE. This is the true/canon "Hope" ending.',
   },
   {
-    question: 'Who is the main character in Resident Evil Requiem?',
-    answer: 'Grace Ashcroft is the main protagonist of Resident Evil Requiem. She investigates the Rhodes Hill Care Center outbreak while uncovering her own mysterious connection to the events.',
+    question: 'Can I see both endings without two full playthroughs?',
+    answer: 'Yes. Save the game before Leon takes the elevator to B4 of the Bioweapon Depot, then reload after watching the first ending.',
+  },
+  {
+    question: 'What is Elpis in Resident Evil Requiem?',
+    answer: 'Elpis is an antiviral cure created by Oswell E. Spencer — not a character. Releasing or destroying it at the ARK is the game\'s final choice.',
   },
 ];
 
@@ -97,7 +77,6 @@ const articleSchema = {
   mentions: [
     { '@type': 'Thing', name: 'Elpis' },
     { '@type': 'Person', name: 'Emily', url: 'https://requiemguide.com/characters/emily' },
-    { '@type': 'Person', name: 'Elena', url: 'https://requiemguide.com/characters/elena' },
     { '@type': 'Person', name: 'Grace Ashcroft', url: 'https://requiemguide.com/characters/grace-ashcroft' },
     { '@type': 'Person', name: 'Leon S. Kennedy', url: 'https://requiemguide.com/characters/leon-kennedy' },
     { '@type': 'Place', name: 'Rhodes Hill Care Center' },
@@ -153,7 +132,7 @@ const faqSchema = {
             Resident Evil Requiem Endings Explained
           </h1>
           <p class="text-xl text-horror-text-secondary">
-            Your choices at Rhodes Hill determine who lives, who dies, and what horror escapes into the world.
+            Two endings, one final choice — what releasing or destroying Elpis means for Grace, Leon, and Emily.
           </p>
         </div>
       </header>
@@ -162,58 +141,29 @@ const faqSchema = {
       <div class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6 mb-8">
         <div class="flex items-center gap-2 text-horror-text font-bold text-xl mb-4">
           <Icon name="lucide:sparkles" class="w-5 h-5 text-horror-red" />
-          Quick Summary
+          Quick Answer
         </div>
         <p class="text-horror-text-secondary leading-relaxed mb-4">
-          Resident Evil Requiem features multiple endings based on Emily's survival and the final Elpis decision. The ending system changes:
+          Resident Evil Requiem has <strong class="text-horror-text">exactly two endings</strong>, and both are decided by one final choice in the ARK:
         </p>
         <ul class="space-y-2 text-horror-text-secondary">
           <li class="flex items-start gap-3">
             <span class="w-2 h-2 rounded-full bg-horror-red mt-2 flex-shrink-0"></span>
-            <span><strong class="text-horror-text">Character survival</strong> — whether Emily makes it out of Rhodes Hill alive</span>
+            <span><strong class="text-horror-text">Release Elpis</strong> (password: HOPE) — the true "Hope" ending: Leon is cured, Emily is cured and adopted by Grace.</span>
           </li>
           <li class="flex items-start gap-3">
             <span class="w-2 h-2 rounded-full bg-horror-red mt-2 flex-shrink-0"></span>
-            <span><strong class="text-horror-text">Final boss outcome</strong> — the fate of Elpis and the facility</span>
-          </li>
-          <li class="flex items-start gap-3">
-            <span class="w-2 h-2 rounded-full bg-horror-red mt-2 flex-shrink-0"></span>
-            <span><strong class="text-horror-text">Future story implications</strong> — post-credits scenes that hint at what comes next</span>
+            <span><strong class="text-horror-text">Destroy Elpis</strong> (wrong password) — the alternate "Destruction" ending: Leon dies, Emily is left in her cocoon.</span>
           </li>
         </ul>
       </div>
 
-      <!-- How Endings Work -->
       <div class="bg-horror-surface border border-horror-border rounded-xl p-6 mb-8">
         <h2 class="text-2xl font-bold text-horror-text mb-4">How Endings Work</h2>
         <p class="text-horror-text-secondary mb-4">
-          Resident Evil Requiem features multiple endings based on two key factors:
+          Nothing earlier in the game branches the ending. Emily's injury during the helicopter crash is a scripted story beat, not a consequence of your choices. The only decision that matters is the final one at the ARK central console, where you choose to release or destroy <strong class="text-horror-text">Elpis</strong> — Oswell E. Spencer's antiviral cure.
         </p>
-        <ul class="list-disc list-inside text-horror-text-secondary space-y-2">
-          <li>
-            <strong class="text-horror-text">Emily's survival</strong> — whether you keep Emily alive through the research wing. <em>Emily, one of the central characters in Resident Evil Requiem, is a young survivor who can read Braille and helps Grace uncover the truth.</em>
-          </li>
-          <li>
-            <strong class="text-horror-text">The Elpis choice</strong> — whether you release or destroy Elena / Elpis in the final act. <em>Elpis is the mysterious entity connected to Elena that serves as the true source of the Rhodes Hill outbreak.</em>
-          </li>
-        </ul>
       </div>
-
-      <!-- Timeline -->
-      <section class="mb-8">
-        <h2 class="text-2xl font-bold text-horror-text mb-4">Resident Evil Requiem Story Timeline</h2>
-        
-        <div class="space-y-3 relative pl-4">
-          <div class="absolute left-0 top-0 bottom-0 w-0.5 bg-horror-border"></div>
-          {timeline.map((event, index) => (
-            <div class="relative pl-6">
-              <div class="absolute left-[-5px] top-2 w-3 h-3 rounded-full bg-horror-red" style="margin-left: -0.3rem;"></div>
-              <div class="font-bold text-horror-text">{event.title}</div>
-              <p class="text-horror-text-secondary text-sm">{event.detail}</p>
-            </div>
-          ))}
-        </div>
-      </section>
 
       <!-- All Endings -->
       <div class="space-y-6">
@@ -232,7 +182,7 @@ const faqSchema = {
               <div class="flex-1">
                 <h2 class="text-2xl font-bold text-horror-text mb-2">{ending.name}</h2>
                 <div class="mb-3">
-                  <span class="text-sm font-semibold text-horror-red">Condition:</span>
+                  <span class="text-sm font-semibold text-horror-red">How to unlock:</span>
                   <p class="text-horror-text-secondary">{ending.condition}</p>
                 </div>
                 <div>
@@ -245,29 +195,29 @@ const faqSchema = {
         ))}
       </div>
 
-      <!-- Recommended Playthrough -->
+      <!-- How to see both -->
       <div class="mt-12 bg-horror-surface border border-horror-border rounded-xl p-6">
-        <h2 class="text-2xl font-bold text-horror-text mb-4">Recommended First Playthrough</h2>
+        <h2 class="text-2xl font-bold text-horror-text mb-4">How to See Both Endings</h2>
         <p class="text-horror-text-secondary leading-relaxed">
-          For the most complete narrative experience, aim to save Emily and choose carefully regarding Elpis. Save before the final choice if you want to see multiple endings without replaying the entire game. The true ending is generally considered to be the <strong class="text-horror-text">Save Emily + Destroy Elpis</strong> combination.
+          Save the game before Leon takes the elevator to B4 of the Bioweapon Depot. After watching your first ending, reload that save and make the other choice — no second full playthrough needed. (The "Speed Demon" trophy asks for the release-Elpis ending in under 4 hours if you're chasing the platinum.)
         </p>
       </div>
 
       <!-- Internal Links -->
       <section class="mt-12">
-        <h2 class="text-2xl font-bold text-horror-text mb-4">Related Lore & Story Guides</h2>
+        <h2 class="text-2xl font-bold text-horror-text mb-4">Related Story Guides</h2>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <a href="/characters" class="group p-5 rounded-xl border border-horror-border bg-horror-surface/50 hover:bg-horror-surface hover:border-horror-red/50 transition-all">
-            <div class="font-bold text-horror-text group-hover:text-horror-red transition-colors mb-1">Characters Database</div>
-            <p class="text-xs text-horror-text-secondary">Grace, Leon, Emily, Elena, and their relationships.</p>
+          <a href="/story" class="group p-5 rounded-xl border border-horror-border bg-horror-surface/50 hover:bg-horror-surface hover:border-horror-red/50 transition-all">
+            <div class="font-bold text-horror-text group-hover:text-horror-red transition-colors mb-1">Story Hub</div>
+            <p class="text-xs text-horror-text-secondary">The full story of Rhodes Hill, Grace, Leon, and Emily.</p>
           </a>
           <a href="/characters/emily" class="group p-5 rounded-xl border border-horror-border bg-horror-surface/50 hover:bg-horror-surface hover:border-horror-red/50 transition-all">
             <div class="font-bold text-horror-text group-hover:text-horror-red transition-colors mb-1">Emily Guide</div>
-            <p class="text-xs text-horror-text-secondary">Learn how Emily's fate determines the ending.</p>
+            <p class="text-xs text-horror-text-secondary">The blind clone whose fate differs between endings.</p>
           </a>
-          <a href="/characters/elena" class="group p-5 rounded-xl border border-horror-border bg-horror-surface/50 hover:bg-horror-surface hover:border-horror-red/50 transition-all">
-            <div class="font-bold text-horror-text group-hover:text-horror-red transition-colors mb-1">Elena / Elpis Guide</div>
-            <p class="text-xs text-horror-text-secondary">The true source of the Rhodes Hill outbreak.</p>
+          <a href="/characters/grace-ashcroft" class="group p-5 rounded-xl border border-horror-border bg-horror-surface/50 hover:bg-horror-surface hover:border-horror-red/50 transition-all">
+            <div class="font-bold text-horror-text group-hover:text-horror-red transition-colors mb-1">Grace Ashcroft Guide</div>
+            <p class="text-xs text-horror-text-secondary">FBI analyst and the game's main protagonist.</p>
           </a>
         </div>
       </section>
@@ -275,16 +225,14 @@ const faqSchema = {
       <!-- FAQ -->
       <FAQSection faqs={faqs} />
 
-      <!-- E-E-A-T -->
-      <section class="mt-12 rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
-        <h2 class="text-2xl font-bold text-horror-text mb-4">About This Ending Guide</h2>
-        <p class="text-horror-text-secondary leading-relaxed mb-4">
-          This Resident Evil Requiem endings guide is designed to help players and lore fans understand every possible outcome, the choices that matter, and how to unlock the true ending. It is part of our larger Resident Evil Requiem story and lore database.
-        </p>
-        <p class="text-horror-text-secondary leading-relaxed">
-          For the full story, visit the Story Hub. For character details, check the Characters Database. For boss strategies, see the Boss Guides.
-        </p>
-      </section>
+      <VerificationBlock
+        status="corroborated"
+        sources={[
+          { name: 'Game8', url: 'https://game8.co/games/Resident-Evil-Requiem/archives/582587' },
+          { name: 'GameSpot', url: 'https://www.gamespot.com/gallery/resident-evil-requiem-endings-hope-destruction-elpis/2900-7533/' },
+        ]}
+        lastChecked="2026-09-21"
+      />
     </article>
   </div>
 </MainLayout>

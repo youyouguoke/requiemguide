@@ -4,37 +4,33 @@ fullName: "Leon S. Kennedy"
 aliases:
   - "Leon Kennedy"
   - "Leon"
-description: "Leon S. Kennedy is a veteran government agent and playable character in Resident Evil Requiem. He arrives at Rhodes Hill to investigate the outbreak and fights alongside Grace."
+description: "Leon S. Kennedy is a DSO agent and co-protagonist of Resident Evil Requiem. His third-person action campaign makes up roughly half the game, and his fate depends on the final Elpis choice."
 image: "/images/requiem_survival_guide_grace_ashcroft_profile_019.jpg"
-role: "Deuteragonist"
+role: "Co-protagonist"
 roleType: "playable"
-status: "Alive"
-firstAppearance: "Chapter 2 - Leon's Arrival"
-location: "Rhodes Hill Care Center"
+status: "Alive (true ending) / Dies (alternate ending)"
+firstAppearance: "Wrenwood Hotel / Rhodes Hill"
+location: "Rhodes Hill & Raccoon City"
 affiliation: "Division of Security Operations (DSO)"
 relationships:
   - name: "Grace Ashcroft"
     slug: "grace-ashcroft"
-    relationship: "Investigation partner he protects and mentors through the outbreak"
+    relationship: "Investigation partner he protects and hands the Requiem magnum to"
   - name: "Emily"
     slug: "emily"
-    relationship: "Survivor Leon helps protect; her fate affects the ending"
-  - name: "Elena / Elpis"
-    slug: "elena"
-    relationship: "Adversary linked to the outbreak and the game's final choice"
+    relationship: "Protector who shoots her non-fatally when she mutates after the crash"
 timeline:
   - title: "Arrives at Rhodes Hill"
-    detail: "Leon is sent to investigate reports of a bioterror incident at the care center."
-  - title: "Meets Grace"
-    detail: "Leon crosses paths with Grace and they form an uneasy partnership."
+    detail: "Leon, a veteran DSO agent, investigates the Care Center outbreak and partners with Grace."
+  - title: "Hands Grace the Requiem"
+    detail: "During the Care Center story sequence, Leon gives Grace his Requiem magnum revolver."
   - title: "Boss Encounters"
-    detail: "Leon confronts Chunk, Blister Borne, and the Titan Spinner in combat-heavy sections."
-  - title: "Final Confrontation"
-    detail: "Leon supports Grace during the final Elpis decision and Emily's fate."
-endingConnection: "Leon's choices during combat and his support of Grace influence whether the group can save Emily and stop Elpis."
+    detail: "Leon fights Chunk, Blister Borne, the Titan Spinner, and the mutated Victor Gideon in action-heavy sections."
+  - title: "The Elpis Choice"
+    detail: "In the true ending Leon is cured of his T-virus strain by Elpis; in the alternate ending he dies at Zeno's hands."
+endingConnection: "Leon's fate is an outcome of the final Elpis choice — cured in the true ending, dead in the alternate."
 relatedStory:
   - "story"
-  - "ending-explained"
 relatedBosses:
   - "chunk"
   - "blister-borne"
@@ -46,56 +42,45 @@ relatedWeapons:
 relatedCharacters:
   - "grace-ashcroft"
   - "emily"
-  - "elena"
-relatedGuides:
-  - "chapter-2"
-  - "chapter-3"
 faq:
   - question: "Is Leon Kennedy in Resident Evil Requiem?"
-    answer: "Yes, Leon S. Kennedy is a playable character in Resident Evil Requiem. He arrives at Rhodes Hill to investigate the outbreak and serves as the deuteragonist."
+    answer: "Yes — Leon S. Kennedy is a playable co-protagonist, sharing roughly half the game with Grace. His segments are third-person action."
   - question: "What is Leon's role in Resident Evil Requiem?"
-    answer: "Leon is a veteran DSO agent who brings combat expertise to the investigation. His sections focus on action, boss fights, and heavy weapons."
+    answer: "Leon is a veteran DSO agent who brings combat expertise to the investigation. His sections focus on third-person action, boss fights, and heavy weapons."
   - question: "Which bosses does Leon fight?"
-    answer: "Leon confronts Chunk, Blister Borne, the Titan Spinner, and potentially Emily (Transformed) depending on player choices."
-  - question: "What is the relationship between Leon and Grace?"
-    answer: "Leon and Grace are investigation partners. Leon acts as a mentor and protector, helping Grace survive the horrors of Rhodes Hill."
+    answer: "Leon confronts Chunk, Blister Borne, the Titan Spinner, and the final mutated Victor Gideon, among others."
+  - question: "Does Leon die in Resident Evil Requiem?"
+    answer: "Only in the alternate ending — if Elpis is destroyed, Leon dies at Zeno's hands. In the true ending he is cured of his T-virus strain."
 keywords:
   - "Leon S. Kennedy"
   - "Resident Evil Requiem characters"
   - "RE9 Leon"
   - "Leon Kennedy Resident Evil Requiem"
-updated: 2026-07-14
+updated: 2026-09-21
+verification: "corroborated"
 ---
 
-Leon S. Kennedy returns as a playable character in **Resident Evil Requiem**. He arrives at Rhodes Hill to investigate the outbreak and crosses paths with Grace and Emily, leading to a dual-narrative campaign.
+Leon S. Kennedy returns as a **playable co-protagonist** of **Resident Evil Requiem**. A veteran **DSO agent** (with Sherry Birkin as his handler), he investigates the Rhodes Hill outbreak and crosses paths with Grace and Emily — his third-person action campaign makes up roughly half of the game.
 
 ## Background
 
-Leon brings years of bioterrorism experience to the fight. His sections are more action-heavy, emphasizing combat, boss battles, and firepower. He serves as the muscle of the group while Grace handles stealth and puzzle sections.
+Leon's sections are the action half of the game: combat, boss battles, and firepower, in contrast to Grace's first-person stealth. He hands Grace the **Requiem magnum revolver** during the Care Center story sequence.
 
 ## Key Traits
 
-- **Playstyle**: Action combat, heavy weapons, boss fights
-- **Signature Weapons**: MSBG 500 shotgun, Requiem rifle
-- **Strengths**: High durability, heavy weapon proficiency, combat experience
-- **Weaknesses**: Less effective in stealth and puzzle sections
+- **Playstyle**: Third-person action combat, heavy weapons, boss fights
+- **Signature Weapons**: MSBG 500 shotgun, Requiem magnum
+- **Strengths**: Combat experience, durability, heavy weapon proficiency
 
 ## Story Role
 
-Leon arrives at Rhodes Hill after reports of a bioterror incident. His campaign reveals the military and corporate involvement in the outbreak. He is the one who ultimately confronts several of the game's major bosses, including Chunk and the Titan Spinner.
+Leon confronts several of the game's major bosses, including [Chunk](/bosses/chunk), [Blister Borne](/bosses/blister-borne), and the [Titan Spinner](/bosses/titan-spinner). His fate hinges on the final Elpis choice: cured in the true ending, killed by Zeno in the alternate. See the [endings guide](/story/endings).
 
 ## Notable Equipment
 
-- **MSBG 500**: Pump-action shotgun ideal for close combat
-- **Requiem**: Powerful rifle shared with Grace's campaign
+- **MSBG 500**: Pump-action shotgun found in the Care Center Attic
+- **Requiem**: 12.7x55mm magnum revolver he hands to Grace
 - **Handgun**: Standard sidearm for weaker enemies
-
-## Boss Encounters
-
-- **Chunk**: Kitchen/cafeteria boss fight
-- **Blister Borne**: Church courtyard confrontation
-- **Titan Spinner**: Late-game sewer boss
-- **Emily (Transformed)**: Emotional optional boss depending on choices
 
 ## Visual Guide
 

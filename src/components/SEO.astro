@@ -34,8 +34,12 @@ const ogImage = image?.startsWith('http') ? image : `${SITE.url}${image || '/og-
 const canonicalUrl = canonical ? new URL(canonical, SITE.url).href : new URL(Astro.url.pathname, SITE.url).href;
 const robots = noindex || nofollow ? `${noindex ? 'noindex' : 'index'},${nofollow ? 'nofollow' : 'follow'}` : 'index, follow';
 
-// Helper to normalize URLs without trailing slashes for canonical / og:url
-const normalizedCanonicalUrl = canonicalUrl.replace(/\/+$/, '') || `${SITE.url}`;
+// Preserve trailing slash for all pages except the homepage (canonical root should be URL without trailing slash)
+const normalizedCanonicalUrl = canonicalUrl === `${SITE.url}/`
+  ? SITE.url
+  : canonicalUrl.endsWith('/')
+    ? canonicalUrl
+    : `${canonicalUrl}/`;
 ---
 
 <meta charset="UTF-8" />
@@ -48,14 +52,14 @@ const normalizedCanonicalUrl = canonicalUrl.replace(/\/+$/, '') || `${SITE.url}`
 
 <meta name="robots" content={robots} />
 
-<link rel="canonical" href={normalizedCanonicalUrl} />
+{!noindex && <link rel="canonical" href={normalizedCanonicalUrl} />}
 
 <meta property="og:site_name" content={SITE.title} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:type" content={type} />
 <meta property="og:locale" content="en_US" />
-<meta property="og:url" content={normalizedCanonicalUrl} />
+<meta property="og:url" content={noindex ? Astro.url.href : normalizedCanonicalUrl} />
 <meta property="og:image" content={ogImage} />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
@@ -79,7 +83,7 @@ const normalizedCanonicalUrl = canonicalUrl.replace(/\/+$/, '') || `${SITE.url}`
   name: title,
   headline: title,
   description: description,
-  url: normalizedCanonicalUrl,
+  url: noindex ? Astro.url.href : normalizedCanonicalUrl,
   image: ogImage,
   author: {
     '@type': 'Organization',

@@ -1,0 +1,204 @@
+{
+  "registry": "requiem-guide-puzzles",
+  "game": "Resident Evil Requiem",
+  "lastAudit": "2026-09-21",
+  "facts": [
+    {
+      "fact": "Sun Quartz Puzzle Box code",
+      "value": "Star → Sun → Moon → Sun",
+      "source": "cross-verified guides",
+      "sourceUrl": "https://www.ign.com/wikis/resident-evil-requiem/Lead_Researcher's_Office_Puzzle_Solution",
+      "alsoVerifiedBy": ["https://www.gamesradar.com/games/resident-evil/resident-evil-requiem-sun-moon-star-puzzle-boxes-solution", "https://www.gamespot.com/gallery/resident-evil-requiem-puzzle-box-solutions-guide/2900-7520"],
+      "verification": "verified",
+      "lastChecked": "2026-09-21"
+    },
+    {
+      "fact": "Sun Quartz Puzzle Box location",
+      "value": "Lead Researcher's Office, East Wing 2F",
+      "source": "cross-verified guides",
+      "sourceUrl": "https://www.ign.com/wikis/resident-evil-requiem/Lead_Researcher's_Office_Puzzle_Solution",
+      "verification": "verified",
+      "lastChecked": "2026-09-21"
+    },
+    {
+      "fact": "Sun Quartz requirement (Corrosive)",
+      "value": "Corrosive, found in the Conference Room at the end of the hallway outside the Lead Researcher's Office",
+      "source": "cross-verified guides",
+      "sourceUrl": "https://www.powerpyx.com/resident-evil-requiem-all-puzzle-solutions-guide",
+      "verification": "verified",
+      "lastChecked": "2026-09-21"
+    },
+    {
+      "fact": "Sun Quartz box reward",
+      "value": "Sun Quartz + Leatherbound Notebook (contains a document that helps open the Organ Transport Box)",
+      "source": "GameSpot",
+      "sourceUrl": "https://www.gamespot.com/gallery/resident-evil-requiem-puzzle-box-solutions-guide/2900-7520",
+      "verification": "verified",
+      "lastChecked": "2026-09-21"
+    },
+    {
+      "fact": "Sun Quartz is the 2nd of the three Quartz",
+      "value": "Moon (1st) → Sun (2nd) → Star (3rd)",
+      "source": "IGN walkthrough",
+      "sourceUrl": "https://www.ign.com/wikis/resident-evil-requiem",
+      "verification": "verified",
+      "lastChecked": "2026-09-21"
+    },
+    {
+      "fact": "Moon Quartz Puzzle Box code",
+      "value": "Moon → Sun → Star → Moon",
+      "source": "cross-verified guides",
+      "sourceUrl": "https://www.gamespot.com/gallery/resident-evil-requiem-puzzle-box-solutions-guide/2900-7520",
+      "alsoVerifiedBy": ["https://www.gamesradar.com/games/resident-evil/resident-evil-requiem-sun-moon-star-puzzle-boxes-solution", "https://www.pcgamer.com/games/horror/resident-evil/requiem-puzzle-box-solutions"],
+      "verification": "verified",
+      "lastChecked": "2026-09-21"
+    },
+    {
+      "fact": "Moon Quartz Puzzle Box location",
+      "value": "Chairman's Office, West Wing 2F",
+      "source": "cross-verified guides",
+      "sourceUrl": "https://www.gamespot.com/gallery/resident-evil-requiem-puzzle-box-solutions-guide/2900-7520",
+      "verification": "verified",
+      "lastChecked": "2026-09-21"
+    },
+    {
+      "fact": "Moon Quartz requirement (Pencil)",
+      "value": "Pencil found on the desk, used to shade the notebook on the lounge table to reveal the code",
+      "source": "cross-verified guides",
+      "sourceUrl": "https://www.pcgamer.com/games/horror/resident-evil/requiem-puzzle-box-solutions",
+      "verification": "verified",
+      "lastChecked": "2026-09-21"
+    },
+    {
+      "fact": "Star Quartz Puzzle Box code",
+      "value": "Star → Star → Moon → Sun",
+      "source": "cross-verified guides",
+      "sourceUrl": "https://www.gamesradar.com/games/resident-evil/resident-evil-requiem-sun-moon-star-puzzle-boxes-solution",
+      "alsoVerifiedBy": ["https://www.gamespot.com/gallery/resident-evil-requiem-puzzle-box-solutions-guide/2900-7520", "https://www.powerpyx.com/resident-evil-requiem-all-puzzle-solutions-guide"],
+      "verification": "verified",
+      "lastChecked": "2026-09-21"
+    },
+    {
+      "fact": "Star Quartz Puzzle Box location",
+      "value": "Security Manager's Office (Isolation Ward per IGN/PC Gamer; 'East Wing' per GamesRadar/GameSpot — source conflict noted)",
+      "source": "IGN walkthrough + PC Gamer",
+      "sourceUrl": "https://www.ign.com/wikis/resident-evil-requiem/Grace_-_Care_Center_(Find_the_3_Quartz)_Walkthrough",
+      "verification": "corroborated",
+      "lastChecked": "2026-09-21"
+    },
+    {
+      "fact": "Star Quartz requirement chain",
+      "value": "Level 2 ID Wristband (revive the corpse in the East Wing Examination Room) → notebook on the Security Manager's desk (unfold upper-right corner) → box buttons worn to Braille, only Emily can read → defend Emily → after the Care Center Basement rescue she hands over the Star Quartz. The sequence also grants the Level 3 ID Wristband used to free Emily from her cell.",
+      "source": "cross-verified guides",
+      "sourceUrl": "https://www.powerpyx.com/resident-evil-requiem-all-puzzle-solutions-guide",
+      "verification": "verified",
+      "lastChecked": "2026-09-21"
+    },
+    {
+      "fact": "Central Hall Quartz mechanism",
+      "value": "1F door behind the reception desk with three indentations (Sun, Moon, Star). Inserting all three Quartz opens the path to the Courtyard — the way out of the Care Center. Route continues to Garage/Isolation Ward/Basement.",
+      "source": "cross-verified guides",
+      "sourceUrl": "https://www.ign.com/wikis/resident-evil-requiem",
+      "alsoVerifiedBy": ["https://www.gamespot.com/gallery/resident-evil-requiem-puzzle-box-solutions-guide/2900-7520"],
+      "verification": "verified",
+      "lastChecked": "2026-09-21"
+    },
+    {
+      "fact": "Safe codes — total count",
+      "value": "Exactly 5 combination safes (Grace's sections); codes differ on Insanity; opening all 5 unlocks the 'No Safe is Safe' trophy",
+      "source": "cross-verified guides",
+      "sourceUrl": "https://www.ign.com/wikis/resident-evil-requiem/Safe_Codes_Guide",
+      "alsoVerifiedBy": ["https://www.rockpapershotgun.com/resident-evil-requiem-all-safe-codes"],
+      "verification": "verified",
+      "lastChecked": "2026-09-21"
+    },
+    {
+      "fact": "Safe codes — Bar & Lounge (Care Center West Wing, behind bar)",
+      "value": "Normal 10L-80R-30L / Insanity 20R-50L-30R — reward: 3 Antique Coins",
+      "source": "IGN + RPS",
+      "sourceUrl": "https://www.ign.com/wikis/resident-evil-requiem/Safe_Codes_Guide",
+      "verification": "verified",
+      "lastChecked": "2026-09-21"
+    },
+    {
+      "fact": "Safe codes — Examination Room (Care Center East Wing)",
+      "value": "Normal 30R-10L-50R / Insanity 50L-30R-90L — reward: 3 Antique Coins",
+      "source": "IGN + RPS",
+      "sourceUrl": "https://www.ign.com/wikis/resident-evil-requiem/Safe_Codes_Guide",
+      "verification": "verified",
+      "lastChecked": "2026-09-21"
+    },
+    {
+      "fact": "Safe codes — Basement (Care Center Basement)",
+      "value": "Normal 60R-40L-80R / Insanity 70L-50R-20L — reward: Raccoon Roundup Map + Handgun Ammo (code only obtainable as Leon in the Attic warped cabinet)",
+      "source": "IGN + RPS",
+      "sourceUrl": "https://www.ign.com/wikis/resident-evil-requiem/Safe_Codes_Guide",
+      "verification": "verified",
+      "lastChecked": "2026-09-21"
+    },
+    {
+      "fact": "Safe codes — Sterilization Chamber (ARK)",
+      "value": "Normal 10R-90L-20R / Insanity 80L-50R-0L — reward: Molotov + Med Injector + Handgun Ammo",
+      "source": "IGN + RPS",
+      "sourceUrl": "https://www.ign.com/wikis/resident-evil-requiem/Safe_Codes_Guide",
+      "verification": "verified",
+      "lastChecked": "2026-09-21"
+    },
+    {
+      "fact": "Safe codes — Monitor Control Room (ARK)",
+      "value": "Normal 50L-60R-80L / Insanity 20R-0L-70R — reward: Med Injector + Empty Bottle + Bottle of Acid (Radio Times lists directions reversed; IGN/RPS/MapMaster agree on 50L-60R-80L)",
+      "source": "IGN + RPS",
+      "sourceUrl": "https://www.ign.com/wikis/resident-evil-requiem/Safe_Codes_Guide",
+      "verification": "verified",
+      "lastChecked": "2026-09-21"
+    },
+    {
+      "fact": "Blood Analyzer location",
+      "value": "Main analyzer: Blood Lab, East Wing 1F of the Care Center. Second analyzer: 2F of the West Wing Office. NOT an underground facility / Chapter 5.",
+      "source": "GamesRadar + Game8",
+      "sourceUrl": "https://www.gamesradar.com/games/resident-evil/resident-evil-requiem-analyzer-puzzle-solutions",
+      "verification": "verified",
+      "lastChecked": "2026-09-21"
+    },
+    {
+      "fact": "Blood Analyzer puzzle type",
+      "value": "3x3 atom-grid: click nodes to turn all atoms red, unlocking crafting recipes",
+      "source": "cross-verified guides",
+      "sourceUrl": "https://game8.co/games/Resident-Evil-Requiem/archives/583274",
+      "verification": "verified",
+      "lastChecked": "2026-09-21"
+    },
+    {
+      "fact": "Blood Analyzer — Denatured Blood solution",
+      "value": "Click the left-middle square (single click; one-click solve). Unlocks Handgun Ammo + Hemolytic Injector.",
+      "source": "PowerPyx",
+      "sourceUrl": "https://www.powerpyx.com/resident-evil-requiem-all-puzzle-solutions-guide",
+      "verification": "verified",
+      "lastChecked": "2026-09-21"
+    },
+    {
+      "fact": "Blood Analyzer — Reversible Blood solution",
+      "value": "Bottom-left → Middle → Top-right → 2nd from top. Room next to the Blood Lab, needs ID Wristband Lv1. Unlocks Steroids + Stabilizer.",
+      "source": "PowerPyx",
+      "sourceUrl": "https://www.powerpyx.com/resident-evil-requiem-all-puzzle-solutions-guide",
+      "verification": "verified",
+      "lastChecked": "2026-09-21"
+    },
+    {
+      "fact": "Blood Analyzer — Converged Blood solution",
+      "value": "Top-middle → 2nd square from bottom. Closet south of the Waiting Room (Records Room on Insanity), needs ID Wristband Lv1. Unlocks Med Injector + 12.7x55mm ammo.",
+      "source": "PowerPyx + Game8",
+      "sourceUrl": "https://www.powerpyx.com/resident-evil-requiem-all-puzzle-solutions-guide",
+      "verification": "verified",
+      "lastChecked": "2026-09-21"
+    },
+    {
+      "fact": "Blood Analyzer — Polymerized Blood (Insanity only)",
+      "value": "Same closet as Converged. Unlocks R.I.P. Knife + Handgun Ammo x30.",
+      "source": "PowerPyx + Game8",
+      "sourceUrl": "https://www.powerpyx.com/resident-evil-requiem-all-puzzle-solutions-guide",
+      "verification": "verified",
+      "lastChecked": "2026-09-21"
+    }
+  ]
+}

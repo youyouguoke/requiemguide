@@ -25,7 +25,7 @@ const typeLabels: Record<string, string> = {
 };
 
 const typeKeywords: Record<string, string[]> = {
-  'safe-code': ['safe code', 'combination lock', 'numeric code'],
+  'safe-code': ['safe codes', 'safe code', 'combination lock', 'numeric code'],
   'door-lock': ['door lock', 'key code', 'locked door'],
   'symbol': ['symbol puzzle', 'quartz puzzle', 'moon sun star'],
   'logic': ['logic puzzle', 'blood analyzer', 'node puzzle'],
@@ -160,7 +160,7 @@ const keywords = [
         {sortedPuzzles.map((puzzle) => (
           <GuideCard
             href={`/puzzles/${puzzle.slug}`}
-            title={`${puzzle.data.title} Solution`}
+            title={`${puzzle.data.title.toLowerCase().endsWith('solution') ? puzzle.data.title : `${puzzle.data.title} Solution`}`}
             category={puzzle.data.difficulty || 'Puzzle'}
             description={puzzle.data.description || `Solution for ${puzzle.data.title}`}
             image={puzzle.data.image || '/images/requiem_survival_guide_library_puzzle_solution_038.jpg'}

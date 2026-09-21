@@ -1,39 +1,78 @@
 ---
-import { getCollection } from 'astro:content';
 import MainLayout from '../../layouts/MainLayout.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
-import GuideCard from '../../components/GuideCard.astro';
-import FAQSection from '../../components/FAQSection.astro';
+import VerificationBlock from '../../components/VerificationBlock.astro';
+import { Icon } from 'astro-icon/components';
 
-const title = 'Resident Evil Requiem Enemies Database - Weaknesses & Strategies';
-const description = 'Complete Resident Evil Requiem enemies database with enemy weaknesses, attack patterns, locations, threat levels, and the best strategies to defeat every creature.';
+const title = 'Resident Evil Requiem Enemies - Full Roster | Requiem Guide';
+const description = 'The complete Resident Evil Requiem enemy roster: every infected, mutated creature, and bioweapon you will face, grouped by area. Boss encounters link to their dedicated guides.';
 
-const enemies = await getCollection('enemy');
-const threatOrder = { low: 1, medium: 2, high: 3, extreme: 4 };
-enemies.sort((a, b) => (threatOrder[b.data.threat || 'low'] || 0) - (threatOrder[a.data.threat || 'low'] || 0));
+// Roster cross-checked against Evil Resource's complete enemy list and GameSpot's enemy coverage (post-release).
+const groups = [
+  {
+    name: 'Rhodes Hill Infected',
+    note: 'The staff and patients of the Care Center.',
+    enemies: [
+      'Wrenwood Zombie',
+      'Zombie Doctor',
+      'Zombie Patient',
+      'Zombie Staff Member',
+      'Zombie Blind Patient',
+      'Zombie Cleaner',
+      'Zombie Singer',
+      'Chef Zombie (optional boss)',
+    ],
+  },
+  {
+    name: 'Mutated Creatures',
+    note: 'Area bosses and recurring threats. Boss encounters have dedicated guides.',
+    enemies: [
+      'The Girl (Shadow Ghost) — boss guide available',
+      'Blister Head',
+      'Blister Borne — boss guide available',
+      'Chunk — boss guide available',
+      'Small Spider',
+      'Titan Spinner — boss guide available',
+    ],
+    links: [
+      { href: '/bosses/shadow-ghost', label: 'The Girl guide' },
+      { href: '/bosses/blister-borne', label: 'Blister Borne guide' },
+      { href: '/bosses/chunk', label: 'Chunk guide' },
+      { href: '/bosses/titan-spinner', label: 'Titan Spinner guide' },
+    ],
+  },
+  {
+    name: 'Raccoon City Threats',
+    note: 'Leon\'s campaign through the ruins of Raccoon City.',
+    enemies: [
+      'Raccoon City Zombie',
+      'Raccoon City BSAA Zombie',
+      'Raccoon City Chainsaw Zombie',
+      'Garmr',
+      'R.P.D. Zombie',
+      'The Children',
+      'Licker β2',
+    ],
+  },
+  {
+    name: 'ARK Bioweapons',
+    note: 'The final facility\'s security and specimens.',
+    enemies: [
+      'ARK Zombie',
+      'Elite Guard',
+      'Plant 43',
+      'Tyrant T-501 (pursuit)',
+      'Super Tyrant T-501',
+      'The Commander',
+    ],
+  },
+];
 
-const categoryLabels: Record<string, string> = {
-  common: 'Common Enemies',
-  mutated: 'Mutated Enemies',
-  special: 'Special Enemies',
-  'mini-boss': 'Mini-Bosses',
-  hazard: 'Hazards',
-};
-
-const categorySlugs: Record<string, string> = {
-  common: 'common',
-  mutated: 'mutated',
-  special: 'special',
-  'mini-boss': 'mini-boss',
-  hazard: 'hazard',
-};
-
-const totalEnemies = enemies.length;
-const commonCount = enemies.filter((e) => e.data.category === 'common').length;
-const highThreatCount = enemies.filter((e) => e.data.threat === 'high' || e.data.threat === 'extreme').length;
-const miniBossCount = enemies.filter((e) => e.data.category === 'mini-boss').length;
-
-const categories = [...new Set(enemies.map((enemy) => enemy.data.category).filter((category): category is string => Boolean(category)))];
+const keywords = [
+  'resident evil requiem enemies',
+  'resident evil requiem enemy list',
+  'resident evil requiem all enemies',
+];
 
 const breadcrumbSchema = {
   '@context': 'https://schema.org',
@@ -43,57 +82,6 @@ const breadcrumbSchema = {
     { '@type': 'ListItem', position: 2, name: 'Enemies', item: 'https://requiemguide.com/enemies' },
   ],
 };
-
-const itemListSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'ItemList',
-  name: 'Resident Evil Requiem Enemies Database',
-  numberOfItems: totalEnemies,
-  itemListElement: enemies.map((enemy, index) => ({
-    '@type': 'ListItem',
-    position: index + 1,
-    name: `${enemy.data.title} enemy guide`,
-    url: `https://requiemguide.com/enemies/${enemy.slug}`,
-  })),
-};
-
-const faqs = [
-  {
-    question: 'What are the enemy types in Resident Evil Requiem?',
-    answer: 'Resident Evil Requiem features common enemies, mutated enemies, special enemies, mini-bosses, and hazards. Each type has different weaknesses and strategies.',
-  },
-  {
-    question: 'What is the strongest enemy in Resident Evil Requiem?',
-    answer: 'Mini-bosses like the Blister Borne Minion are among the most dangerous due to their high threat and ability to swarm the player.',
-  },
-  {
-    question: 'Where can I find enemy weaknesses?',
-    answer: 'Every enemy page in this database lists its weakness and the best counter. You can also visit the Enemy Weakness Database for a quick overview.',
-  },
-  {
-    question: 'How do I defeat Howlers in Resident Evil Requiem?',
-    answer: 'Howlers are weak to flashlight stuns. Stun them before they finish their scream, then land a headshot or melee follow-up.',
-  },
-];
-
-const faqSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: faqs.map((faq) => ({
-    '@type': 'Question',
-    name: faq.question,
-    acceptedAnswer: { '@type': 'Answer', text: faq.answer },
-  })),
-};
-
-const keywords = [
-  'resident evil requiem enemies database',
-  'resident evil requiem enemy guide',
-  'resident evil requiem enemy weaknesses',
-  'resident evil requiem enemy locations',
-  'resident evil requiem enemy strategies',
-  'how to defeat resident evil requiem enemies',
-];
 ---
 
 <MainLayout
@@ -101,172 +89,50 @@ const keywords = [
   description={description}
   keywords={keywords}
   currentPath="/enemies"
-  extraSchema={[breadcrumbSchema, itemListSchema, faqSchema]}
+  extraSchema={[breadcrumbSchema]}
 >
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <Breadcrumb items={[{ label: 'Enemies', href: '/enemies' }]} />
 
-    <!-- Hero -->
-    <header class="relative mb-12 rounded-2xl overflow-hidden border border-horror-border">
-      <div class="relative h-48 sm:h-64">
-        <img
-          src="/images/enemy_howler.jpg"
-          alt="Resident Evil Requiem enemies database: weaknesses and strategies"
-          width="512"
-          height="286"
-          loading="eager"
-          fetchpriority="high"
-          class="w-full h-full object-cover"
-        />
-        <div class="absolute inset-0 bg-gradient-to-r from-horror-bg via-horror-bg/80 to-transparent"></div>
-      </div>
-      <div class="p-6 sm:p-8">
-        <p class="text-horror-red font-semibold tracking-widest uppercase text-sm mb-4">Enemies Database</p>
-        <h1 class="text-4xl sm:text-5xl font-extrabold text-horror-text mb-4">Resident Evil Requiem Enemies Database</h1>
-        <p class="text-xl text-horror-text-secondary max-w-2xl">{description}</p>
-      </div>
+    <header class="mb-10">
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-horror-text mb-4">
+        Resident Evil Requiem Enemies
+      </h1>
+      <p class="text-lg text-horror-text-secondary leading-relaxed">
+        Every hostile you will encounter, grouped by area. Individual threat profiles (weaknesses, tactics) are being added only where we can verify them — the roster itself is confirmed against the complete post-release enemy list.
+      </p>
     </header>
 
-    <!-- Stats -->
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-12">
-      <div class="p-4 rounded-xl border border-horror-border bg-horror-surface/50">
-        <div class="text-xs text-horror-text-muted uppercase font-semibold mb-1">Total Enemies</div>
-        <div class="text-2xl font-bold text-horror-text">{totalEnemies}</div>
-      </div>
-      <div class="p-4 rounded-xl border border-horror-border bg-horror-surface/50">
-        <div class="text-xs text-horror-text-muted uppercase font-semibold mb-1">Common Enemies</div>
-        <div class="text-2xl font-bold text-horror-text">{commonCount}</div>
-      </div>
-      <div class="p-4 rounded-xl border border-horror-border bg-horror-surface/50">
-        <div class="text-xs text-horror-text-muted uppercase font-semibold mb-1">High Threat</div>
-        <div class="text-2xl font-bold text-horror-text">{highThreatCount}</div>
-      </div>
-      <div class="p-4 rounded-xl border border-horror-border bg-horror-surface/50">
-        <div class="text-xs text-horror-text-muted uppercase font-semibold mb-1">Mini-Bosses</div>
-        <div class="text-2xl font-bold text-horror-text">{miniBossCount}</div>
-      </div>
+    <div class="space-y-8 mb-12">
+      {groups.map((group) => (
+        <section class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+          <h2 class="text-xl sm:text-2xl font-bold text-horror-text mb-1 flex items-center gap-2">
+            <Icon name="lucide:bug" class="w-5 h-5 text-horror-red" />
+            {group.name}
+          </h2>
+          <p class="text-sm text-horror-text-muted mb-4">{group.note}</p>
+          <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {group.enemies.map((enemy) => (
+              <li class="flex items-center gap-2 text-horror-text-secondary text-sm sm:text-base">
+                <span class="inline-block w-1.5 h-1.5 rounded-full bg-horror-red flex-shrink-0"></span>
+                {enemy}
+              </li>
+            ))}
+          </ul>
+          {group.links && (
+            <div class="flex flex-wrap gap-2 mt-4">
+              {group.links.map((l) => (
+                <a href={l.href} class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border border-horror-border text-xs sm:text-sm text-horror-text-secondary hover:border-horror-red/60 hover:text-horror-text transition-colors">
+                  <Icon name="lucide:skull" class="w-3.5 h-3.5 text-horror-red" />
+                  {l.label}
+                </a>
+              ))}
+            </div>
+          )}
+        </section>
+      ))}
     </div>
 
-    <!-- Intro -->
-    <section class="mb-12">
-      <h2 class="text-2xl font-bold text-horror-text mb-4">All Resident Evil Requiem Enemies</h2>
-      
-      <p class="text-horror-text-secondary leading-relaxed mb-4">
-        Resident Evil Requiem throws a variety of enemies at Grace and Leon, each with its own behavior, weakness, and ideal counter. Common Shamblers can be avoided, Howlers must be silenced quickly, and mini-boss swarms like the Blister Borne Minion require area damage. Understanding every enemy type is essential for conserving ammo and surviving Hardcore mode.
-      </p>
-      
-      <p class="text-horror-text-secondary leading-relaxed mb-4">
-        This enemies database covers every creature in Resident Evil Requiem, including their threat level, location, weakness, and recommended strategy. Use the overview table to quickly find the weakness of any enemy, or browse by category to focus on common enemies, mini-bosses, or hazards.
-      </p>
-      
-      <p class="text-horror-text-secondary leading-relaxed">
-        For boss strategies, visit the Boss Guides. For the best weapons to use against each enemy type, check the Weapons Database and Best Weapons Against Bosses.
-      </p>
-    </section>
-
-    <!-- Categories -->
-    <section class="mb-12">
-      <h2 class="text-2xl font-bold text-horror-text mb-4">Enemy Categories</h2>
-      
-      <div class="flex flex-wrap gap-3">
-        {categories.map((category) => (
-          <a
-            href={`/enemies/${categorySlugs[category]}`}
-            class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-horror-border bg-horror-surface hover:bg-horror-red hover:text-white hover:border-horror-red transition-all text-horror-text font-semibold"
-          >
-            {categoryLabels[category]}
-          </a>
-        ))}
-      </div>
-    </section>
-
-    <!-- Overview Table -->
-    <section class="mb-12">
-      <h2 class="text-2xl font-bold text-horror-text mb-6">Enemy Overview Table</h2>
-
-      <div class="overflow-x-auto rounded-xl border border-horror-border">
-        <table class="w-full text-left text-sm">
-          <thead class="bg-horror-surface text-horror-text-muted uppercase text-xs font-semibold">
-            <tr>
-              <th class="px-4 py-3">Enemy</th>
-              <th class="px-4 py-3">Type</th>
-              <th class="px-4 py-3">Threat</th>
-              <th class="px-4 py-3">Weakness</th>
-              <th class="px-4 py-3">Location</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-horror-border">
-            {enemies.map((enemy) => (
-              <tr class="hover:bg-horror-surface/50 transition-colors">
-                <td class="px-4 py-3">
-                  <a href={`/enemies/${enemy.slug}`} class="font-semibold text-horror-text hover:text-horror-red transition-colors">
-                    {enemy.data.title}
-                  </a>
-                </td>
-                <td class="px-4 py-3 text-horror-text-secondary">{categoryLabels[enemy.data.category || '']}</td>
-                <td class="px-4 py-3 text-horror-text-secondary capitalize">{enemy.data.threat}</td>
-                <td class="px-4 py-3 text-horror-text-secondary">{enemy.data.weakness}</td>
-                <td class="px-4 py-3 text-horror-text-secondary">{enemy.data.location}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- Enemy Cards -->
-    <section class="mb-12">
-      <h2 class="text-2xl font-bold text-horror-text mb-6">Enemy Cards</h2>
-      
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {enemies.map((enemy) => (
-          <GuideCard
-            href={`/enemies/${enemy.slug}`}
-            title={enemy.data.title}
-            category={categoryLabels[enemy.data.category || ''] || 'Enemy'}
-            description={enemy.data.tactics || enemy.data.description || 'Enemy profile'}
-            image={enemy.data.image || '/images/requiem_survival_guide_homepage_023.jpg'}
-          >
-            <div slot="footer" class="mt-3 pt-3 border-t border-horror-border text-xs text-horror-text-muted truncate">
-              {enemy.data.weakness} · {enemy.data.location}
-            </div>
-          </GuideCard>
-        ))}
-      </div>
-    </section>
-
-    <!-- Special Pages -->
-    <section class="mb-12">
-      <h2 class="text-2xl font-bold text-horror-text mb-4">Enemy Resources</h2>
-      
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <a href="/enemies/weaknesses" class="group p-5 rounded-xl border border-horror-border bg-horror-surface/50 hover:bg-horror-surface hover:border-horror-red/50 transition-all">
-          <div class="font-bold text-horror-text group-hover:text-horror-red transition-colors mb-1">Enemy Weakness Database</div>
-          <p class="text-xs text-horror-text-secondary">Quick overview of every enemy weakness and counter.</p>
-        </a>
-        <a href="/enemies/strongest" class="group p-5 rounded-xl border border-horror-border bg-horror-surface/50 hover:bg-horror-surface hover:border-horror-red/50 transition-all">
-          <div class="font-bold text-horror-text group-hover:text-horror-red transition-colors mb-1">Strongest Enemies</div>
-          <p class="text-xs text-horror-text-secondary">The most dangerous enemies and how to survive them.</p>
-        </a>
-        <a href="/enemies/tier-list" class="group p-5 rounded-xl border border-horror-border bg-horror-surface/50 hover:bg-horror-surface hover:border-horror-red/50 transition-all">
-          <div class="font-bold text-horror-text group-hover:text-horror-red transition-colors mb-1">Enemy Tier List</div>
-          <p class="text-xs text-horror-text-secondary">All enemies ranked by threat and difficulty.</p>
-        </a>
-      </div>
-    </section>
-
-    <!-- FAQ -->
-    <FAQSection faqs={faqs} />
-
-    <!-- E-E-A-T -->
-    <section class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
-      <h2 class="text-2xl font-bold text-horror-text mb-4">About This Enemies Database</h2>
-      <p class="text-horror-text-secondary leading-relaxed mb-4">
-        This enemies database is built by the Requiem Guide team from survival-horror gameplay across multiple difficulties. We document enemy behavior, weaknesses, and counters so you can conserve ammo and survive every encounter.
-      </p>
-      <p class="text-horror-text-secondary leading-relaxed">
-        For boss encounters and loadout advice, visit the Boss Guides and Weapons Database.
-      </p>
-    </section>
+    <VerificationBlock status="corroborated" lastChecked="September 2026" />
   </div>
 </MainLayout>

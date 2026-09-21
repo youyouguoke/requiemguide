@@ -1,0 +1,72 @@
+---
+interface Source {
+  label: string;
+  url?: string;
+}
+
+interface Props {
+  status?: 'verified' | 'corroborated' | 'community' | 'unverified';
+  lastChecked?: string;
+  sources?: Source[];
+}
+
+const { status = 'unverified', lastChecked = 'September 2026', sources = [] } = Astro.props;
+
+const statusConfig: Record<string, { label: string; className: string; note: string }> = {
+  verified: {
+    label: 'Verified',
+    className: 'text-horror-green border-horror-green/30 bg-horror-green/10',
+    note: 'Confirmed against in-game footage or official information.',
+  },
+  corroborated: {
+    label: 'Cross-checked',
+    className: 'text-horror-blue border-horror-blue/30 bg-horror-blue/10',
+    note: 'Cross-checked against multiple independent published guides.',
+  },
+  community: {
+    label: 'Community reported',
+    className: 'text-amber-400 border-amber-400/30 bg-amber-400/10',
+    note: 'Based on community reports. Not yet independently confirmed.',
+  },
+  unverified: {
+    label: 'Unverified',
+    className: 'text-horror-text-muted border-horror-border bg-horror-surface',
+    note: 'This page is pending fact-checking. Treat specifics with caution.',
+  },
+};
+
+const config = statusConfig[status] ?? statusConfig.unverified;
+---
+
+<aside class={`rounded-xl border ${config.className} p-5 sm:p-6 my-8`} aria-label="Verification">
+  <div class="flex items-start gap-3">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0 mt-0.5">
+      <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1 1 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+      <path d="m9 12 2 2 4-4" />
+    </svg>
+    <div class="flex-1">
+      <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mb-1">
+        <span class="font-bold text-sm uppercase tracking-wider">Verification</span>
+        <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-black/30">{config.label}</span>
+      </div>
+      <p class="text-sm opacity-90 mb-2">{config.note}</p>
+      {sources.length > 0 && (
+        <ul class="text-xs space-y-1 opacity-80">
+          {sources.map((s) => (
+            <li class="flex items-center gap-1.5">
+              <span class="inline-block w-1 h-1 rounded-full bg-current flex-shrink-0"></span>
+              {s.url ? (
+                <a href={s.url} target="_blank" rel="noopener nofollow" class="underline decoration-dotted underline-offset-2 hover:opacity-100 opacity-90">
+                  {s.label}
+                </a>
+              ) : (
+                <span>{s.label}</span>
+              )}
+            </li>
+          ))}
+        </ul>
+      )}
+      <p class="text-xs opacity-70 mt-2">Last checked: {lastChecked}</p>
+    </div>
+  </div>
+</aside>

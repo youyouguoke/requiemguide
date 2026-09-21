@@ -25,14 +25,14 @@ const characters = await getCollection('character');
 const mainCharacters = characters.filter((c) => c.data.roleType === 'main');
 
 const timeline = [
-  { title: 'Before the Incident', detail: 'Rhodes Hill Care Center operates as a medical facility, but secret experiments begin on patients, creating the conditions for the outbreak.' },
-  { title: 'Grace Awakens', detail: 'Grace Ashcroft wakes up in the facility with no memory. She begins exploring the overrun building and uncovering its secrets.' },
-  { title: 'Meeting Emily', detail: 'Grace finds Emily, a young survivor hiding in the church. Emily can read Braille and provides vital clues to the facility history.' },
-  { title: 'Leon\'s Arrival', detail: 'Leon S. Kennedy, a veteran DSO agent, arrives at Rhodes Hill to investigate the outbreak and joins forces with Grace.' },
-  { title: 'The Research Wing', detail: 'Grace and Leon push through the research wing, where Emily is injured. Her survival depends on player choices.' },
-  { title: 'The Elpis Revelation', detail: 'Elena reveals herself as Elpis, the true source of the outbreak and the mastermind behind the experiments.' },
-  { title: 'Final Decision', detail: 'Grace and Leon must choose whether to release or destroy Elpis. Emily\'s fate also affects the outcome.' },
-  { title: 'Aftermath', detail: 'The ending reflects all major choices, with post-credits scenes hinting at future bioterror threats.' },
+  { title: 'Before the Incident', detail: 'Rhodes Hill operates as a psychiatric long-term care facility, while The Connections run secret experiments on patients — creating the conditions for the outbreak.' },
+  { title: 'Grace Arrives', detail: 'Grace Ashcroft, an FBI intelligence analyst, investigates the Care Center where her mother Alyssa Ashcroft was murdered years earlier.' },
+  { title: 'Meeting Emily', detail: 'Grace finds Emily — a blind girl and clone created by The Connections ("Subject 171") — in the isolation ward. Emily can read Braille and is key to the Star Quartz puzzle.' },
+  { title: 'Leon\'s Arrival', detail: 'Leon S. Kennedy, a veteran DSO agent, investigates the outbreak and joins forces with Grace. His campaign is third-person action to Grace\'s first-person horror.' },
+  { title: 'The Quartz & the Escape', detail: 'Grace gathers the Moon, Sun, and Star Quartz to open the way out of the Care Center. During the helicopter escape, the crash kills Reed and severely injures Emily — a scripted story beat.' },
+  { title: 'Emily Mutates', detail: 'Severely injured, Emily mutates and attacks Grace. Leon steps in and shoots her non-fatally.' },
+  { title: 'The Elpis Choice', detail: 'Elpis — Oswell E. Spencer\'s antiviral cure — becomes the final decision: release it (password HOPE) for the true ending, or destroy it for the alternate ending.' },
+  { title: 'Aftermath', detail: 'True ending: Leon is cured, Emily is cured and adopted by Grace, and Raccoon City Syndrome victims are cured. Alternate: the ARK is destroyed, Leon dies, Emily is left in her cocoon.' },
 ];
 
 const majorEvents = [
@@ -42,19 +42,19 @@ const majorEvents = [
   },
   {
     title: 'Grace Meets Emily',
-    description: 'Grace discovers Emily in the church. Their relationship becomes the emotional core of the story and a key factor in the endings.',
+    description: 'Grace discovers Emily in the isolation ward. Their bond becomes the emotional core of the story, and Emily\'s Braille reading is essential to the Star Quartz puzzle.',
   },
   {
     title: 'Leon Joins the Investigation',
     description: 'Leon S. Kennedy arrives to contain the situation. His combat experience complements Grace\'s investigation and puzzle-solving skills.',
   },
   {
-    title: 'Elpis Is Revealed',
-    description: 'Elena reveals her identity as Elpis, the entity behind the outbreak. Her connection to Grace and the experiments becomes the central mystery.',
+    title: 'The Quartz Escape',
+    description: 'Grace gathers the three Quartz and opens the way out of the Care Center — but the helicopter escape ends in a crash that leaves Emily severely injured.',
   },
   {
     title: 'The Final Choice',
-    description: 'The player decides whether to release or destroy Elpis and whether Emily survives. These choices determine the final ending and post-credits scene.',
+    description: 'The player decides whether to release or destroy Elpis, Spencer\'s antiviral cure. This single choice determines the ending: Hope or Destruction.',
   },
 ];
 
@@ -65,7 +65,7 @@ const faqs = [
   },
   {
     question: 'Who is Elpis in Resident Evil Requiem?',
-    answer: 'Elpis is a mysterious entity connected to Elena. It is the true source of the Rhodes Hill outbreak and serves as the main antagonist of the story.',
+    answer: 'Elpis is an antiviral cure created by Oswell E. Spencer — not a character. Releasing or destroying it at the ARK is the game\'s final choice and decides which of the two endings you see.',
   },
   {
     question: 'What happened at Rhodes Hill Care Center?',
@@ -73,7 +73,7 @@ const faqs = [
   },
   {
     question: 'How many endings does Resident Evil Requiem have?',
-    answer: 'Resident Evil Requiem has four main endings based on Emily\'s survival and the final decision to release or destroy Elpis.',
+    answer: 'Resident Evil Requiem has exactly two endings, decided by one final choice: release Elpis (the true "Hope" ending) or destroy it (the alternate "Destruction" ending).',
   },
   {
     question: 'Is Resident Evil Requiem connected to the main Resident Evil series?',
@@ -155,7 +155,7 @@ const faqSchema = {
       </p>
       
       <p class="text-horror-text-secondary leading-relaxed mb-4">
-        Together, the survivors uncover a conspiracy involving secret experiments, a mysterious entity known as Elpis, and Elena, the woman behind the outbreak. The narrative combines survival horror gameplay with a character-driven mystery that asks how far the protagonists will go to stop the threat and protect each other.
+        Together, the survivors uncover a conspiracy involving secret experiments by The Connections, the antiviral cure known as Elpis, and antagonist Victor Gideon's plan. The narrative combines survival horror gameplay with a character-driven mystery.
       </p>
       
       <p class="text-horror-text-secondary leading-relaxed">
@@ -228,7 +228,7 @@ const faqSchema = {
         </a>
         <a href="/characters/relationships" class="group p-5 rounded-xl border border-horror-border bg-horror-surface/50 hover:bg-horror-surface hover:border-horror-red/50 transition-all">
           <div class="font-bold text-horror-text group-hover:text-horror-red transition-colors mb-1">Character Relationships</div>
-          <p class="text-xs text-horror-text-secondary">How Grace, Leon, Emily, and Elena connect.</p>
+          <p class="text-xs text-horror-text-secondary">How Grace, Leon, and Emily connect.</p>
         </a>
         <a href="/characters/timeline" class="group p-5 rounded-xl border border-horror-border bg-horror-surface/50 hover:bg-horror-surface hover:border-horror-red/50 transition-all">
           <div class="font-bold text-horror-text group-hover:text-horror-red transition-colors mb-1">Character Timeline</div>

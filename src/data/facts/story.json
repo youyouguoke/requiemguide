@@ -1,0 +1,95 @@
+{
+  "registry": "requiem-guide-story",
+  "game": "Resident Evil Requiem",
+  "lastAudit": "2026-09-21",
+  "facts": [
+    {
+      "fact": "Chapter structure",
+      "value": "The game has NO official in-game chapter numbering (no chapter select/menu). Guide convention (RPS): 8 chapters — Ch1 Wrenwood Hotel & Elbridge; Ch2 Rhodes Hill 1 (The Girl); Ch3 Rhodes Hill 2 (Quartz pieces & Victor's Office); Ch4 Rhodes Hill 3 (Basement — Emily rescued); Ch5 Rhodes Hill 4 (Helipad & Water Treatment Plant); Ch6 East Raccoon City (Leon); Ch7 Raccoon City Center (RPD & Orphanage); Ch8 ARK (Archives, Bioweapon Repository, Final Boss). The site's former '6 chapters' framing was contradicted and removed.",
+      "source": "Rock Paper Shotgun walkthrough",
+      "sourceUrl": "https://www.rockpapershotgun.com/resident-evil-requiem-walkthrough",
+      "verification": "verified",
+      "lastChecked": "2026-09-21"
+    },
+    {
+      "fact": "Endings",
+      "value": "Exactly 2 endings, decided by ONE final choice at the ARK central console: (1) RELEASE Elpis (password HOPE) = true 'Hope' ending — Leon cured of his T-virus strain, kills mutated Victor Gideon, Emily cured and adopted by Grace, Raccoon City Syndrome victims cured. (2) DESTROY Elpis (deliberately wrong password) = 'Destruction' — ARK destroyed, Leon dies at Zeno's hands, Emily left in her cocoon.",
+      "source": "Game8 + GameSpot",
+      "sourceUrl": "https://game8.co/games/Resident-Evil-Requiem/archives/582587",
+      "verification": "verified",
+      "lastChecked": "2026-09-21"
+    },
+    {
+      "fact": "Emily branch condition ('Emily injured in earlier chapters triggers an ending')",
+      "value": "CONTRADICTED. Emily's injury/mutation is a fixed scripted event (helicopter crash). Endings branch only on the final Elpis choice. Emily's fate differs BETWEEN endings but does not CAUSE either.",
+      "source": "Resident Evil Wiki",
+      "sourceUrl": "https://residentevil.fandom.com/wiki/Emily",
+      "verification": "verified",
+      "lastChecked": "2026-09-21"
+    },
+    {
+      "fact": "Elena character",
+      "value": "DOES NOT EXIST. No character named Elena appears in any authoritative source. The entity is Elpis — an antiviral cure created by Oswell E. Spencer, not a person. The site's former Elena page was fabricated and removed.",
+      "source": "Wikipedia + Resident Evil Wiki",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Resident_Evil_Requiem",
+      "verification": "verified",
+      "lastChecked": "2026-09-21"
+    },
+    {
+      "fact": "Grace Ashcroft",
+      "value": "FBI intelligence analyst, main protagonist, daughter of Alyssa Ashcroft (RE Outbreak survivor); later revealed as adopted daughter of Oswell E. Spencer. First-person stealth/light gameplay.",
+      "source": "Wikipedia",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Grace_Ashcroft",
+      "verification": "verified",
+      "lastChecked": "2026-09-21"
+    },
+    {
+      "fact": "Leon S. Kennedy",
+      "value": "DSO agent, co-protagonist (~50/50 screen time with Grace), third-person action segments, handler Sherry Birkin.",
+      "source": "Wikipedia",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Resident_Evil_Requiem",
+      "verification": "verified",
+      "lastChecked": "2026-09-21"
+    },
+    {
+      "fact": "Emily",
+      "value": "Clone created by The Connections (Subject 171), blinded by human experimentation, found by Grace in the isolation ward, literate in Braille, solves the Security Manager's Office puzzle. Mutated after the helicopter crash, later cured by Elpis and adopted by Grace in the true ending.",
+      "source": "Resident Evil Wiki",
+      "sourceUrl": "https://residentevil.fandom.com/wiki/Emily",
+      "verification": "verified",
+      "lastChecked": "2026-09-21"
+    },
+    {
+      "fact": "Game length",
+      "value": "Main story ~11h average (range 8-16h; HLTB median 11h). Completionist/platinum 20-32h depending on definition (HLTB ~32h; PowerPyx ~20h for platinum, requires Insanity clear, no-heal run, 4h speedrun).",
+      "source": "HowLongToBeat + GameSpot + IGN",
+      "sourceUrl": "https://howlongtobeat.com/game/169267",
+      "verification": "corroborated",
+      "lastChecked": "2026-09-21"
+    },
+    {
+      "fact": "Difficulty settings",
+      "value": "Four: Casual, Standard (Modern), Standard (Classic), Insanity (unlocked after one clear). Difficulty affects autosave frequency and ink-ribbon rules: Casual generous autosaves no ribbons; Standard Modern plentiful autosaves unlimited typewriter saves; Standard Classic fewer autosaves + ink ribbons in Grace's segments; Insanity fewest autosaves, ribbons, different item placements and safe codes (4th Polymerized Blood Specimen). No mid-playthrough upgrade.",
+      "source": "Game8 + howtoplayhub + Beebom",
+      "sourceUrl": "https://game8.co/games/Resident-Evil-Requiem/archives/583227",
+      "verification": "verified",
+      "lastChecked": "2026-09-21"
+    },
+    {
+      "fact": "Weapon facts",
+      "value": "Kotetsu: unbreakable melee knife, 5,000 Challenge Points unlock post-game (Grace). MSBG 500: pump-action shotgun (Leon), Care Center Attic. B934: starter handgun (Grace), Dining Room West Wing 1F. S&S M232: superior handgun (Grace), Bar & Lounge counter West Wing 2F. Requiem: 12.7x55mm magnum ASSAULT REVOLVER (5-round), NOT a rifle — Leon's weapon handed to Grace during the story.",
+      "source": "GameFAQs items FAQ + IGN weapons",
+      "sourceUrl": "https://www.ign.com/wikis/resident-evil-requiem/Weapons",
+      "verification": "verified",
+      "lastChecked": "2026-09-21"
+    },
+    {
+      "fact": "Antagonist",
+      "value": "Victor Gideon — final boss (2 phases, mutated). Zeno: Connections agent (Wesker-like).",
+      "source": "Game8 + Resident Evil Wiki",
+      "sourceUrl": "https://game8.co/games/Resident-Evil-Requiem",
+      "verification": "corroborated",
+      "lastChecked": "2026-09-21"
+    }
+  ]
+}

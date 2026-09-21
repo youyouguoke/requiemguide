@@ -7,7 +7,7 @@ import FAQSection from '../../components/FAQSection.astro';
 import { Icon } from 'astro-icon/components';
 
 const title = 'Resident Evil Requiem Characters Database - Profiles, Roles & Relationships';
-const description = 'Explore the complete Resident Evil Requiem characters database. Learn about Grace Ashcroft, Leon S. Kennedy, Emily, Elena and other characters including their story roles, relationships, backgrounds, and impact on the game timeline.';
+const description = 'Explore the Resident Evil Requiem characters database. Learn about Grace Ashcroft, Leon S. Kennedy, Emily and other characters including their story roles, relationships, backgrounds, and impact on the game timeline.';
 
 const characters = await getCollection('character');
 const total = characters.length;
@@ -47,8 +47,8 @@ const faqs = [
     answer: 'Emily is a young survivor Grace meets at Rhodes Hill. She is visually impaired but can read Braille, and her fate is central to the game\'s story and endings.',
   },
   {
-    question: 'What is the relationship between Grace and Elena?',
-    answer: 'Elena, also known as Elpis, has a mysterious connection to Grace\'s past and the origin of the Rhodes Hill outbreak. This connection is revealed in the final act.',
+    question: 'Who is Elpis in Resident Evil Requiem?',
+    answer: 'Elpis is an antiviral cure created by Oswell E. Spencer — not a character. Releasing or destroying it at the ARK is the final choice that decides the ending.',
   },
   {
     question: 'Who are the playable characters in Resident Evil Requiem?',
@@ -62,7 +62,7 @@ const keywords = [
   'Grace Ashcroft Resident Evil Requiem',
   'Leon S. Kennedy Resident Evil Requiem',
   'Emily Resident Evil Requiem',
-  'Elena Elpis Resident Evil Requiem',
+  'Elpis Resident Evil Requiem',
   'resident evil requiem character relationships',
   'resident evil requiem playable characters',
 ];
@@ -117,7 +117,7 @@ const faqSchema = {
           width="512"
           height="286"
           src="/images/requiem_survival_guide_grace_ashcroft_profile_017.jpg"
-          alt="Resident Evil Requiem characters database featuring Grace, Leon, Emily, and Elena"
+          alt="Resident Evil Requiem characters database featuring Grace, Leon, and Emily"
           fetchpriority="high"
           class="w-full h-full object-cover"
         />
@@ -172,11 +172,11 @@ const faqSchema = {
         </li>
         <li class="flex items-start gap-3">
           <span class="w-2 h-2 rounded-full bg-horror-red mt-2 flex-shrink-0"></span>
-          <span><strong class="text-horror-text">Emily</strong> — a young survivor whose fate shapes the game's ending</span>
+          <span><strong class="text-horror-text">Emily</strong> — a blind girl and clone created by The Connections, whose fate differs between the two endings</span>
         </li>
         <li class="flex items-start gap-3">
           <span class="w-2 h-2 rounded-full bg-horror-red mt-2 flex-shrink-0"></span>
-          <span><strong class="text-horror-text">Elena / Elpis</strong> — the mysterious antagonist and catalyst of the outbreak</span>
+          <span><strong class="text-horror-text">Victor Gideon</strong> — the antagonist whose plan drives the outbreak (boss encounters only, no character page yet)</span>
         </li>
       </ul>
     </section>
@@ -262,7 +262,7 @@ const faqSchema = {
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <a href="/characters/relationships" class="group p-5 rounded-xl border border-horror-border bg-horror-surface/50 hover:bg-horror-surface hover:border-horror-red/50 transition-all">
           <div class="font-bold text-horror-text group-hover:text-horror-red transition-colors mb-1">Character Relationships</div>
-          <p class="text-xs text-horror-text-secondary">How Grace, Leon, Emily, and Elena are connected.</p>
+          <p class="text-xs text-horror-text-secondary">How Grace, Leon, and Emily are connected.</p>
         </a>
         <a href="/characters/timeline" class="group p-5 rounded-xl border border-horror-border bg-horror-surface/50 hover:bg-horror-surface hover:border-horror-red/50 transition-all">
           <div class="font-bold text-horror-text group-hover:text-horror-red transition-colors mb-1">Character Timeline</div>

@@ -1,0 +1,79 @@
+{
+  "registry": "requiem-guide-bosses",
+  "game": "Resident Evil Requiem",
+  "lastAudit": "2026-09-21",
+  "facts": [
+    {
+      "fact": "Boss roster (real, verified)",
+      "value": "The Girl (aka Shadow Ghost) x3 encounters, Chunk x2 (Grace optional East Wing; Leon Attic), Chef Zombie (optional), Blister Borne, Emily (conditional/scripted), Titan Spinner, Victor & Garmrs highway pursuit, Tyrant T-501 (RPD chase), Super Tyrant T-501 (outside RPD), Plant 43 (Blackthorn Station), The Commander (drops Mortal Edge), Victor Gideon mutated (final boss, 2 phases)",
+      "source": "Game8 + PCGamesN + Keengamer",
+      "sourceUrl": "https://game8.co/games/Resident-Evil-Requiem",
+      "verification": "corroborated",
+      "lastChecked": "2026-09-21"
+    },
+    {
+      "fact": "Blister Borne HP figures (~9,000 / ~14,000)",
+      "value": "UNVERIFIED — appears only on requiemguide.com; absent from the datamined GameFAQs mechanics thread and all external guides. Removed from the site.",
+      "source": "GameFAQs mechanics thread (no Blister Borne HP listed)",
+      "sourceUrl": "https://gamefaqs.gamespot.com",
+      "verification": "unverified",
+      "lastChecked": "2026-09-21"
+    },
+    {
+      "fact": "Blister Borne weakness",
+      "value": "Four orange/yellow cysts (1 on the back, exposed early; 3 across chest/stomach). Explosive canisters stagger it. Each burst cyst can spawn Blister Heads from nearby corpses.",
+      "source": "GameSpot + Steam boss database",
+      "sourceUrl": "https://www.gamespot.com",
+      "verification": "verified",
+      "lastChecked": "2026-09-21"
+    },
+    {
+      "fact": "Blister Borne fight",
+      "value": "Leon's boss fight at the Care Center Chapel/Courtyard; Blister Borne also recurs as a field enemy (East Raccoon City Sewage Facility). Fight escalates qualitatively as cysts pop (poison clouds, more aggression) — no verified HP phase thresholds.",
+      "source": "Polygon + GameSpot",
+      "sourceUrl": "https://www.polygon.com",
+      "verification": "corroborated",
+      "lastChecked": "2026-09-21"
+    },
+    {
+      "fact": "Chunk",
+      "value": "Real boss. Two encounters: Grace (optional, East Wing) and Leon (Attic).",
+      "source": "PCGamesN + Beebom + GameSpot",
+      "sourceUrl": "https://www.pcgamesn.com/resident-evil-requiem/bosses",
+      "verification": "verified",
+      "lastChecked": "2026-09-21"
+    },
+    {
+      "fact": "Titan Spinner",
+      "value": "Giant spider boss in a ruined building in East Raccoon City. Weak point: orange cluster on the abdomen.",
+      "source": "PCGamesN + Beebom + GameSpot",
+      "sourceUrl": "https://www.pcgamesn.com/resident-evil-requiem/bosses",
+      "verification": "verified",
+      "lastChecked": "2026-09-21"
+    },
+    {
+      "fact": "Emily (Transformed)",
+      "value": "Scripted story beat: after the helicopter crash Emily mutates and attacks Grace; Leon shoots her non-fatally. Not player-conditional. Later cured by Elpis in the true ending.",
+      "source": "Resident Evil Wiki + Game8",
+      "sourceUrl": "https://residentevil.fandom.com/wiki/Emily",
+      "verification": "verified",
+      "lastChecked": "2026-09-21"
+    },
+    {
+      "fact": "Shadow Ghost naming",
+      "value": "Official in-game name is 'The Girl'. 'Shadow Ghost' is a community/guide alias. Not the canonical name.",
+      "source": "games.gg + keengamer + namu.wiki",
+      "sourceUrl": "https://www.keengamer.com",
+      "verification": "corroborated",
+      "lastChecked": "2026-09-21"
+    },
+    {
+      "fact": "Enemy roster (real, verified) — Shambler/Howler/Crawler/Blister Borne Minion DO NOT EXIST",
+      "value": "Real enemies: Wrenwood Zombie, The Girl, Zombie Doctor, Zombie Patient, Zombie Staff Member, Zombie Blind Patient, Chef Zombie, Zombie Cleaner, Zombie Singer, Blister Head, Chunk, Blister Borne, Small Spider, Titan Spinner, Raccoon City Zombie, RC BSAA Zombie, RC Chainsaw Zombie, Garmr, R.P.D. Zombie, The Children, Plant 43, Tyrant T-501, Super Tyrant T-501, Elite Guard, Licker β2, ARK Zombie, The Commander.",
+      "source": "Evil Resource complete enemy list",
+      "sourceUrl": "https://evilresource.com/resident-evil-requiem/enemies",
+      "verification": "verified",
+      "lastChecked": "2026-09-21"
+    }
+  ]
+}

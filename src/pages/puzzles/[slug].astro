@@ -4,6 +4,7 @@ import MainLayout from '../../layouts/MainLayout.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import GuideCard from '../../components/GuideCard.astro';
 import FAQSection from '../../components/FAQSection.astro';
+import VerificationBlock from '../../components/VerificationBlock.astro';
 import { Icon } from 'astro-icon/components';
 
 export async function getStaticPaths() {
@@ -29,8 +30,8 @@ const relatedPuzzles = allPuzzles
   .filter((p) => p.slug !== puzzle.slug && (puzzle.data.related?.includes(p.slug) || p.data.location === puzzle.data.location))
   .slice(0, 3);
 
-const pageTitle = `${puzzle.data.title} Solution - Resident Evil Requiem`;
-const pageDescription = `Complete ${puzzle.data.title} solution for Resident Evil Requiem: location, requirements, code, step-by-step solution and reward. ${puzzle.data.description || ''}`;
+const pageTitle = `${puzzle.data.title} | Resident Evil Requiem`;
+const pageDescription = `Need the ${puzzle.data.title.replace(/ Solution$/, '')} in Resident Evil Requiem? Find the location, required item, exact code, and what to do next.`;
 
 const breadcrumbItems = [
   { label: 'Puzzles', href: '/puzzles' },
@@ -110,7 +111,9 @@ const faqSchema = puzzle.data.faq?.length ? {
           </div>
 
           <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-horror-text mb-4">
-            {puzzle.data.title} Solution
+            {puzzle.data.title.toLowerCase().endsWith('solution')
+              ? puzzle.data.title
+              : `${puzzle.data.title} Solution`}
           </h1>
 
           {puzzle.data.description && (
@@ -118,6 +121,49 @@ const faqSchema = puzzle.data.faq?.length ? {
           )}
         </div>
       </header>
+
+      <!-- Quick Answer: first screen = the answer -->
+      <section class="rounded-xl border border-horror-green/30 bg-horror-green/5 p-5 sm:p-6 mb-8" aria-label="Quick answer">
+        <div class="flex items-center gap-2 text-xs font-bold text-horror-green uppercase tracking-widest mb-4">
+          <Icon name="lucide:zap" class="w-4 h-4" />
+          Quick Answer
+        </div>
+        {puzzle.data.code && (
+          <div class="mb-4">
+            <div class="text-xs text-horror-text-muted mb-1">Code / Sequence</div>
+            <div class="text-2xl sm:text-3xl font-black text-horror-text tracking-wide font-mono">{puzzle.data.code}</div>
+          </div>
+        )}
+        <dl class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+          {puzzle.data.location && (
+            <div>
+              <dt class="text-horror-text-muted text-xs uppercase tracking-wider mb-0.5">Location</dt>
+              <dd class="text-horror-text font-semibold">{puzzle.data.location}</dd>
+            </div>
+          )}
+          {puzzle.data.requirements && puzzle.data.requirements.length > 0 && (
+            <div>
+              <dt class="text-horror-text-muted text-xs uppercase tracking-wider mb-0.5">You need</dt>
+              <dd class="text-horror-text font-semibold">{puzzle.data.requirements[0]}</dd>
+            </div>
+          )}
+          {puzzle.data.reward && (
+            <div>
+              <dt class="text-horror-text-muted text-xs uppercase tracking-wider mb-0.5">Reward</dt>
+              <dd class="text-horror-green font-semibold">{puzzle.data.reward}</dd>
+            </div>
+          )}
+        </dl>
+        {chapterGuide && (
+          <a
+            href={`/walkthrough/${chapterGuide.slug}`}
+            class="inline-flex items-center gap-1.5 mt-4 text-sm font-semibold text-horror-red hover:underline"
+          >
+            Stuck before this point? View Chapter {chapterGuide.data.chapter} Walkthrough
+            <Icon name="lucide:arrow-right" class="w-4 h-4" />
+          </a>
+        )}
+      </section>
 
       <!-- Overview Stats -->
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
@@ -234,6 +280,11 @@ const faqSchema = puzzle.data.faq?.length ? {
         <FAQSection faqs={puzzle.data.faq} />
       )}
 
+      <VerificationBlock
+        status={puzzle.data.verification}
+        lastChecked="September 2026"
+      />
+
       <!-- Related Puzzles -->
       {relatedPuzzles.length > 0 && (
         <div class="mt-12">
@@ -242,7 +293,7 @@ const faqSchema = puzzle.data.faq?.length ? {
             {relatedPuzzles.map((relatedPuzzle) => (
               <GuideCard
                 href={`/puzzles/${relatedPuzzle.slug}`}
-                title={`${relatedPuzzle.data.title} Solution`}
+                title={`${relatedPuzzle.data.title.toLowerCase().endsWith('solution') ? relatedPuzzle.data.title : `${relatedPuzzle.data.title} Solution`}`}
                 category={relatedPuzzle.data.difficulty || 'Puzzle'}
                 description={relatedPuzzle.data.description || `Solution for ${relatedPuzzle.data.title}`}
                 image={relatedPuzzle.data.image}

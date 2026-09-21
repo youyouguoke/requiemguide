@@ -23,6 +23,7 @@ const guide = defineCollection({
     related: z.array(z.string()).optional(),
     image: z.string().optional(),
     updated: z.date().optional(),
+    verification: z.enum(['verified', 'corroborated', 'community', 'unverified']).optional(),
   }),
 });
 
@@ -50,6 +51,7 @@ const puzzle = defineCollection({
     related: z.array(z.string()).optional(),
     image: z.string().optional(),
     updated: z.date().optional(),
+    verification: z.enum(['verified', 'corroborated', 'community', 'unverified']).optional(),
   }),
 });
 
@@ -59,21 +61,34 @@ const boss = defineCollection({
     title: z.string(),
     description: z.string().optional(),
     location: z.string().optional(),
+    chapter: z.number().optional(),
     hp: z.string().optional(),
+    healthBar: z.string().optional(),
     weakness: z.string().optional(),
     weaknessEffect: z.string().optional(),
+    resistances: z.array(z.string()).optional(),
     recommendedWeapon: z.string().optional(),
+    recommendedLoadout: z.array(z.string()).optional(),
     difficulty: z.string().optional(),
     reward: z.string().optional(),
+    drops: z.array(z.string()).optional(),
+    phases: z.array(z.object({
+      name: z.string(),
+      trigger: z.string().optional(),
+      behavior: z.string(),
+      tactics: z.string(),
+    })).optional(),
     attackPatterns: z.array(z.object({
       name: z.string(),
       description: z.string(),
       counter: z.string().optional(),
+      phase: z.number().optional(),
     })).optional(),
     strategySteps: z.array(z.object({
       title: z.string(),
       detail: z.string(),
     })).optional(),
+    tips: z.array(z.string()).optional(),
     hardcoreTips: z.array(z.string()).optional(),
     faq: z.array(z.object({
       question: z.string(),
@@ -83,6 +98,7 @@ const boss = defineCollection({
     related: z.array(z.string()).optional(),
     image: z.string().optional(),
     updated: z.date().optional(),
+    verification: z.enum(['verified', 'corroborated', 'community', 'unverified']).optional(),
   }),
 });
 
@@ -93,7 +109,10 @@ const weapon = defineCollection({
     description: z.string().optional(),
     type: z.string().optional(),
     damage: z.string().optional(),
+    damagePerShot: z.string().optional(),
+    dps: z.string().optional(),
     ammo: z.string().optional(),
+    ammoRarity: z.string().optional(),
     capacity: z.string().optional(),
     rateOfFire: z.string().optional(),
     reload: z.string().optional(),
@@ -104,9 +123,27 @@ const weapon = defineCollection({
     character: z.string().optional(),
     location: z.string().optional(),
     locationDetail: z.string().optional(),
+    acquisitionSteps: z.array(z.object({
+      step: z.number().optional(),
+      title: z.string(),
+      detail: z.string(),
+    })).optional(),
     upgrade: z.string().optional(),
     bestFor: z.string().optional(),
     bestUseCases: z.array(z.string()).optional(),
+    pros: z.array(z.string()).optional(),
+    cons: z.array(z.string()).optional(),
+    tips: z.array(z.string()).optional(),
+    recommendedBosses: z.array(z.string()).optional(),
+    comparisonTable: z.array(z.object({
+      weapon: z.string(),
+      type: z.string().optional(),
+      damage: z.string().optional(),
+      dps: z.string().optional(),
+      capacity: z.string().optional(),
+      ammo: z.string().optional(),
+      bestFor: z.string().optional(),
+    })).optional(),
     upgrades: z.array(z.object({
       name: z.string(),
       effect: z.string(),
@@ -160,6 +197,7 @@ const character = defineCollection({
     related: z.array(z.string()).optional(),
     image: z.string().optional(),
     updated: z.date().optional(),
+    verification: z.enum(['verified', 'corroborated', 'community', 'unverified']).optional(),
   }),
 });
 

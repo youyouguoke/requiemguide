@@ -21,7 +21,7 @@ const enemies = await getCollection('enemy');
 const weapons = await getCollection('weapon');
 const bosses = await getCollection('boss');
 const puzzles = await getCollection('puzzle');
-const walkthroughs = await getCollection('walkthrough');
+const walkthroughs = await getCollection('guide', (entry) => entry.data.category === 'walkthrough');
 
 const allEntries = [...items, ...enemies, ...weapons, ...bosses, ...puzzles, ...walkthroughs];
 

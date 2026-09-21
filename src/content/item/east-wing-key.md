@@ -12,14 +12,14 @@ pickupConditions: "Story-critical item found automatically in Chapter 1."
 relatedItems: ["moon-quartz"]
 relatedWeapons: ["b934"]
 relatedPuzzles: []
-relatedGuides: ["chapter-1"]
+relatedGuides: []
 faq:
   - question: "Where is the East Wing Key in Resident Evil Requiem?"
     answer: "It is found on the reception desk in the East Wing lobby at the beginning of Chapter 1."
   - question: "What does the East Wing Key unlock?"
     answer: "It unlocks the main corridor door, allowing you to exit the East Wing and reach the West Wing."
 keywords: ["East Wing Key", "Resident Evil Requiem East Wing Key", "East Wing Key location", "Chapter 1 key item"]
-related: ["chapter-1"]
+related: []
 image: "/images/item_east-wing-key.jpg"
 updated: 2026-07-15
 ---

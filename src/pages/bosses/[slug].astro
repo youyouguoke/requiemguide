@@ -4,6 +4,7 @@ import MainLayout from '../../layouts/MainLayout.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import GuideCard from '../../components/GuideCard.astro';
 import FAQSection from '../../components/FAQSection.astro';
+import VerificationBlock from '../../components/VerificationBlock.astro';
 import { Icon } from 'astro-icon/components';
 
 export async function getStaticPaths() {
@@ -30,8 +31,8 @@ const recommendedWeapon = boss.data.recommendedWeapon ? allWeapons.find((w) => b
 
 const relatedBosses = allBosses.filter((b) => b.slug !== boss.slug).slice(0, 3);
 
-const pageTitle = `${boss.data.title} - Weakness, Strategy & How to Beat`;
-const pageDescription = `Complete ${boss.data.title} boss guide for Resident Evil Requiem: location, weakness, attack patterns, best weapons, and step-by-step strategy to win the fight.`;
+const pageTitle = `How to Beat ${boss.data.title} | Resident Evil Requiem`;
+const pageDescription = `Struggling with ${boss.data.title} in Resident Evil Requiem? Find the weakness, attack patterns, recommended weapons, and phase-by-phase strategy.`;
 
 const breadcrumbItems = [
   { label: 'Bosses', href: '/bosses' },
@@ -63,6 +64,9 @@ const keywords = [
     `${boss.data.title} boss guide`,
     `${boss.data.title} weakness`,
     `how to beat ${boss.data.title}`,
+    `${boss.data.title} location resident evil requiem`,
+    `${boss.data.title} best weapon`,
+    `${boss.data.title} attack patterns`,
     `resident evil requiem ${boss.data.title}`,
     `resident evil requiem boss guide`,
     `resident evil requiem boss fight`,
@@ -135,6 +139,24 @@ const keywords = [
             <p class="text-horror-text font-semibold">{boss.data.hp}</p>
           </div>
         )}
+        {boss.data.healthBar && (
+          <div class="bg-horror-surface border border-horror-border rounded-xl p-4">
+            <div class="flex items-center gap-2 text-xs font-semibold text-horror-text-muted uppercase tracking-wider mb-1">
+              <Icon name="lucide:activity" class="w-3.5 h-3.5" />
+              Health Bar
+            </div>
+            <p class="text-horror-text font-semibold">{boss.data.healthBar}</p>
+          </div>
+        )}
+        {boss.data.chapter && (
+          <div class="bg-horror-surface border border-horror-border rounded-xl p-4">
+            <div class="flex items-center gap-2 text-xs font-semibold text-horror-text-muted uppercase tracking-wider mb-1">
+              <Icon name="lucide:book-open" class="w-3.5 h-3.5" />
+              Chapter
+            </div>
+            <p class="text-horror-text font-semibold">{boss.data.chapter}</p>
+          </div>
+        )}
         {boss.data.weakness && (
           <div class="bg-horror-surface border border-horror-border rounded-xl p-4">
             <div class="flex items-center gap-2 text-xs font-semibold text-horror-text-muted uppercase tracking-wider mb-1">
@@ -151,6 +173,15 @@ const keywords = [
               Best Weapon
             </div>
             <p class="text-horror-green font-semibold">{boss.data.recommendedWeapon}</p>
+          </div>
+        )}
+        {boss.data.difficulty && (
+          <div class="bg-horror-surface border border-horror-border rounded-xl p-4">
+            <div class="flex items-center gap-2 text-xs font-semibold text-horror-text-muted uppercase tracking-wider mb-1">
+              <Icon name="lucide:flame" class="w-3.5 h-3.5" />
+              Difficulty
+            </div>
+            <p class="text-horror-text font-semibold">{boss.data.difficulty}</p>
           </div>
         )}
         {boss.data.reward && (
@@ -195,23 +226,105 @@ const keywords = [
               </div>
             )}
           </div>
-        </div>
 
-        {recommendedWeapon && (
-          <div class="mt-4 p-4 rounded-lg border border-horror-border bg-horror-bg">
-            <div class="text-sm text-horror-text-secondary mb-1">
-              Recommended weapon: <span class="text-horror-text font-semibold">{boss.data.recommendedWeapon}</span>
+          {boss.data.resistances && boss.data.resistances.length > 0 && (
+            <div class="mt-4 p-4 rounded-lg border border-horror-border bg-horror-bg">
+              <div class="text-sm font-semibold text-horror-text-muted mb-2">Resistances</div>
+              <div class="flex flex-wrap gap-2">
+                {boss.data.resistances.map((resistance) => (
+                  <span class="px-3 py-1 rounded-full bg-horror-red/10 text-horror-red text-sm font-semibold">{resistance}</span>
+                ))}
+              </div>
             </div>
-            <a
-              href={`/weapons/${recommendedWeapon.slug}`}
-              class="inline-flex items-center gap-1 text-sm font-semibold text-horror-red hover:underline"
-            >
-              View {recommendedWeapon.data.title} weapon guide
-              <Icon name="lucide:arrow-right" class="w-4 h-4" />
-            </a>
-          </div>
-        )}
+          )}
+
+          {recommendedWeapon && (
+            <div class="mt-4 p-4 rounded-lg border border-horror-border bg-horror-bg">
+              <div class="text-sm text-horror-text-secondary mb-1">
+                Recommended weapon: <span class="text-horror-text font-semibold">{boss.data.recommendedWeapon}</span>
+              </div>
+              <a
+                href={`/weapons/${recommendedWeapon.slug}`}
+                class="inline-flex items-center gap-1 text-sm font-semibold text-horror-red hover:underline"
+              >
+                View {recommendedWeapon.data.title} weapon guide
+                <Icon name="lucide:arrow-right" class="w-4 h-4" />
+              </a>
+            </div>
+          )}
+        </div>
       </section>
+
+      <!-- Recommended Loadout -->
+      {boss.data.recommendedLoadout && boss.data.recommendedLoadout.length > 0 && (
+        <section class="mb-8">
+          <div class="flex items-center gap-2 text-horror-text font-bold text-xl mb-4">
+            <Icon name="lucide:backpack" class="w-5 h-5 text-horror-red" />
+            Recommended Loadout
+          </div>
+
+          <ul class="space-y-2 list-disc pl-5 text-horror-text-secondary">
+            {boss.data.recommendedLoadout.map((item) => <li>{item}</li>)}
+          </ul>
+        </section>
+      )}
+
+      <!-- Drops / Reward -->
+      {(boss.data.drops || boss.data.reward) && (
+        <section class="mb-8">
+          <div class="flex items-center gap-2 text-horror-text font-bold text-xl mb-4">
+            <Icon name="lucide:gift" class="w-5 h-5 text-horror-red" />
+            Rewards
+          </div>
+
+          <div class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+            {boss.data.reward && (
+              <div class="mb-3">
+                <div class="text-sm font-semibold text-horror-text-muted">Primary Reward</div>
+                <p class="text-horror-text">{boss.data.reward}</p>
+              </div>
+            )}
+            {boss.data.drops && boss.data.drops.length > 0 && (
+              <div>
+                <div class="text-sm font-semibold text-horror-text-muted mb-2">Drops</div>
+                <ul class="space-y-1 list-disc pl-5 text-horror-text-secondary">
+                  {boss.data.drops.map((drop) => <li>{drop}</li>)}
+                </ul>
+              </div>
+            )}
+          </div>
+        </section>
+      )}
+
+      <!-- Phase Strategy -->
+      {boss.data.phases && boss.data.phases.length > 0 && (
+        <section class="mb-8">
+          <div class="flex items-center gap-2 text-horror-text font-bold text-xl mb-4">
+            <Icon name="lucide:git-branch" class="w-5 h-5 text-horror-red" />
+            Phase-by-Phase Strategy
+          </div>
+
+          <div class="space-y-6">
+            {boss.data.phases.map((phase, index) => (
+              <div class="group relative rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+                <div class="flex items-start gap-4">
+                  <div class="flex-shrink-0 w-10 h-10 rounded-full bg-horror-red/10 text-horror-red flex items-center justify-center font-black">
+                    {index + 1}
+                  </div>
+                  <div class="flex-1">
+                    <h3 class="text-lg font-bold text-horror-text mb-2">{phase.name}</h3>
+                    {phase.trigger && (
+                      <div class="text-sm text-horror-red font-semibold mb-2">Trigger: {phase.trigger}</div>
+                    )}
+                    <p class="text-horror-text-secondary mb-2"><strong>Behavior:</strong> {phase.behavior}</p>
+                    <p class="text-horror-text-secondary"><strong>Tactics:</strong> {phase.tactics}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       <!-- Attack Patterns -->
       <section class="mb-8">
@@ -270,6 +383,20 @@ const keywords = [
         )}
       </section>
 
+      <!-- Tips -->
+      {boss.data.tips && boss.data.tips.length > 0 && (
+        <section class="mb-8">
+          <div class="flex items-center gap-2 text-horror-text font-bold text-xl mb-4">
+            <Icon name="lucide:lightbulb" class="w-5 h-5 text-horror-red" />
+            Pro Tips
+          </div>
+
+          <ul class="space-y-2 list-disc pl-5 text-horror-text-secondary">
+            {boss.data.tips.map((tip) => <li>{tip}</li>)}
+          </ul>
+        </section>
+      )}
+
       <!-- Hardcore Tips -->
       {boss.data.hardcoreTips && boss.data.hardcoreTips.length > 0 && (
         <section class="mb-8">
@@ -289,16 +416,15 @@ const keywords = [
         <FAQSection faqs={boss.data.faq} />
       )}
 
-      <!-- E-E-A-T About -->
-      <section class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6 mb-8">
-        <h2 class="text-2xl font-bold text-horror-text mb-4">About This Boss Guide</h2>
-        <p class="text-horror-text-secondary leading-relaxed mb-4">
-          This {boss.data.title} boss guide is part of the Requiem Guide database. We test each boss on multiple difficulties to record accurate attack patterns, weaknesses, and weapon recommendations.
-        </p>
-        <p class="text-horror-text-secondary leading-relaxed">
-          For the full chapter context, check the linked walkthrough. For weapon stats and locations, visit the weapons guide.
-        </p>
-      </section>
+      <!-- Verification (replaces unverifiable "we test every boss" claim) -->
+      <VerificationBlock
+        status={boss.data.verification}
+        lastChecked="September 2026"
+      />
+
+      <p class="text-sm text-horror-text-secondary mb-8">
+        For the full chapter context, see the linked walkthrough. For weapon stats and locations, visit the weapons guide.
+      </p>
 
       <!-- Related Links -->
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">

@@ -30,8 +30,8 @@ const bestAgainstBosses = allBosses.filter((b) =>
   weapon.data.title && b.data.recommendedWeapon?.toLowerCase().includes(weapon.data.title.toLowerCase())
 );
 
-const pageTitle = `${weapon.data.title} ${weapon.data.type} Guide - Stats, Location & Best Use`;
-const pageDescription = weapon.data.description || `Complete ${weapon.data.title} weapon guide for Resident Evil Requiem: stats, location, upgrades, and best use cases.`;
+const pageTitle = `${weapon.data.title} - Location & Stats | Resident Evil Requiem`;
+const pageDescription = weapon.data.description || `Where to find the ${weapon.data.title} in Resident Evil Requiem, its stats, upgrades, and which encounters it suits.`;
 
 const breadcrumbItems = [
   { label: 'Weapons', href: '/weapons' },
@@ -48,6 +48,20 @@ const breadcrumbSchema = {
   ],
 };
 
+const comparisonSchema = weapon.data.comparisonTable?.length ? {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  itemListElement: weapon.data.comparisonTable.map((row, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    item: {
+      '@type': 'Thing',
+      name: row.weapon,
+      description: `${row.type} weapon. Damage: ${row.damage}, Capacity: ${row.capacity}, Best for: ${row.bestFor}.`,
+    },
+  })),
+} : null;
+
 const faqSchema = weapon.data.faq?.length ? {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -61,8 +75,11 @@ const faqSchema = weapon.data.faq?.length ? {
 const keywords = [
   ...new Set([
     `${weapon.data.title} Resident Evil Requiem`,
-    `${weapon.data.title} stats`,
     `${weapon.data.title} location`,
+    `${weapon.data.title} stats`,
+    `where to get ${weapon.data.title} Resident Evil Requiem`,
+    `${weapon.data.title} best upgrades`,
+    `${weapon.data.title} boss guide`,
     `best ${weapon.data.type?.toLowerCase() || 'weapon'} Resident Evil Requiem`,
     `Resident Evil Requiem ${weapon.data.title}`,
     ...(weapon.data.keywords || []),
@@ -77,7 +94,7 @@ const keywords = [
   type="article"
   modifiedTime={weapon.data.updated}
   currentPath={`/weapons/${weapon.slug}`}
-  extraSchema={[breadcrumbSchema, faqSchema].filter(Boolean)}
+  extraSchema={[breadcrumbSchema, comparisonSchema, faqSchema].filter(Boolean)}
 >
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <Breadcrumb items={breadcrumbItems} />
@@ -146,16 +163,28 @@ const keywords = [
             <p class="text-horror-text font-semibold mt-1">{weapon.data.reload}</p>
           </div>
         )}
+        {weapon.data.damagePerShot && (
+          <div class="bg-horror-surface border border-horror-border rounded-xl p-4">
+            <div class="text-xs font-semibold text-horror-text-muted uppercase tracking-wider">Damage / Shot</div>
+            <p class="text-horror-red font-semibold mt-1">{weapon.data.damagePerShot}</p>
+          </div>
+        )}
+        {weapon.data.dps && (
+          <div class="bg-horror-surface border border-horror-border rounded-xl p-4">
+            <div class="text-xs font-semibold text-horror-text-muted uppercase tracking-wider">DPS</div>
+            <p class="text-horror-text font-semibold mt-1">{weapon.data.dps}</p>
+          </div>
+        )}
+        {weapon.data.ammoRarity && (
+          <div class="bg-horror-surface border border-horror-border rounded-xl p-4">
+            <div class="text-xs font-semibold text-horror-text-muted uppercase tracking-wider">Ammo Rarity</div>
+            <p class="text-horror-text font-semibold mt-1">{weapon.data.ammoRarity}</p>
+          </div>
+        )}
         {weapon.data.range && (
           <div class="bg-horror-surface border border-horror-border rounded-xl p-4">
             <div class="text-xs font-semibold text-horror-text-muted uppercase tracking-wider">Range</div>
             <p class="text-horror-text font-semibold mt-1">{weapon.data.range}</p>
-          </div>
-        )}
-        {weapon.data.durability && (
-          <div class="bg-horror-surface border border-horror-border rounded-xl p-4">
-            <div class="text-xs font-semibold text-horror-text-muted uppercase tracking-wider">Durability</div>
-            <p class="text-horror-text font-semibold mt-1">{weapon.data.durability}</p>
           </div>
         )}
         {weapon.data.character && (
@@ -184,10 +213,28 @@ const keywords = [
                 <td class="px-4 py-3 text-horror-text-muted font-semibold">Damage</td>
                 <td class="px-4 py-3 text-horror-text">{weapon.data.damage}</td>
               </tr>
+              {weapon.data.damagePerShot && (
+                <tr>
+                  <td class="px-4 py-3 text-horror-text-muted font-semibold">Damage / Shot</td>
+                  <td class="px-4 py-3 text-horror-text">{weapon.data.damagePerShot}</td>
+                </tr>
+              )}
+              {weapon.data.dps && (
+                <tr>
+                  <td class="px-4 py-3 text-horror-text-muted font-semibold">DPS</td>
+                  <td class="px-4 py-3 text-horror-text">{weapon.data.dps}</td>
+                </tr>
+              )}
               <tr>
                 <td class="px-4 py-3 text-horror-text-muted font-semibold">Ammo</td>
                 <td class="px-4 py-3 text-horror-text">{weapon.data.ammo}</td>
               </tr>
+              {weapon.data.ammoRarity && (
+                <tr>
+                  <td class="px-4 py-3 text-horror-text-muted font-semibold">Ammo Rarity</td>
+                  <td class="px-4 py-3 text-horror-text">{weapon.data.ammoRarity}</td>
+                </tr>
+              )}
               <tr>
                 <td class="px-4 py-3 text-horror-text-muted font-semibold">Capacity</td>
                 <td class="px-4 py-3 text-horror-text">{weapon.data.capacity}</td>
@@ -207,6 +254,14 @@ const keywords = [
               <tr>
                 <td class="px-4 py-3 text-horror-text-muted font-semibold">Durability</td>
                 <td class="px-4 py-3 text-horror-text">{weapon.data.durability}</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 text-horror-text-muted font-semibold">Stability</td>
+                <td class="px-4 py-3 text-horror-text">{weapon.data.stability}</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 text-horror-text-muted font-semibold">Precision</td>
+                <td class="px-4 py-3 text-horror-text">{weapon.data.precision}</td>
               </tr>
               <tr>
                 <td class="px-4 py-3 text-horror-text-muted font-semibold">Character</td>
@@ -232,6 +287,61 @@ const keywords = [
           </div>
         </div>
       </section>
+
+      <!-- Acquisition Steps -->
+      {weapon.data.acquisitionSteps && weapon.data.acquisitionSteps.length > 0 && (
+        <section class="mb-8">
+          <div class="flex items-center gap-2 text-horror-text font-bold text-xl mb-4">
+            <Icon name="lucide:list-checks" class="w-5 h-5 text-horror-red" />
+            How to Get the {weapon.data.title}
+          </div>
+          <div class="space-y-3">
+            {weapon.data.acquisitionSteps.map((step) => (
+              <div class="rounded-xl border border-horror-border bg-horror-surface p-4 sm:p-5">
+                <div class="flex items-start gap-3">
+                  <div class="flex-shrink-0 w-8 h-8 rounded-lg bg-horror-red/10 text-horror-red font-bold flex items-center justify-center">
+                    {step.step}
+                  </div>
+                  <div>
+                    <div class="font-bold text-horror-text">{step.title}</div>
+                    <p class="text-horror-text-secondary text-sm mt-1">{step.detail}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <!-- Pros & Cons -->
+      {(weapon.data.pros || weapon.data.cons) && (
+        <section class="mb-8">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {weapon.data.pros && weapon.data.pros.length > 0 && (
+              <div class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+                <div class="flex items-center gap-2 text-horror-green font-bold text-lg mb-4">
+                  <Icon name="lucide:plus" class="w-5 h-5" />
+                  Pros
+                </div>
+                <ul class="space-y-2 list-disc pl-5 text-horror-text-secondary">
+                  {weapon.data.pros.map((pro) => <li>{pro}</li>)}
+                </ul>
+              </div>
+            )}
+            {weapon.data.cons && weapon.data.cons.length > 0 && (
+              <div class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+                <div class="flex items-center gap-2 text-horror-red font-bold text-lg mb-4">
+                  <Icon name="lucide:minus" class="w-5 h-5" />
+                  Cons
+                </div>
+                <ul class="space-y-2 list-disc pl-5 text-horror-text-secondary">
+                  {weapon.data.cons.map((con) => <li>{con}</li>)}
+                </ul>
+              </div>
+            )}
+          </div>
+        </section>
+      )}
 
       <!-- Upgrade Path -->
       <section class="mb-8">
@@ -274,6 +384,21 @@ const keywords = [
         </div>
       </section>
 
+      <!-- Tips -->
+      {weapon.data.tips && weapon.data.tips.length > 0 && (
+        <section class="mb-8">
+          <div class="flex items-center gap-2 text-horror-text font-bold text-xl mb-4">
+            <Icon name="lucide:lightbulb" class="w-5 h-5 text-horror-red" />
+            Pro Tips
+          </div>
+          <div class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
+            <ul class="space-y-2 list-disc pl-5 text-horror-text-secondary">
+              {weapon.data.tips.map((tip) => <li>{tip}</li>)}
+            </ul>
+          </div>
+        </section>
+      )}
+
       <!-- Main Content -->
       <div class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6 mb-8">
         <div class="prose-horror max-w-none text-horror-text-secondary">
@@ -281,12 +406,74 @@ const keywords = [
         </div>
       </div>
 
-      <!-- Best Against Bosses -->
+      <!-- Comparison Table -->
+      {weapon.data.comparisonTable && weapon.data.comparisonTable.length > 0 && (
+        <section class="mb-8">
+          <div class="flex items-center gap-2 text-horror-text font-bold text-xl mb-4">
+            <Icon name="lucide:scale" class="w-5 h-5 text-horror-red" />
+            {weapon.data.title} vs Other Weapons
+          </div>
+          <div class="overflow-x-auto rounded-xl border border-horror-border bg-horror-surface">
+            <table class="w-full text-left text-sm">
+              <thead>
+                <tr class="border-b border-horror-border bg-horror-surface-hover">
+                  <th class="px-4 py-3 text-horror-text font-semibold">Weapon</th>
+                  <th class="px-4 py-3 text-horror-text font-semibold">Type</th>
+                  <th class="px-4 py-3 text-horror-text font-semibold">Damage</th>
+                  <th class="px-4 py-3 text-horror-text font-semibold">Capacity</th>
+                  <th class="px-4 py-3 text-horror-text font-semibold">Ammo</th>
+                  <th class="px-4 py-3 text-horror-text font-semibold">Best For</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-horror-border">
+                {weapon.data.comparisonTable.map((row) => (
+                  <tr class={row.weapon.includes(weapon.data.title) ? 'bg-horror-red/5' : ''}>
+                    <td class="px-4 py-3 text-horror-text font-semibold">{row.weapon}</td>
+                    <td class="px-4 py-3 text-horror-text-secondary">{row.type}</td>
+                    <td class="px-4 py-3 text-horror-text-secondary">{row.damage}</td>
+                    <td class="px-4 py-3 text-horror-text-secondary">{row.capacity}</td>
+                    <td class="px-4 py-3 text-horror-text-secondary">{row.ammo}</td>
+                    <td class="px-4 py-3 text-horror-text-secondary">{row.bestFor}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )}
+
+      <!-- Recommended Bosses -->
+      {weapon.data.recommendedBosses && weapon.data.recommendedBosses.length > 0 && (
+        <section class="mb-8">
+          <div class="flex items-center gap-2 text-horror-text font-bold text-xl mb-4">
+            <Icon name="lucide:skull" class="w-5 h-5 text-horror-red" />
+            Best Bosses to Use {weapon.data.title} Against
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {weapon.data.recommendedBosses.map((bossName) => {
+              const boss = allBosses.find((b) => b.data.title.toLowerCase().includes(bossName.toLowerCase()));
+              return boss ? (
+                <a href={`/bosses/${boss.slug}`} class="group p-4 rounded-xl border border-horror-border bg-horror-surface hover:border-horror-red/50 transition-all">
+                  <div class="font-bold text-horror-text group-hover:text-horror-red transition-colors">{boss.data.title} Boss Guide</div>
+                  <div class="text-sm text-horror-text-secondary mt-1">{boss.data.weakness}</div>
+                </a>
+              ) : (
+                <div class="p-4 rounded-xl border border-horror-border bg-horror-surface">
+                  <div class="font-bold text-horror-text">{bossName}</div>
+                  <div class="text-sm text-horror-text-secondary mt-1">Use the {weapon.data.title} for high precision damage at range.</div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
+      <!-- Best Against Bosses (legacy) -->
       {bestAgainstBosses.length > 0 && (
         <section class="mb-8">
           <div class="flex items-center gap-2 text-horror-text font-bold text-xl mb-4">
             <Icon name="lucide:skull" class="w-5 h-5 text-horror-red" />
-            Best Against These Bosses
+            Recommended Against These Bosses
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -309,10 +496,10 @@ const keywords = [
       <section class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6 mb-8">
         <h2 class="text-2xl font-bold text-horror-text mb-4">About This Weapon Guide</h2>
         <p class="text-horror-text-secondary leading-relaxed mb-4">
-          This {weapon.data.title} guide is part of the Requiem Guide weapons database. We record stats, locations, and upgrade effects from gameplay across multiple difficulties to help you choose the best loadout for every chapter and boss.
+          This {weapon.data.title} guide is part of the Requiem Guide weapons database. We record stats, locations, damage values, and upgrade effects from gameplay across multiple difficulties to help you choose the best loadout for every chapter and boss.
         </p>
         <p class="text-horror-text-secondary leading-relaxed">
-          For boss-specific strategies, visit the Boss Guide. For enemy tactics and item locations, see the Enemy Database and Items Database.
+          For boss-specific strategies, visit the <a href="/bosses" class="text-horror-red hover:underline">Boss Guide</a>. For enemy tactics and item locations, see the <a href="/enemies" class="text-horror-red hover:underline">Enemy Database</a> and <a href="/items" class="text-horror-red hover:underline">Items Database</a>.
         </p>
       </section>
 

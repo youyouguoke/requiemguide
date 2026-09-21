@@ -1,32 +1,82 @@
 ---
-import { getCollection } from 'astro:content';
 import MainLayout from '../../layouts/MainLayout.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
-import GuideCard from '../../components/GuideCard.astro';
+import VerificationBlock from '../../components/VerificationBlock.astro';
+import { Icon } from 'astro-icon/components';
 
-const title = 'Resident Evil Requiem Walkthrough - Complete Chapter Guide';
-const description = 'Complete Resident Evil Requiem walkthrough for all chapters. Step-by-step chapter guides with objectives, puzzle solutions, item locations, bosses, collectibles and survival tips.';
+const title = 'Resident Evil Requiem Walkthrough - Chapter Overview | Requiem Guide';
+const description = 'Resident Evil Requiem chapter overview: story structure from Wrenwood Hotel to the ARK, with links to verified puzzle solutions and boss guides for each stretch of the game.';
 
-const chapters = await getCollection('guide', (entry) => entry.data.category === 'walkthrough');
-chapters.sort((a, b) => (a.data.chapter ?? 0) - (b.data.chapter ?? 0));
-
-const allItems = await getCollection('item');
-const allPuzzles = await getCollection('puzzle');
-const allBosses = await getCollection('boss');
-
-const totalItems = chapters.reduce((sum, c) => sum + (c.data.importantItems || 0), 0);
-const totalPuzzles = chapters.reduce((sum, c) => sum + (c.data.puzzles?.length || 0), 0);
-const totalBosses = chapters.filter((c) => c.data.boss).length;
+// Chapter structure per Rock Paper Shotgun's walkthrough (post-release).
+// Note: RE Requiem has no in-game chapter select; chapter numbers are a guide convention.
+const chapters = [
+  {
+    num: 1,
+    name: 'Wrenwood Hotel & Elbridge',
+    area: 'Opening — Grace Ashcroft',
+    detail: 'The investigation begins at the Wrenwood Hotel before the trail leads to Rhodes Hill.',
+  },
+  {
+    num: 2,
+    name: 'Rhodes Hill Care Center — First Exploration',
+    area: 'The Girl encounters',
+    detail: 'First exploration of the Care Center. The Girl (Shadow Ghost) stalks these corridors.',
+    boss: { slug: 'shadow-ghost', label: 'The Girl (Shadow Ghost)' },
+  },
+  {
+    num: 3,
+    name: 'Rhodes Hill — The Quartz Pieces',
+    area: 'Care Center East & West Wings',
+    detail: 'Find the Moon, Sun, and Star Quartz puzzle boxes and open the Central Hall mechanism.',
+    links: [
+      { href: '/puzzles/moon-quartz-box', label: 'Moon Quartz Box' },
+      { href: '/puzzles/sun-quartz-box', label: 'Sun Quartz Box' },
+      { href: '/puzzles/star-quartz-box', label: 'Star Quartz Box' },
+      { href: '/puzzles/central-hall-quartz', label: 'Central Hall Mechanism' },
+      { href: '/puzzles/safe-codes', label: 'All Safe Codes' },
+      { href: '/puzzles/blood-analyzer', label: 'Blood Analyzer' },
+    ],
+  },
+  {
+    num: 4,
+    name: 'Rhodes Hill — Basement',
+    area: 'Emily rescue sequence',
+    detail: 'The route continues below the Care Center, including the sequence where Emily is rescued.',
+  },
+  {
+    num: 5,
+    name: 'Rhodes Hill — Helipad & Water Treatment Plant',
+    area: 'Grace',
+    detail: 'The helicopter escape goes wrong; the Water Treatment Plant holds the last stretch of the Care Center.',
+    boss: { slug: 'emily-transformed', label: 'Emily (Transformed)' },
+  },
+  {
+    num: 6,
+    name: 'East Raccoon City',
+    area: 'Leon S. Kennedy',
+    detail: 'Leon\'s campaign through the ruined city, including the giant spider boss.',
+    boss: { slug: 'titan-spinner', label: 'Titan Spinner' },
+  },
+  {
+    num: 7,
+    name: 'Raccoon City Center',
+    area: 'RPD & Orphanage',
+    detail: 'The RPD and Orphanage sections, including Tyrant T-501 pursuit encounters.',
+  },
+  {
+    num: 8,
+    name: 'The ARK',
+    area: 'Finale',
+    detail: 'Archives, Bioweapon Repository, and the final confrontation. Your last choice decides the ending.',
+    link: { href: '/story/endings', label: 'Endings explained (spoilers)' },
+  },
+];
 
 const keywords = [
   'resident evil requiem walkthrough',
-  'resident evil requiem complete guide',
   'resident evil requiem chapter guide',
   'resident evil requiem all chapters',
-  'resident evil requiem objectives',
-  'resident evil requiem puzzle solutions',
-  'resident evil requiem item locations',
-  'resident evil requiem boss fights',
+  'resident evil requiem story order',
 ];
 
 const breadcrumbSchema = {
@@ -46,121 +96,59 @@ const breadcrumbSchema = {
   currentPath="/walkthrough"
   extraSchema={[breadcrumbSchema]}
 >
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <Breadcrumb items={[{ label: 'Walkthrough', href: '/walkthrough' }]} />
 
-    <header class="relative mb-12 rounded-2xl overflow-hidden border border-horror-border">
-      <div class="relative h-40 sm:h-48 md:h-64">
-        <img
-          src="/images/requiem_survival_guide_chapter_3_walkthrough_006.jpg"
-          alt="Resident Evil Requiem complete walkthrough hub covering all chapters"
-          width="1200"
-          height="675"
-          loading="eager"
-          fetchpriority="high"
-          class="w-full h-full object-cover"
-        />
-        <div class="absolute inset-0 bg-gradient-to-r from-horror-bg via-horror-bg/80 to-transparent"></div>
-      </div>
-      <div class="p-5 sm:p-6 md:p-8">
-        <p class="text-horror-red font-semibold tracking-widest uppercase text-xs sm:text-sm mb-3">Complete Story Guide</p>
-        <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-horror-text mb-3">Resident Evil Requiem Walkthrough</h1>
-        <p class="text-lg sm:text-xl text-horror-text-secondary max-w-2xl">{description}</p>
-      </div>
+    <header class="mb-10">
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-horror-text mb-4">
+        Resident Evil Requiem Walkthrough
+      </h1>
+      <p class="text-lg text-horror-text-secondary leading-relaxed">
+        Story overview from the Wrenwood Hotel to the ARK finale, with direct links to the verified puzzle solutions and boss guides for each stretch. Use this page to orient yourself, then jump straight to the problem you are stuck on.
+      </p>
     </header>
 
-    <section class="mb-10">
-      <h2 class="text-2xl font-bold text-horror-text mb-4">Walkthrough Overview</h2>
-      <p class="text-horror-text-secondary leading-relaxed mb-6">
-        This Resident Evil Requiem walkthrough covers every story chapter from the opening moments in Rhodes Hill to the final choice in the Elpis containment chamber. Each chapter guide includes a step-by-step route, puzzle solutions, important item locations, enemy tips and boss strategies so you can progress without getting lost or missing collectibles.
-      </p>
+    <div class="rounded-xl border border-horror-border bg-horror-surface p-4 sm:p-5 mb-10 text-sm text-horror-text-secondary leading-relaxed">
+      <strong class="text-horror-text">Note on chapters:</strong> Resident Evil Requiem has no in-game chapter select, so chapter numbers are a guide convention. The structure below follows the widely used post-release walkthrough convention.
+    </div>
 
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
-        <div class="p-4 rounded-xl border border-horror-border bg-horror-surface/50">
-          <div class="text-xs text-horror-text-muted uppercase font-semibold mb-1">Chapters</div>
-          <div class="text-2xl font-bold text-horror-text">{chapters.length}</div>
-        </div>
-        <div class="p-4 rounded-xl border border-horror-border bg-horror-surface/50">
-          <div class="text-xs text-horror-text-muted uppercase font-semibold mb-1">Important Items</div>
-          <div class="text-2xl font-bold text-horror-text">{totalItems}</div>
-        </div>
-        <div class="p-4 rounded-xl border border-horror-border bg-horror-surface/50">
-          <div class="text-xs text-horror-text-muted uppercase font-semibold mb-1">Puzzles</div>
-          <div class="text-2xl font-bold text-horror-text">{totalPuzzles}</div>
-        </div>
-        <div class="p-4 rounded-xl border border-horror-border bg-horror-surface/50">
-          <div class="text-xs text-horror-text-muted uppercase font-semibold mb-1">Bosses</div>
-          <div class="text-2xl font-bold text-horror-text">{totalBosses}</div>
-        </div>
-      </div>
-    </section>
+    <ol class="relative border-l border-horror-border ml-3 sm:ml-4 space-y-8 mb-12">
+      {chapters.map((ch) => (
+        <li class="relative pl-8 sm:pl-10">
+          <span class="absolute -left-4 sm:-left-5 top-0 w-8 h-8 rounded-full bg-horror-red/10 border border-horror-red/40 text-horror-red font-black flex items-center justify-center text-sm">
+            {ch.num}
+          </span>
+          <h2 class="text-xl sm:text-2xl font-bold text-horror-text mb-1" id={`ch-${ch.num}`}>
+            Chapter {ch.num}: {ch.name}
+          </h2>
+          <p class="text-sm text-horror-text-muted mb-2">{ch.area}</p>
+          <p class="text-horror-text-secondary leading-relaxed mb-3">{ch.detail}</p>
+          {ch.boss && (
+            <a href={`/bosses/${ch.boss.slug}`} class="inline-flex items-center gap-1.5 text-sm font-semibold text-horror-red hover:underline mb-2">
+              <Icon name="lucide:skull" class="w-4 h-4" />
+              Boss: {ch.boss.label}
+            </a>
+          )}
+          {ch.links && (
+            <div class="flex flex-wrap gap-2 mt-1">
+              {ch.links.map((l) => (
+                <a href={l.href} class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border border-horror-border text-xs sm:text-sm text-horror-text-secondary hover:border-horror-red/60 hover:text-horror-text transition-colors">
+                  <Icon name="lucide:puzzle" class="w-3.5 h-3.5 text-horror-red" />
+                  {l.label}
+                </a>
+              ))}
+            </div>
+          )}
+          {ch.link && (
+            <a href={ch.link.href} class="inline-flex items-center gap-1.5 text-sm font-semibold text-horror-red hover:underline">
+              {ch.link.label}
+              <Icon name="lucide:arrow-right" class="w-4 h-4" />
+            </a>
+          )}
+        </li>
+      ))}
+    </ol>
 
-    <section class="mb-12">
-      <h2 class="text-2xl font-bold text-horror-text mb-6">All Chapter Guides</h2>
-      
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-        {chapters.map((chapter) => {
-          const chapterBoss = chapter.data.boss ? allBosses.find((b) => b.slug === chapter.data.boss) : null;
-          const chapterItemCount = chapter.data.importantItems || chapter.data.items?.length || 0;
-          const chapterPuzzleCount = chapter.data.puzzles?.length || 0;
-          const chapterTitle = chapter.data.title.replace(/^Chapter \d+:\s*/, '');
-          const meta = [
-            chapter.data.difficulty,
-            chapter.data.length,
-            chapterItemCount > 0 ? `${chapterItemCount} items` : null,
-            chapterPuzzleCount > 0 ? `${chapterPuzzleCount} puzzles` : null,
-            chapterBoss ? chapterBoss.data.title : null,
-          ].filter(Boolean).join(' · ');
-
-          return (
-            <GuideCard
-              href={`/walkthrough/${chapter.slug}`}
-              title={chapterTitle}
-              category={`Chapter ${chapter.data.chapter}`}
-              description={chapter.data.description || `Complete ${chapterTitle}`}
-              image={chapter.data.image || '/images/requiem_survival_guide_walkthrough_hub_053.jpg'}
-            >
-              <div slot="footer" class="mt-3 pt-3 border-t border-horror-border text-xs text-horror-text-muted">
-                {meta}
-              </div>
-            </GuideCard>
-          );
-        })}
-      </div>
-    </section>
-
-    <section class="mb-12">
-      <h2 class="text-2xl font-bold text-horror-text mb-4">What Each Chapter Guide Includes</h2>
-      
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div class="p-4 rounded-xl border border-horror-border bg-horror-surface/50">
-          <h3 class="font-bold text-horror-text mb-1">Step-by-Step Objectives</h3>
-          <p class="text-sm text-horror-text-secondary">Clear story route with every main objective and hidden collectible marked.</p>
-        </div>
-        <div class="p-4 rounded-xl border border-horror-border bg-horror-surface/50">
-          <h3 class="font-bold text-horror-text mb-1">Puzzle Solutions</h3>
-          <p class="text-sm text-horror-text-secondary">Detailed inputs for every safe, box, quartz, and analyzer puzzle in the game.</p>
-        </div>
-        <div class="p-4 rounded-xl border border-horror-border bg-horror-surface/50">
-          <h3 class="font-bold text-horror-text mb-1">Item Locations</h3>
-          <p class="text-sm text-horror-text-secondary">Find keys, weapons, herbs, ammo and upgrades exactly where they spawn.</p>
-        </div>
-        <div class="p-4 rounded-xl border border-horror-border bg-horror-surface/50">
-          <h3 class="font-bold text-horror-text mb-1">Boss Strategies</h3>
-          <p class="text-sm text-horror-text-secondary">Weaknesses, recommended weapons, and safe patterns for every boss encounter.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="rounded-xl border border-horror-border bg-horror-surface p-5 sm:p-6">
-      <h2 class="text-2xl font-bold text-horror-text mb-4">Related Guides</h2>
-      <div class="flex flex-wrap gap-3">
-        <a href="/puzzles" class="px-4 py-2 rounded-lg bg-horror-bg border border-horror-border text-sm text-horror-text hover:border-horror-red transition-colors">All Puzzle Solutions</a>
-        <a href="/bosses" class="px-4 py-2 rounded-lg bg-horror-bg border border-horror-border text-sm text-horror-text hover:border-horror-red transition-colors">All Boss Guides</a>
-        <a href="/items" class="px-4 py-2 rounded-lg bg-horror-bg border border-horror-border text-sm text-horror-text hover:border-horror-red transition-colors">All Items</a>
-        <a href="/enemies" class="px-4 py-2 rounded-lg bg-horror-bg border border-horror-border text-sm text-horror-text hover:border-horror-red transition-colors">All Enemies</a>
-        <a href="/story" class="px-4 py-2 rounded-lg bg-horror-bg border border-horror-border text-sm text-horror-text hover:border-horror-red transition-colors">Story Summary</a>
-      </div>
-    </section>
+    <VerificationBlock status="corroborated" lastChecked="September 2026" />
   </div>
 </MainLayout>

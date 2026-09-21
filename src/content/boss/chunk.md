@@ -1,67 +1,75 @@
 ---
 title: "Chunk"
-description: "Complete Chunk boss fight guide for Resident Evil Requiem: kitchen location, headshot weakness, attack patterns, best weapons, and step-by-step strategy."
-image: "/images/requiem_survival_guide_the_executioner_boss_strategy_052.jpg"
-location: "Rhodes Hill Care Center - Kitchen/Cafeteria"
+description: "Chunk boss guide for Resident Evil Requiem: both encounters (Grace's optional East Wing fight and Leon's Attic fight), weakness, recommended weapons, and strategy."
+image: "/images/requiem_survival_guide_the_executioner_boss_strategy_043.jpg"
+location: "Rhodes Hill Care Center — two encounters (Grace & Leon)"
 hp: "High"
 weakness: "Headshots and explosive damage"
-weaknessEffect: "Shotgun blasts to the head stagger Chunk and open a melee or reload window."
-recommendedWeapon: "MSBG 500 Shotgun"
+weaknessEffect: "Headshots deal critical damage; explosives stagger it open."
 difficulty: "Medium"
-reward: "Kitchen Key / progression"
-keywords: ["Chunk boss fight", "Chunk weakness", "Resident Evil Requiem Chunk", "how to beat Chunk", "RE9 Chunk"]
-related: ["shadow-ghost", "blister-borne", "titan-spinner", "emily-transformed"]
-updated: 2026-07-14
-attackPatterns:
-  - name: "Slam"
-    description: "Raises both arms and slams the ground in a wide hitbox."
-    counter: "Back away as soon as the wind-up starts."
-  - name: "Charge"
-    description: "Despite its size, it charges a short distance."
-    counter: "Move sideways as soon as the animation begins."
-  - name: "Vomit"
-    description: "Vomits a pool of acid that lingers on the floor."
-    counter: "Leave the area immediately; do not stand in the puddle."
-  - name: "Grab"
-    description: "Tries to grab Leon at close range for massive damage."
-    counter: "Keep your distance and use pillars to block the grab."
+reward: "Progression"
+recommendedWeapon: "MSBG 500 shotgun"
+recommendedLoadout:
+  - "MSBG 500 shotgun (pump-action)"
+  - "Shotgun Shells — bring a comfortable supply"
+  - "S&S M232 or B934 handgun for backup"
+  - "Green Herbs for recovery"
 strategySteps:
-  - title: "Pick up the MSBG 500"
-    detail: "Before entering the kitchen, grab the shotgun from the pantry."
-  - title: "Stockpile shells"
-    detail: "Load up on shotgun shells and keep your distance from Chunk."
+  - title: "Bring the MSBG 500"
+    detail: "The pump-action shotgun (found in the Care Center Attic) is the reliable pick for both encounters."
   - title: "Aim for the head"
-    detail: "Headshots maximize damage and stagger potential. Body shots do very little."
-  - title: "Kite with tables and pillars"
-    detail: "Use cafeteria furniture to keep Chunk at a distance while you reload."
-  - title: "Finish the final phase"
-    detail: "Chunk moves faster and leaves acid trails in the last phase. Stay at mid-range and finish with the shotgun."
-hardcoreTips:
-  - "Shotgun blasts to the head will stagger Chunk, allowing you to reload or reposition."
-  - "Don't waste handgun ammo on body shots."
-  - "If you get cornered, use the dodge button to slip past the grab attack."
-  - "Acid trails restrict movement; plan your path around the cafeteria."
+    detail: "Headshots deal critical damage. Body shots waste ammo against its bulk."
+  - title: "Keep your distance"
+    detail: "Chunk is slow but hits hard up close. Kite it around the arena and reload behind cover."
+tips:
+  - "Grace's encounter is optional — fight or slip past depending on your resources."
+  - "Explosives stagger it, opening a safe damage window."
 faq:
+  - question: "Where do you fight Chunk in Resident Evil Requiem?"
+    answer: "There are two encounters: an optional fight for Grace in the East Wing, and Leon's fight in the Attic."
   - question: "What is Chunk's weakness?"
-    answer: "Chunk's massive head is the weak point. Shotgun headshots stagger it and deal the most damage."
+    answer: "The head. Headshots with the shotgun deal the most damage; explosives stagger it."
   - question: "What is the best weapon against Chunk?"
-    answer: "The MSBG 500 shotgun is the best choice, found in the pantry before the kitchen."
-  - question: "Where do you fight Chunk?"
-    answer: "The fight takes place in the Rhodes Hill Care Center kitchen and cafeteria."
-  - question: "What do you get for beating Chunk?"
-    answer: "Chunk drops the Kitchen Key, which opens the path to the church courtyard."
+    answer: "The MSBG 500 shotgun, found in the Care Center Attic before Leon's fight."
+keywords: ["Chunk boss", "Resident Evil Requiem Chunk", "RE9 Chunk", "Chunk strategy", "Chunk weakness"]
+related: ["blister-borne", "titan-spinner", "shadow-ghost", "emily-transformed"]
+updated: 2026-09-18
+verification: "corroborated"
 ---
 
-**Chunk** is a bloated, oversized mutant encountered by Leon during his investigation of Rhodes Hill. It is first seen feeding on a corpse in the kitchen area, and it serves as the first real boss of Leon's campaign.
+**Chunk** is a mutated boss fought twice in *Resident Evil Requiem*: an **optional encounter for Grace in the East Wing**, and **Leon's fight in the Attic**.
 
-## Overview
+## Chunk Overview
 
-Chunk is slow but extremely durable. Its massive head is the weak point, and it is vulnerable to shotgun blasts and explosive damage. The fight takes place in the cafeteria, which has tables and pillars that can be used to kite the boss.
+| Stat | Value |
+| --- | --- |
+| Location | Rhodes Hill Care Center — two encounters (East Wing for Grace, Attic for Leon) |
+| Difficulty | Medium |
+| HP | High |
+| Weakness | Headshots and explosive damage |
+| Resists | Body shots |
+| Recommended Weapon | MSBG 500 shotgun |
 
-## Reward
+## Best Loadout for Chunk
 
-Defeating Chunk drops the **Kitchen Key**, which opens the path to the church courtyard and the next story sequence.
+- **MSBG 500 shotgun** — found in the Care Center Attic
+- **Shotgun Shells** — a comfortable supply
+- **S&S M232 or B934 handgun** — backup for distant shots
+- **Green Herbs** — for recovery
 
-## Visual Guide
+## The Fight
 
-![Chunk boss fight weakness guide in Resident Evil Requiem](/images/requiem_survival_guide_the_executioner_boss_strategy_052.jpg)
+Aim for the **head** — body shots waste ammo against its bulk. Chunk is slow but punishes close range, so kite it around the arena, reload behind cover, and use explosives to stagger it when you need a safe damage window. Grace can skip her optional fight entirely if resources are tight — Leon's Attic encounter is the mandatory one.
+
+## FAQ
+
+### Where do you fight Chunk?
+There are two encounters: an optional fight for Grace in the East Wing, and Leon's fight in the Attic.
+
+### What is Chunk's weakness?
+The head. Headshots with the shotgun deal the most damage; explosives stagger it.
+
+### Is Grace's Chunk fight mandatory?
+No — Grace's East Wing encounter is optional. Leon's Attic fight is part of his campaign.
+
+![Chunk boss fight guide in Resident Evil Requiem](/images/requiem_survival_guide_the_executioner_boss_strategy_043.jpg)

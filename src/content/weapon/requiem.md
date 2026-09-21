@@ -1,60 +1,102 @@
 ---
 title: "Requiem"
-description: "Grace's most powerful rifle in Resident Evil Requiem. High stopping power and penetration through multiple targets. Full stats, location, upgrades, and best use cases."
+description: "The Requiem magnum in Resident Evil Requiem: Leon's 12.7x55mm assault revolver, handed to Grace during the Care Center story — location, Supply Box upgrades, and boss strategies."
 image: "/images/requiem_survival_guide_weapons_database_061.jpg"
-type: "Rifle"
+type: "Magnum (assault revolver)"
 damage: "Very High"
-ammo: "Rifle Ammo"
+ammo: "12.7x55mm"
+ammoRarity: "Rare"
 capacity: "5"
-rateOfFire: "0.8"
-reload: "0.8"
-range: "Long"
-durability: "Standard"
-stability: "0.5"
-precision: "0.8"
-character: "Grace"
-location: "Mid-game story reward"
-locationDetail: "Obtained as a story reward during Chapter 4 or 5 depending on your route."
-upgrade: "Durability and stability"
+range: "Medium-Long"
+character: "Leon → Grace"
+location: "Care Center — Leon hands it to Grace during the story"
+locationDetail: "A story sequence weapon: Leon gives Grace the Requiem during the Care Center, and it returns to Leon later in the campaign."
+upgrade: "Supply Box upgrades"
 bestFor: "Grace"
-bestForLong: "Late-game bosses, mini-bosses, and lined-up enemies"
+bestForLong: "Boss burst damage and hard-hitting magnum rounds"
 bestUseCases:
-  - "Boss fights where you need heavy damage quickly"
-  - "Hallways with multiple lined-up enemies"
-  - "Popping Blister Borne cysts from a safe distance"
-  - "The Titan Spinner fight in the final chapter"
-upgrades:
-  - name: "Stability"
-    effect: "Reduces severe kick and makes follow-up shots easier"
-  - name: "Durability"
-    effect: "Less frequent need for repairs"
-  - name: "Capacity"
-    effect: "More rounds before the slow reload"
+  - "Boss fights where you need heavy damage per shot."
+  - "Popping Blister Borne's orange cysts from a safe distance."
+  - "Emergency stagger on fast enemies that close the gap."
+pros:
+  - "Highest per-shot damage in Grace's hands."
+  - "Only five rounds per cylinder — every shot counts."
+cons:
+  - "Rare 12.7x55mm ammo."
+  - "Slow cylinder reload; small capacity punishes missed shots."
+tips:
+  - "Save 12.7x55mm rounds for bosses and mini-bosses; use the S&S M232 for common enemies."
+  - "Always aim for weak points. Body shots waste the Requiem's damage."
+  - "Upgrade via the Supply Box — power-focused parts like the Barrel Jacket are the priority."
+recommendedBosses:
+  - "Blister Borne"
+  - "Emily Transformed"
+comparisonTable:
+  - weapon: "Requiem"
+    type: "Magnum (revolver)"
+    damage: "Very High"
+    capacity: "5"
+    ammo: "12.7x55mm (Rare)"
+    bestFor: "Boss burst damage"
+  - weapon: "B934"
+    type: "Handgun"
+    damage: "Low-Medium"
+    capacity: "8"
+    ammo: "9mm Handgun Ammo (Common)"
+    bestFor: "Early game, conserving ammo"
+  - weapon: "S&S M232"
+    type: "Handgun"
+    damage: "Medium"
+    capacity: "9"
+    ammo: "9mm Handgun Ammo (Common)"
+    bestFor: "Headshot staggers, standard enemies"
+  - weapon: "MSBG 500"
+    type: "Shotgun"
+    damage: "High (close range)"
+    capacity: "5"
+    ammo: "Shotgun Shells (Uncommon)"
+    bestFor: "Close-range crowd control, boss stagger"
 faq:
-  - question: "Where do you get the Requiem rifle?"
-    answer: "The Requiem is obtained as a mid-game story reward, typically during Chapter 4 or 5 depending on your route."
-  - question: "Is the Requiem the best weapon in Resident Evil Requiem?"
-    answer: "It is Grace's best high-damage option for bosses and mini-bosses, but its low stability and slow reload make it situational."
+  - question: "Where do you get the Requiem in Resident Evil Requiem?"
+    answer: "It is a story weapon: Leon hands the Requiem to Grace during the Care Center sequence. It cannot be missed."
+  - question: "Is the Requiem a rifle or a revolver?"
+    answer: "A revolver — an assault revolver chambered in 12.7x55mm with a 5-round cylinder. Some guides mislabel it as a rifle."
   - question: "What ammo does the Requiem use?"
-    answer: "It uses Rifle Ammo, which is rarer than handgun ammo. Save it for boss fights and mini-bosses."
-related: ["titan-spinner", "blister-borne", "s-and-s-m232"]
-keywords: ["Requiem", "Resident Evil Requiem Requiem rifle", "best rifle Resident Evil Requiem", "Requiem weapon stats", "RE9 best rifle"]
-updated: 2026-07-14
+    answer: "12.7x55mm rounds, which are rare. Save them for bosses."
+  - question: "Can you miss the Requiem?"
+    answer: "No. It is part of the main story and appears in Grace's inventory at the scripted handoff."
+  - question: "Who uses the Requiem?"
+    answer: "It is Leon's weapon, handed to Grace during the Care Center story and returned to him later in the campaign."
+related: ["blister-borne", "s-and-s-m232", "emily-transformed"]
+keywords: ["Requiem revolver location", "Resident Evil Requiem Requiem weapon", "best magnum Resident Evil Requiem", "Requiem revolver stats", "RE9 Requiem weapon", "where to get Requiem Resident Evil Requiem"]
+updated: 2026-09-21
+verification: "corroborated"
 ---
 
-The **Requiem** is Grace's most powerful firearm. It trades stability and rate of fire for raw stopping power and the ability to penetrate multiple enemies in a line.
+The **Requiem** is an **assault revolver** chambered in **12.7x55mm** — often mislabeled as a rifle. It is **Leon's weapon**, handed to **Grace** during the Care Center story sequence (and returned to him later in the campaign). It cannot be missed.
 
-## Best Use Cases
+## Why the Requiem Matters
 
-- Boss fights where you need to deal heavy damage quickly.
-- Hallways with multiple lined-up enemies.
-- Popping Blister Borne cysts from a safe distance.
-- The Titan Spinner fight in the final chapter.
+Grace's campaign is built around resource management, but boss fights demand burst damage — that's the Requiem's job. With only **five rounds** per cylinder and rare ammo, every shot must count. Think of the [S&S M232](/weapons/s-and-s-m232) as the daily driver and the Requiem as the boss-killer.
 
-## Tips
+## How to Get the Requiem
 
-Save rifle ammo for bosses and mini-bosses. Its low capacity and slow reload make it risky in close-quarters ambushes. Always aim for weak points, as body shots waste the Requiem's penetration potential.
+It is a **guaranteed story handoff** from Leon to Grace during the Care Center sequence. No exploration, no puzzle — it appears in Grace's inventory at the scripted point.
+
+## Upgrades
+
+The Requiem is upgraded through the **Supply Box**; power parts such as the **Barrel Jacket** (~7,000cr) are the priority for boss damage.
+
+## Best Bosses to Use the Requiem Against
+
+### Blister Borne
+
+Pop the [orange cysts](/bosses/blister-borne) from across the arena with magnum rounds — safest way to open the fight.
+
+### Emily Transformed
+
+High per-shot damage fits the short punish windows in the [Emily fight](/bosses/emily-transformed).
 
 ## Visual Guide
 
-![Resident Evil Requiem Requiem rifle weapon guide](/images/requiem_survival_guide_weapons_database_061.jpg)
+![Resident Evil Requiem revolver guide showing the 12.7x55mm magnum](/images/requiem_survival_guide_weapons_database_061.jpg)

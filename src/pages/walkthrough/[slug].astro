@@ -10,6 +10,7 @@ import ItemList from '../../components/ItemList.astro';
 import BossCard from '../../components/BossCard.astro';
 import FAQSection from '../../components/FAQSection.astro';
 import RelatedGuides from '../../components/RelatedGuides.astro';
+import VerificationBlock from '../../components/VerificationBlock.astro';
 
 export async function getStaticPaths() {
   const guides = await getCollection('guide', (entry) => entry.data.category === 'walkthrough');
@@ -56,8 +57,8 @@ const chapterPuzzles = (guide.data.puzzles || [])
 
 const chapterBoss = guide.data.boss ? allBosses.find((b) => b.slug === guide.data.boss) : null;
 
-const pageTitle = `Resident Evil Requiem Chapter ${guide.data.chapter} Walkthrough - ${guide.data.location || guide.data.title}`;
-const pageDescription = `Complete Resident Evil Requiem Chapter ${guide.data.chapter} walkthrough covering objectives, puzzle solutions, item locations, enemies, collectibles and survival tips.`;
+const pageTitle = `Resident Evil Requiem Chapter ${guide.data.chapter} Walkthrough - ${guide.data.location || guide.data.title} | Requiem Guide`;
+const pageDescription = `Resident Evil Requiem Chapter ${guide.data.chapter} walkthrough: objectives, puzzle checkpoints, item locations, the boss fight, and how to reach the next chapter.`;
 
 const breadcrumbItems = [
   { label: 'Walkthrough', href: '/walkthrough' },
@@ -252,6 +253,11 @@ const breadcrumbSchema = {
       <section id="related" class="scroll-mt-28">
         <RelatedGuides title="Related Guides" guides={relatedGuides} currentSlug={guide.slug} />
       </section>
+
+      <VerificationBlock
+        status={guide.data.verification}
+        lastChecked="September 2026"
+      />
     </article>
   </div>
 </MainLayout>
