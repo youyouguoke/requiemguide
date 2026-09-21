@@ -7,8 +7,8 @@ import GuideCard from '../../components/GuideCard.astro';
 const bosses = await getCollection('boss');
 const weapons = await getCollection('weapon');
 
-const title = 'Best Weapons Against Resident Evil Requiem Bosses';
-const description = 'Best weapons for every Resident Evil Requiem boss: shotguns, rifles, magnums, and special tools ranked by boss matchup and strategy.';
+const title = 'Recommended Weapons Against Resident Evil Requiem Bosses';
+const description = 'Recommended weapons for every Resident Evil Requiem boss: shotguns, rifles, magnums, and special tools ranked by boss matchup and strategy.';
 
 const keywords = [
   'best weapon against resident evil requiem bosses',
@@ -23,7 +23,7 @@ const breadcrumbSchema = {
   itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://requiemguide.com' },
     { '@type': 'ListItem', position: 2, name: 'Bosses', item: 'https://requiemguide.com/bosses' },
-    { '@type': 'ListItem', position: 3, name: 'Best Weapons', item: 'https://requiemguide.com/bosses/best-weapons' },
+    { '@type': 'ListItem', position: 3, name: 'Recommended Weapons', item: 'https://requiemguide.com/bosses/best-weapons' },
   ],
 };
 ---
@@ -39,13 +39,13 @@ const breadcrumbSchema = {
     <Breadcrumb
       items={[
         { label: 'Bosses', href: '/bosses' },
-        { label: 'Best Weapons', href: '/bosses/best-weapons' },
+        { label: 'Recommended Weapons', href: '/bosses/best-weapons' },
       ]}
     />
 
     <header class="mb-12">
       <span class="text-horror-red font-semibold tracking-widest uppercase text-sm mb-4">Boss Loadouts</span>
-      <h1 class="text-4xl sm:text-5xl font-extrabold text-horror-text mb-4">Best Weapons Against Resident Evil Requiem Bosses</h1>
+      <h1 class="text-4xl sm:text-5xl font-extrabold text-horror-text mb-4">Recommended Weapons Against Resident Evil Requiem Bosses</h1>
       <p class="text-xl text-horror-text-secondary max-w-3xl">{description}</p>
     </header>
 
@@ -64,7 +64,7 @@ const breadcrumbSchema = {
 
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
               <div>
-                <div class="text-xs font-semibold text-horror-text-muted uppercase">Best Weapon</div>
+                <div class="text-xs font-semibold text-horror-text-muted uppercase">Recommended Weapon</div>
                 <div class="text-horror-green font-semibold">{boss.data.recommendedWeapon}</div>
               </div>
               <div>

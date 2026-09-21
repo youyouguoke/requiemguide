@@ -4,18 +4,18 @@ description: "Resident Evil Requiem Star Quartz solution: Security Manager's Off
 image: "/images/requiem_survival_guide_chapter_3_walkthrough_007.jpg"
 location: "Security Manager's Office, Isolation Ward"
 difficulty: "Medium"
-reward: "Star Quartz (and the Level 3 Wristband sequence)"
+reward: "Star Quartz"
 puzzleType: "symbol"
 chapter: 3
-requirements: ["ID Wristband (Level 2)", "Emily with you"]
+requirements: ["ID Wristband (Level 2)", "ID Wristband (Level 3)", "Emily with you"]
 code: "Star → Star → Moon → Sun"
 steps:
   - title: "Obtain the Level 2 ID Wristband"
-    detail: "Revive the corpse in the East Wing Examination Room to receive the Level 2 wristband."
-  - title: "Read the Security Manager's notebook"
-    detail: "On the desk in the Security Manager's Office, unfold the upper-right corner of the notebook."
-  - title: "Bring Emily to the puzzle box"
-    detail: "The box buttons are worn smooth — the code is in Braille, which only Emily can read. Escort her from the Medication Room."
+    detail: "Revive the corpse in the East Wing Examination Room (insert the Artificial Heart and Lungs, then defeat it) to receive the Level 2 wristband. It opens the Isolation Ward."
+  - title: "Read the Security Manager's notebook and take the Level 3 Wristband"
+    detail: "In the Security Manager's Office, unfold the upper-right corner of the notebook on the desk, then examine the puzzle box. The buttons are Braille, so Grace cannot solve it alone — take the ID Wristband (Level 3) from the Security Manager's body at the desk."
+  - title: "Free Emily with the Level 3 Wristband"
+    detail: "Use Level 3 clearance to open Emily's cell in the Medication Room, then carry her back to the Security Manager's Office."
   - title: "Defend Emily and finish the sequence"
     detail: "Emily reads Star → Star → Moon → Sun. After the Care Center Basement rescue sequence, she hands you the Star Quartz."
 faq:
@@ -28,7 +28,7 @@ faq:
   - question: "Where is the Level 2 Wristband?"
     answer: "It is obtained by reviving the corpse in the East Wing Examination Room."
   - question: "What does the Star Quartz sequence unlock?"
-    answer: "Interacting with the box starts the sequence that grants the Level 3 Wristband, used to free Emily from her cell. The Star Quartz itself is the third Quartz for the Central Hall mechanism."
+    answer: "The Star Quartz is the third Quartz for the Central Hall mechanism. The same office also holds the Level 3 Wristband (on the Security Manager's body), which you use to free Emily from her cell in the Medication Room."
 keywords:
   - "Star Quartz"
   - "Star Quartz Puzzle Box"
@@ -56,22 +56,22 @@ The office requires the **ID Wristband (Level 2)**. You get it by **reviving the
 
 ## Exact Solution
 
-1. Enter the Security Manager's Office and read the **notebook on the desk** — unfold its upper-right corner for the clue.
-2. Bring **Emily** to the puzzle box and have her read the Braille buttons.
-3. Defend her while she works. The sequence is:
+1. Enter the Security Manager's Office (Isolation Ward, Level 2 door) and read the **notebook on the desk** — unfold its upper-right corner for the clue.
+2. Examine the puzzle box. The buttons are worn smooth and the code is in **Braille**, which Grace cannot read — so take the **ID Wristband (Level 3)** from the **Security Manager's body** at the desk.
+3. Use Level 3 clearance to open **Emily's cell** in the Medication Room and carry her back to the office.
+4. Bring **Emily** to the puzzle box and have her read the Braille buttons. Defend her while she works. The sequence is:
 
    1. **Star**
    2. **Star**
    3. **Moon**
    4. **Sun**
 
-4. Interacting with the box also triggers the sequence that grants the **Level 3 Wristband**, which you use to free Emily from her cell.
 5. After the **Care Center Basement rescue sequence**, Emily hands you the **Star Quartz**.
 
 ## What You Get
 
 - **Star Quartz:** the third and final Quartz piece for the Central Hall mechanism.
-- **Level 3 Wristband:** unlocked during this sequence.
+- **ID Wristband (Level 3):** taken from the Security Manager's body in the same office — it opens Emily's cell and other red security doors.
 
 ## What To Do Next
 

@@ -8,8 +8,8 @@ import { Icon } from 'astro-icon/components';
 const weapons = await getCollection('weapon');
 const bosses = await getCollection('boss');
 
-const title = 'Best Weapons in Resident Evil Requiem - Top Picks for Every Situation';
-const description = 'Best weapons in Resident Evil Requiem: top handguns, shotguns, rifles, and melee options for every character, boss, and difficulty.';
+const title = 'Recommended Weapons in Resident Evil Requiem - Top Picks for Every Situation';
+const description = 'Recommended weapons in Resident Evil Requiem: top handguns, shotguns, rifles, and melee options for every character, boss, and difficulty.';
 
 const bestHandgun = weapons.find((w) => w.data.title === 'S&S M232');
 const bestShotgun = weapons.find((w) => w.data.title === 'MSBG 500');
@@ -36,14 +36,14 @@ const breadcrumbSchema = {
   itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://requiemguide.com' },
     { '@type': 'ListItem', position: 2, name: 'Weapons', item: 'https://requiemguide.com/weapons' },
-    { '@type': 'ListItem', position: 3, name: 'Best Weapons', item: 'https://requiemguide.com/weapons/best' },
+    { '@type': 'ListItem', position: 3, name: 'Recommended Weapons', item: 'https://requiemguide.com/weapons/best' },
   ],
 };
 
 const itemListSchema = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
-  name: 'Best Weapons in Resident Evil Requiem',
+  name: 'Recommended Weapons in Resident Evil Requiem',
   itemListElement: categories.filter((c) => c.weapon).map((c, index) => ({
     '@type': 'ListItem',
     position: index + 1,
@@ -64,18 +64,18 @@ const itemListSchema = {
     <Breadcrumb
       items={[
         { label: 'Weapons', href: '/weapons' },
-        { label: 'Best Weapons', href: '/weapons/best' },
+        { label: 'Recommended Weapons', href: '/weapons/best' },
       ]}
     />
 
     <header class="mb-12">
       <span class="text-horror-red font-semibold tracking-widest uppercase text-sm mb-4">Top Picks</span>
-      <h1 class="text-4xl sm:text-5xl font-extrabold text-horror-text mb-4">Best Weapons in Resident Evil Requiem</h1>
+      <h1 class="text-4xl sm:text-5xl font-extrabold text-horror-text mb-4">Recommended Weapons in Resident Evil Requiem</h1>
       <p class="text-xl text-horror-text-secondary max-w-3xl">{description}</p>
     </header>
 
     <section class="mb-12">
-      <h2 class="text-2xl font-bold text-horror-text mb-4">Best Weapons by Category</h2>
+      <h2 class="text-2xl font-bold text-horror-text mb-4">Recommended Weapons by Category</h2>
       
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
         {categories.filter((c) => c.weapon).map((category) => (
@@ -98,7 +98,7 @@ const itemListSchema = {
     </section>
 
     <section class="mb-12">
-      <h2 class="text-2xl font-bold text-horror-text mb-4">Best Weapons for Bosses</h2>
+      <h2 class="text-2xl font-bold text-horror-text mb-4">Recommended Weapons for Bosses</h2>
       
       <div class="space-y-3">
         {bosses.map((boss) => (

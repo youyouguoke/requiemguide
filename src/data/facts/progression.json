@@ -1,0 +1,89 @@
+{
+  "registry": "requiem-guide-facts",
+  "category": "progression",
+  "game": "Resident Evil Requiem",
+  "lastAudit": "2026-09-21",
+  "facts": [
+    {
+      "fact": "ID Wristband (Level 1) location",
+      "value": "On a dead body in the East Wing corridor near the Lead Researcher's Office; triggers the Chunk encounter",
+      "source": "published-guide",
+      "sourceUrl": "https://www.rockpapershotgun.com/resident-evil-requiem-moon-sun-star-puzzle-solution",
+      "alsoVerifiedBy": [
+        "https://gamerant.com/re9-resident-evil-requiem-how-where-find-all-id-wristbands-location/",
+        "https://www.gami.games/game/resident-evil-requiem/walkthrough"
+      ],
+      "verification": "corroborated",
+      "lastChecked": "2026-09-21",
+      "usedBy": ["/walkthrough/"]
+    },
+    {
+      "fact": "ID Wristband (Level 2) location and method",
+      "value": "Examination Room (East Wing): insert the Artificial Heart and Artificial Lungs into the organless corpse, defeat the revived corpse, take the wristband from its body",
+      "source": "published-guide",
+      "sourceUrl": "https://www.ign.com/wikis/resident-evil-requiem/How_to_Solve_the_Organless_Corpse_Puzzle",
+      "alsoVerifiedBy": [
+        "https://gamerant.com/re9-resident-evil-requiem-how-where-find-all-id-wristbands-location/",
+        "https://respawnindex.com/resident-evil-requiem-how-to-get-id-wristband-level-3/",
+        "https://www.polygon.com/resident-evil-requiem-re9-guide-walkthrough-garage-isolation-ward-attic-organ-box-puzzle"
+      ],
+      "verification": "verified",
+      "lastChecked": "2026-09-21",
+      "usedBy": ["/puzzles/star-quartz-box/", "/puzzles/moon-quartz-box/", "/walkthrough/"]
+    },
+    {
+      "fact": "ID Wristband (Level 2) unlocks",
+      "value": "Security Level 2 (orange) doors, including the Isolation Ward gate in the East Wing and the Garage/Organ Transport Box area",
+      "source": "published-guide",
+      "sourceUrl": "https://respawnindex.com/resident-evil-requiem-how-to-get-id-wristband-level-3/",
+      "alsoVerifiedBy": [
+        "https://gamerant.com/re9-resident-evil-requiem-how-where-find-all-id-wristbands-location/",
+        "https://www.rockpapershotgun.com/resident-evil-requiem-moon-sun-star-puzzle-solution"
+      ],
+      "verification": "corroborated",
+      "lastChecked": "2026-09-21",
+      "usedBy": ["/puzzles/star-quartz-box/"]
+    },
+    {
+      "fact": "ID Wristband (Level 3) location and method",
+      "value": "Security Manager's Office (Isolation Ward, East Wing 1F): examine the notebook on the desk, examine the puzzle box, then take the wristband from the Security Manager's body",
+      "source": "published-guide",
+      "sourceUrl": "https://www.polygon.com/resident-evil-requiem-re9-guide-walkthrough-garage-isolation-ward-attic-organ-box-puzzle",
+      "alsoVerifiedBy": [
+        "https://respawnindex.com/resident-evil-requiem-how-to-get-id-wristband-level-3/",
+        "https://gamerant.com/re9-resident-evil-requiem-how-where-find-all-id-wristbands-location/",
+        "https://gamingpromax.com/how-to-open-level-3-doors-re9-resident-evil-requiem/"
+      ],
+      "verification": "verified",
+      "lastChecked": "2026-09-21",
+      "usedBy": ["/puzzles/star-quartz-box/"]
+    },
+    {
+      "fact": "ID Wristband (Level 3) unlocks",
+      "value": "Security Level 3 (red) doors — specifically Emily's cell and the adjacent cell in the Medication Room (Mr. Raccoon #5)",
+      "source": "published-guide",
+      "sourceUrl": "https://gamingpromax.com/how-to-open-level-3-doors-re9-resident-evil-requiem/",
+      "alsoVerifiedBy": [
+        "https://respawnindex.com/resident-evil-requiem-how-to-get-id-wristband-level-3/",
+        "https://gamerant.com/re9-resident-evil-requiem-how-where-find-all-id-wristbands-location/"
+      ],
+      "verification": "corroborated",
+      "lastChecked": "2026-09-21",
+      "usedBy": ["/puzzles/star-quartz-box/", "/story/characters/"]
+    },
+    {
+      "fact": "Star Quartz box wristband requirement vs reward (FACT-001 resolution)",
+      "value": "The Star Quartz Puzzle Box sits in the Security Manager's Office behind a Level 2 door (Level 2 required to enter the Isolation Ward). The Level 3 Wristband is NOT granted by the box — it is looted from the Security Manager's body in the same office, and is then used to free Emily, who reads the Braille code and solves the box.",
+      "source": "published-guide",
+      "sourceUrl": "https://www.polygon.com/resident-evil-requiem-re9-guide-walkthrough-garage-isolation-ward-attic-organ-box-puzzle",
+      "alsoVerifiedBy": [
+        "https://respawnindex.com/resident-evil-requiem-how-to-get-id-wristband-level-3/",
+        "https://nintendosmash.com/how-to-get-the-star-quartz-in-resident-evil-requiem/",
+        "https://gamingpromax.com/how-to-open-level-3-doors-re9-resident-evil-requiem/"
+      ],
+      "verification": "verified",
+      "lastChecked": "2026-09-21",
+      "usedBy": ["/puzzles/star-quartz-box/", "/"]
+    }
+  ]
+}

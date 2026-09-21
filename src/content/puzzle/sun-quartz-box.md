@@ -72,7 +72,7 @@ The wall photos and documents in the Lead Researcher's Office show the research 
 
 ## What To Do Next
 
-After collecting the Sun Quartz, your next target is the **Star Quartz**: get the **Level 2 ID Wristband** from the corpse in the East Wing Examination Room, then take Emily to the [Star Quartz Box](/puzzles/star-quartz-box) in the Security Manager's Office. Once all three Quartz pieces are collected, see the [Central Hall Quartz Mechanism](/puzzles/central-hall-quartz) to open the path to the Courtyard.
+After collecting the Sun Quartz, your next target is the **Star Quartz**: get the **Level 2 ID Wristband** from the corpse in the East Wing Examination Room to open the Isolation Ward, then take the **Level 3 ID Wristband** from the Security Manager's body in his office — Level 3 opens Emily's cell, and only Emily can read the Braille code on the [Star Quartz Box](/puzzles/star-quartz-box). Once all three Quartz pieces are collected, see the [Central Hall Quartz Mechanism](/puzzles/central-hall-quartz) to open the path to the Courtyard.
 
 ## Common Mistakes
 

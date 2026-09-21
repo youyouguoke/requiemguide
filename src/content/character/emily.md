@@ -20,7 +20,7 @@ timeline:
   - title: "Found in the Isolation Ward"
     detail: "Grace discovers Emily in the Care Center isolation ward. Blind from human experimentation, she is literate in Braille."
   - title: "Solves the Star Quartz Puzzle"
-    detail: "The puzzle box buttons are worn to Braille — only Emily can read the code. During the sequence Grace obtains the Level 3 ID Wristband and frees Emily from her cell."
+    detail: "The puzzle box buttons are worn to Braille — only Emily can read the code. Grace takes the Level 3 ID Wristband from the Security Manager's body in the Isolation Ward, then uses it to free Emily from her cell in the Medication Room."
   - title: "The Helicopter Crash"
     detail: "During the escape, the crash kills Reed and severely injures Emily — a scripted story beat. She mutates and attacks Grace."
   - title: "Cured in the True Ending"

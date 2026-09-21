@@ -30,6 +30,7 @@ RequiemGuide 的硬规则：**没有进入本目录登记的事实，不允许�
 - `puzzles.json` — 谜题密码、位置、需求、奖励
 - `bosses.json` — Boss 名单、弱点、阶段行为（**禁止**无来源的 HP 数值）
 - `story.json` — 章节结构、角色、结局条件、游戏时长
+- `progression.json` — 腕带升级链、门禁解锁、关键流程顺序（FACT-001 腕带时序的唯一事实源）
 
 ## 每周复核
 
