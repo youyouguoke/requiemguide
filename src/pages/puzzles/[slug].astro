@@ -144,7 +144,9 @@ const faqSchema = puzzle.data.faq?.length ? {
           {puzzle.data.requirements && puzzle.data.requirements.length > 0 && (
             <div>
               <dt class="text-horror-text-muted text-xs uppercase tracking-wider mb-0.5">You need</dt>
-              <dd class="text-horror-text font-semibold">{puzzle.data.requirements[0]}</dd>
+              <dd class="text-horror-text space-y-1">
+                {puzzle.data.requirements.map((req) => <div class="text-sm font-semibold">{req}</div>)}
+              </dd>
             </div>
           )}
           {puzzle.data.reward && (

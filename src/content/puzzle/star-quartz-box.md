@@ -1,13 +1,13 @@
 ---
 title: "Star Quartz Puzzle Box Solution"
-description: "Resident Evil Requiem Star Quartz solution: Security Manager's Office location, Level 2 Wristband from the Examination Room, why Emily must read the Braille, and the Star → Star → Moon → Sun code."
+description: "Resident Evil Requiem Star Quartz solution: Security Manager's Office location, Level 2 Wristband to enter the Isolation Ward, Level 3 from the Security Manager's body to free Emily, why Emily must read the Braille, and the Star → Star → Moon → Sun code."
 image: "/images/requiem_survival_guide_chapter_3_walkthrough_007.jpg"
 location: "Security Manager's Office, Isolation Ward"
 difficulty: "Medium"
 reward: "Star Quartz"
 puzzleType: "symbol"
 chapter: 3
-requirements: ["ID Wristband (Level 2)", "ID Wristband (Level 3)", "Emily with you"]
+requirements: ["ID Wristband (Level 2) — to enter the Isolation Ward", "ID Wristband (Level 3) — to open Emily's cell", "Emily — to read the Braille code"]
 code: "Star → Star → Moon → Sun"
 steps:
   - title: "Obtain the Level 2 ID Wristband"
@@ -51,7 +51,8 @@ The office requires the **ID Wristband (Level 2)**. You get it by **reviving the
 
 ## What You Need Before Starting
 
-- **ID Wristband (Level 2):** from the Examination Room corpse.
+- **ID Wristband (Level 2):** from the Examination Room corpse — opens the Isolation Ward.
+- **ID Wristband (Level 3):** from the Security Manager's body in his office — opens Emily's cell.
 - **Emily:** the box buttons are worn smooth and the code is in **Braille** — only Emily can read it. She waits in the **Medication Room**.
 
 ## Exact Solution
