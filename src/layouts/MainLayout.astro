@@ -128,6 +128,10 @@ const {
         s.src = 'https://feedback-hub.youyouguoke.workers.dev/widget.js';
         s.setAttribute('data-site-id', 'requiem-guide');
         s.setAttribute('data-lang', 'en');
+        // Inline palette so the launcher renders horror-red on FIRST paint
+        // (bundle patch #5 reads data-colors synchronously; without it the
+        // widget flashes the default indigo theme until /api/widget/config loads)
+        s.setAttribute('data-colors', '{"primary":"#DC2626","primaryLight":"#B91C1C","primaryGradient":"linear-gradient(135deg, #B91C1C 0%, #DC2626 100%)","primaryShadow":"220, 38, 38","focusRing":"rgba(220, 38, 38, 0.18)","focusBorder":"#DC2626","buttonText":"#FFFFFF","success":"#10b981","overlayBg":"rgba(8, 9, 13, 0.72)","modalBg":"#111318","modalText":"#F5F5F5","heading":"#F5F5F5","muted":"#A1A1AA","subtext":"#A1A1AA","border":"rgba(255, 255, 255, 0.1)","inputBg":"#08090D","inputText":"#F5F5F5","chipBg":"#181A20","chipText":"#A1A1AA","chipHoverBg":"#27272A","chipHoverBorder":"#DC2626","closeBg":"#181A20","closeText":"#A1A1AA","closeHoverBg":"rgba(255, 255, 255, 0.1)","closeHoverText":"#F5F5F5"}');
         s.defer = true;
         document.body.appendChild(s);
       })();
